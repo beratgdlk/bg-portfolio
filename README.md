@@ -102,4 +102,4 @@ This project is licensed under the MIT License.
 
 - **Portfolio:** [Live Site](#) *(Add URL when deployed)*
 - **GitHub:** [beratgdlk](https://github.com/beratgdlk)
-- **Email:** your-email@example.com
+- **Email:** beratgdlk@gmail.com
