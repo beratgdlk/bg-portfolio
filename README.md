@@ -1,50 +1,105 @@
-# React + TypeScript + Vite
+# Berat G. Web Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is my personal portfolio website, built using **React.js, TypeScript, SASS, and Vite**. It serves as a central hub where visitors can explore my skills, projects, and professional journey.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Modern UI** – Clean and responsive design.
+- **Technology Stack** – Developed using React.js, TypeScript, SASS, and Vite for a fast and efficient experience.
+- **Project Showcase** – Displays my latest web development projects.
+- **About Me** – Information about my skills, experience, and career journey.
+- **Contact Section** – Easy way to reach out for collaboration or inquiries.
 
-## Expanding the ESLint configuration
+## Technologies Used
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **React.js** – Component-based UI development.
+- **TypeScript** – Strongly typed JavaScript for maintainability.
+- **SASS** – Advanced styling with modular SCSS files.
+- **Vite** – Fast build tool and development server for optimal performance.
 
-- Configure the top-level `parserOptions` property like this:
+## Installation & Usage
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/beratgdlk/beratg_web_portfolio.git
+   ```
+
+2. Navigate to the project folder:
+   ```bash
+   cd beratg_web_portfolio
+   ```
+
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+5. Open the project in your browser at `http://localhost:5173` (default Vite port).
+
+## Project Structure
+
+```
+beratg_web_portfolio/
+├── src/
+│   ├── App.tsx       # Main App component
+│   ├── main.tsx      # Entry point
+│   ├── vite-env.d.ts # Vite environment types
+│   ├── components/   # Reusable UI components
+│   │   ├── Navbar/
+│   │   │   ├── Navbar.tsx
+│   │   │   ├── Navbar.scss
+│   │   ├── Terminal/
+│   │   │   ├── Terminal.tsx
+│   │   │   ├── Terminal.scss
+│   ├── styles/       # Global and modular SASS styles
+│   │   ├── main.scss
+│   │   ├── mixins.scss
+│   │   ├── variables.scss
+│   ├── types/        # TypeScript types
+│   │   ├── index.ts
+│   │   ├── Profile.ts
+├── public/           # Static assets
+├── package.json      # Dependencies and scripts
+├── README.md         # Project documentation
+└── vite.config.ts    # Vite configuration
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## How It Works
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- The website consists of multiple sections including Home, About, Projects, and Contact.
+- Visitors can explore my development expertise, previous work, and ways to connect.
+- The dark mode and performance optimizations ensure a seamless user experience.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Contributing
+
+This is a personal project, but if you'd like to suggest improvements:
+
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature-name
+   ```
+3. Make changes and commit:
+   ```bash
+   git commit -m "Improved UI components"
+   ```
+4. Push to the branch:
+   ```bash
+   git push origin feature-name
+   ```
+5. Open a pull request.
+
+## License
+
+This project is licensed under the MIT License.
+
+## Contact
+
+- **Portfolio:** [Live Site](#) *(Add URL when deployed)*
+- **GitHub:** [beratgdlk](https://github.com/beratgdlk)
+- **Email:** your-email@example.com
