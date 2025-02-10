@@ -6,7 +6,7 @@ const profileData: ProfileData = {
   name: "Berat Gudelek",
   title: "Front-end developer",
   contact: {
-    telephoneNum: "538 059 15 16",
+    telephoneNum: "+90 538 059 15 16",
     email: "beratgdlk@gmail.com",
     githubLink: "https://github.com/beratgdlk",
     mediumLink: "https://medium.com/@beratgdlk",
