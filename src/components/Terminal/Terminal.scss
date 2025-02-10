@@ -1,0 +1,49 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.terminal {
+  flex: 1;
+  padding: 2rem;
+  background: linear-gradient(150deg, rgba(1, 22, 39, 0.84) 0%, rgba(17, 63, 103, 0.5) 100%);
+  
+  &__content {
+    max-width: 800px;
+    margin: 4rem auto;
+    
+    .intro-text {
+      color: #fff;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .name {
+      color: #fff;
+      font-size: 3.5rem;
+      font-family: 'Fira Code', monospace;
+      margin-bottom: 1rem;
+    }
+    
+    .title {
+      color: #4D5BCE;
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .contact-info {
+      .comment {
+        color: #607B96;
+        margin-bottom: 0.5rem;
+      }
+      
+      .const {
+        color: #E99287;
+        margin-bottom: 1rem;
+        
+        &::before {
+          content: "const ";
+          color: #4D5BCE;
+        }
+      }
+    }
+  }
+}

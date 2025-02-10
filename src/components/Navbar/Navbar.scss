@@ -1,0 +1,35 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: rgba(1, 22, 39, 0.84);
+  
+  &__logo {
+    color: $primary-green;
+    font-family: $font-family-base;
+  }
+  
+  &__links {
+    display: flex;
+    gap: 2rem;
+    
+    a {
+      color: $text-color;
+      text-decoration: none;
+      font-family: $font-family-base;
+      transition: color 0.3s ease;
+      
+      &:hover, &.active {
+        color: $white;
+      }
+      
+      &.contact-link {
+        margin-left: 2rem;
+      }
+    }
+  }
+}
