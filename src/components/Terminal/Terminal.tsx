@@ -6,11 +6,11 @@ const profileData: ProfileData = {
   name: "Berat Gudelek",
   title: "Front-end developer",
   contact: {
-    telephoneNum: "392 86 88 006",
-    email: "davide_simone1996@proton.me",
+    telephoneNum: "538 059 15 16",
+    email: "beratgdlk@gmail.com",
     githubLink: "https://github.com/beratgdlk",
-    mediumLink: "https://www.behance.net/davidefemale",
-    linkedinPage: "https://www.linkedin.com/in/davide-simone-a2823619a/"
+    mediumLink: "https://medium.com/@beratgdlk",
+    linkedinPage: "https://www.linkedin.com/in/beratgudelek/"
   }
 };
 
