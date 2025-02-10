@@ -8,7 +8,7 @@ const profileData: ProfileData = {
   contact: {
     telephoneNum: "392 86 88 006",
     email: "davide_simone1996@proton.me",
-    githubLink: "https://github.com/daveinthahood",
+    githubLink: "https://github.com/beratgdlk",
     behanceLink: "https://www.behance.net/davidefemale",
     linkedinPage: "https://www.linkedin.com/in/davide-simone-a2823619a/"
   }
