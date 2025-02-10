@@ -9,7 +9,7 @@
   background-color: rgba(1, 22, 39, 0.84);
   
   &__left {
-    color: $primary-green;
+    color: #C6AA14;
     font-family: $font-family-base;
   }
   
@@ -19,30 +19,34 @@
     padding: 0 2rem;
     
     .navbar__logo {
-      width: 150px;
-      height: 75px;
+      width: 160px;
+      height: 70px; 
       object-fit: cover;
     }
+
+
+
+
   }
   
-
   &__right {
     display: flex;
     justify-content: flex-end;
-    gap: 2rem;
+    gap: 1rem;
     
     a {
       color: $text-color;
       text-decoration: none;
       font-family: $font-family-base;
       transition: color 0.3s ease;
+      padding: 0 0.5rem;
       
       &:hover, &.active {
-        color: $white;
+        color: #C6AA14;
       }
       
       &.contact-link {
-        margin-left: 2rem;
+        margin-left: 0.5rem;
       }
     }
   }
