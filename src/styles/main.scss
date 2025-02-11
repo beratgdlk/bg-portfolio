@@ -10,6 +10,11 @@
 body {
   font-family: $font-family-base;
   font-size: $font-size-base;
-  background-color: $background-dark;
+  background: linear-gradient(
+    150deg,
+    #011627 0%,        // codeSTACKr ana arka plan
+    #010D18 100%       // Daha koyu ton
+  );
   color: $text-color;
+  min-height: 100vh;
 }

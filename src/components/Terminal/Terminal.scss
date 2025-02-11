@@ -5,12 +5,12 @@
   background: linear-gradient(
     150deg,
     rgba(1, 22, 39, 0.95) 0%,
-    rgba(1, 22, 39, 0.85) 100%
+    rgba(2, 26, 48, 0.85) 100%
   );
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  color: #fff;
+  color: #A9B1D6;
   padding: 2rem;
   
   &__content {
@@ -20,7 +20,7 @@
     padding: 0 2rem;
 
     .intro-text {
-      color: #607B96;
+      color: #ffffff;
       font-size: 1.2rem;
       margin-bottom: 1rem;
     }
@@ -29,28 +29,35 @@
       font-size: 4rem;
       margin: 1rem 0;
       font-weight: 500;
+      color: #C0A93E;
     }
 
     .title {
-      color: #4D5BCE;
+      color: #8778d1;
       margin-bottom: 4rem;
       font-size: 1.2rem;
     }
 
     .contact-info {
-      background: rgba(1, 22, 39, 0.4);
+      background: rgba(1, 22, 39, 0.75);
       padding: 2rem;
       border-radius: 8px;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(121, 192, 255, 0.1);
       
       .comment {
-        color: #607B96;
+        color: #C0A93E;
         margin-top: 1rem;
       }
 
       .const {
-        color: #E99287;
+        color: #8778d1;
         margin: 0.5rem 0 1rem;
         font-family: 'Fira Code', monospace;
+
+        & + p {
+          color: #C0A93E;
+        }
       }
     }
   }
