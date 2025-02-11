@@ -24,19 +24,19 @@ const Terminal: React.FC = () => {
         
         <div className="contact-info">
           <p className="comment">// my number</p>
-          <p className="const">const telephoneNum = "{profileData.contact.telephoneNum}";</p>
+          <p className="const">telephoneNum</p><p> = "{profileData.contact.telephoneNum}";</p>
           
           <p className="comment">// my e-mail</p>
-          <p className="const">const email = "{profileData.contact.email}";</p>
+          <p className="const">email</p><p> = "{profileData.contact.email}";</p>
           
           <p className="comment">// you can also see it on my GitHub page</p>
-          <p className="const">const githubLink = "{profileData.contact.githubLink}";</p>
+          <p className="const">githubLink</p><p> = "{profileData.contact.githubLink}";</p>
           
           <p className="comment">// you can see my blog on Medium</p>
-          <p className="const">const mediumLink = "{profileData.contact.mediumLink}";</p>
+          <p className="const">mediumLink</p><p> = "{profileData.contact.mediumLink}";</p>
           
           <p className="comment">// you can check my LinkedIn page</p>
-          <p className="const">const linkedinPage = "{profileData.contact.linkedinPage}";</p>
+          <p className="const">linkedinPage</p><p> = "{profileData.contact.linkedinPage}";</p>
         </div>
       </div>
 
