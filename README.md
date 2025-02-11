@@ -1,4 +1,4 @@
-# Berat G. Web Portfolip
+# Berat G. Web Portfolio
 ⌛The project is under development 🕑
 
 This is my personal portfolio website, built using **React.js, TypeScript, SASS, and Vite**. It serves as a central hub where visitors can explore my skills, projects, and professional journey.
