@@ -7,6 +7,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100vh;
+}
+
 body {
   font-family: $font-family-base;
   font-size: $font-size-base;
@@ -16,5 +20,10 @@ body {
     #010D18 100%       // Daha koyu ton
   );
   color: $text-color;
+}
+
+#root {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }

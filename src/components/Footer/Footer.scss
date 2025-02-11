@@ -1,0 +1,39 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.footer {
+  background-color: rgba(1, 22, 39, 0.84);
+  padding: 1.2rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  border-top: 1px solid rgba(97, 123, 150, 0.1);
+  backdrop-filter: blur(8px);
+  height: 40px;
+  width: 100%;
+  margin-top: auto;
+
+  &__link {
+    color: #607B96;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+
+    &:hover {
+      color: #C0A93E;
+      background: rgba(1, 22, 39, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
