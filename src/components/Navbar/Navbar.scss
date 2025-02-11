@@ -7,10 +7,15 @@
   align-items: center;
   padding: 1rem 2rem;
   background-color: rgba(1, 22, 39, 0.84);
+  position: relative;
   
   &__left {
-    color: #C6AA14;
+    color: #C0A93E;
     font-family: $font-family-base;
+    
+    @media (max-width: $mobile) {
+      font-size: 14px;
+    }
   }
   
   &__center {
@@ -19,11 +24,41 @@
     padding: 0 2rem;
     
     .navbar__logo {
-      width: 160px;
-      height: 70px; 
-      object-fit: cover;
+      width: 150px; 
+      height: 75px;
+      object-fit: contain;
+    }
+    
+  }
+
+  &__hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: absolute;
+    right: 2rem;
+    z-index: 100;
+
+    @media (max-width: $tablet) {
+      display: flex;
     }
 
+    span {
+      width: 100%;
+      height: 3px;
+      background-color: #C0A93E;
+      transition: all 0.3s ease;
+    }
+
+    &:hover span {
+      background-color: $text-color;
+    }
   }
   
   &__right {
@@ -39,12 +74,66 @@
       padding: 0 0.5rem;
       
       &:hover, &.active {
-        color: #C6AA14;
+        color: #C0A93E;
       }
       
       &.contact-link {
         margin-left: 0.5rem;
       }
     }
+
+    @media (max-width: $tablet) {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 70%;
+      height: 100vh;
+      background-color: rgba(1, 22, 39, 0.95);
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-top: 5rem;
+      transition: right 0.3s ease;
+      
+      &.active {
+        right: 0;
+      }
+
+      a {
+        padding: 1rem 2rem;
+        font-size: 18px;
+        
+        &.contact-link {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+
+  @media (max-width: $mobile) {
+    padding: 1rem;
+    
+    &__center {
+      padding: 0 1rem;
+      
+      .navbar__logo {
+        width: 80px;
+        height: 80px;
+      }
+
+
+    }
+  }
+}
+
+// Overlay for mobile menu
+@media (max-width: $tablet) {
+  .navbar__right.active + .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 50;
   }
 }
