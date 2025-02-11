@@ -2,7 +2,11 @@
 @use '../../styles/mixins';
 
 .terminal {
-  background-color: #051D32;
+  background: linear-gradient(
+    150deg,
+    rgba(1, 22, 39, 0.95) 0%,
+    rgba(1, 22, 39, 0.85) 100%
+  );
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -12,30 +16,41 @@
   &__content {
     flex: 1;
     max-width: 900px;
-    margin: 0 auto;
+    margin: 8rem auto 0;
+    padding: 0 2rem;
 
     .intro-text {
       color: #607B96;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
     }
 
     .name {
-      font-size: 3rem;
+      font-size: 4rem;
       margin: 1rem 0;
+      font-weight: 500;
     }
 
     .title {
       color: #4D5BCE;
-      margin-bottom: 2rem;
+      margin-bottom: 4rem;
+      font-size: 1.2rem;
     }
 
     .contact-info {
+      background: rgba(1, 22, 39, 0.4);
+      padding: 2rem;
+      border-radius: 8px;
+      
       .comment {
         color: #607B96;
+        margin-top: 1rem;
       }
 
       .const {
         color: #E99287;
-        margin-bottom: 1rem;
+        margin: 0.5rem 0 1rem;
+        font-family: 'Fira Code', monospace;
       }
     }
   }
