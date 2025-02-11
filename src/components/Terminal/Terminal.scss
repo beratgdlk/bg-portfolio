@@ -2,46 +2,58 @@
 @use '../../styles/mixins';
 
 .terminal {
-  flex: 1;
+  background-color: #051D32;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
   padding: 2rem;
-  background: linear-gradient(150deg, rgba(1, 22, 39, 0.84) 0%, rgba(17, 63, 103, 0.5) 100%);
   
   &__content {
-    max-width: 800px;
-    margin: 4rem auto;
-    
+    flex: 1;
+    max-width: 900px;
+    margin: 0 auto;
+
     .intro-text {
-      color: #fff;
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
+      color: #607B96;
     }
-    
+
     .name {
-      color: #fff;
-      font-size: 3.5rem;
-      font-family: 'Fira Code', monospace;
-      margin-bottom: 1rem;
+      font-size: 3rem;
+      margin: 1rem 0;
     }
-    
+
     .title {
       color: #4D5BCE;
-      font-size: 1.5rem;
       margin-bottom: 2rem;
     }
-    
+
     .contact-info {
       .comment {
         color: #607B96;
-        margin-bottom: 0.5rem;
       }
-      
+
       .const {
         color: #E99287;
         margin-bottom: 1rem;
+      }
+    }
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+
+    .left-social, .right-social {
+      a {
+        color: #607B96;
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
         
-        &::before {
-          content: "const ";
-          color: #4D5BCE;
+        &:hover {
+          color: #fff;
         }
       }
     }

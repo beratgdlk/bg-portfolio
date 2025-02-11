@@ -39,6 +39,19 @@ const Terminal: React.FC = () => {
           <p className="const">const linkedinPage = "{profileData.contact.linkedinPage}";</p>
         </div>
       </div>
+
+      <div className="terminal__footer">
+        <div className="left-social">
+          <a href={profileData.contact.linkedinPage} target="_blank" rel="noreferrer">
+            <i className="fab fa-linkedin"></i>
+          </a>
+        </div>
+        <div className="right-social">
+          <a href={profileData.contact.githubLink} target="_blank" rel="noreferrer">
+            <i className="fab fa-github"></i>
+          </a>
+        </div>
+      </div>
     </div>
   );
 };
