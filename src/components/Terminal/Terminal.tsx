@@ -9,8 +9,8 @@ const profileData: ProfileData = {
     telephoneNum: "+90 538 059 15 16",
     email: "beratgdlk@gmail.com",
     githubLink: "https://github.com/beratgdlk",
-    mediumLink: "https://medium.com/@beratgdlk",
-    linkedinPage: "https://www.linkedin.com/in/beratgudelek/"
+    linkedinPage: "https://www.linkedin.com/in/beratgudelek/",
+    mediumLink: "https://medium.com/@beratgdlk"
   }
 };
 

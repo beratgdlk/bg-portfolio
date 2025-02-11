@@ -5,7 +5,7 @@ export interface ProfileData {
       telephoneNum: string;
       email: string;
       githubLink: string;
-      behanceLink: string;
       linkedinPage: string;
+      mediumLink: string;
     };
   }
