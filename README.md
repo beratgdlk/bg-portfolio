@@ -101,6 +101,6 @@ This project is licensed under the MIT License.
 
 ## Contact
 
-- **Portfolio:** (#) *([Add URL when deployed](https://jocular-unicorn-731246.netlify.app/#))*
+- **Portfolio:** (#) *([Live](https://jocular-unicorn-731246.netlify.app/#))*
 - **GitHub:** [beratgdlk](https://github.com/beratgdlk)
 - **Email:** beratgdlk@gmail.com
