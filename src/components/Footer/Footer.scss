@@ -3,37 +3,91 @@
 
 .footer {
   background-color: rgba(1, 22, 39, 0.84);
-  padding: 1.2rem 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3rem;
-  border-top: 1px solid rgba(97, 123, 150, 0.1);
+  gap: $gap-xlarge;
+  position: relative;
+  z-index: 1;
   backdrop-filter: blur(8px);
-  height: 40px;
   width: 100%;
-  margin-top: auto;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  /* height: 120px; */
+
+  // 1390x790 ve altında footer'ı gizle
+  @media (max-width: 1390px) and (max-height: 790px) {
+    display: none;
+  }
+
+  @include responsive(desktop) {
+    gap: $gap-large;
+    padding: $padding-medium $padding-small;
+    
+    &__link {
+      font-size: $font-size-medium;
+      .icon {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+
+  @include responsive(tablet) {
+    gap: $gap-medium;
+    padding: $padding-small;
+    flex-flow: row wrap;
+    justify-content: center;
+    
+    &__link {
+      font-size: $font-size-small;
+      .icon {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  @include responsive(mobile) {
+    gap: $gap-small;
+    padding: $padding-small;
+    flex-direction: column;
+    align-items: center;
+    
+    &__link {
+      font-size: $font-size-small;
+      padding: $spacing-xs $spacing-sm;
+      
+      .icon {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
 
   &__link {
-    color: #607B96;
-    font-size: 1.1rem;
+    color: $text-color;
+    font-size: $font-size-large;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: $spacing-sm;
     text-decoration: none;
-    padding: 0.4rem 0.8rem;
+    padding: $spacing-sm $spacing-md;
     border-radius: 6px;
+    white-space: nowrap;
+
+    .icon {
+      margin-top: -50px;
+      width: 40px;
+      height: 40px;
+    }
 
     &:hover {
       color: #C0A93E;
-      background: rgba(1, 22, 39, 0.4);
       transform: translateY(-2px);
-    }
-
-    .icon {
-      width: 20px;
-      height: 20px;
     }
   }
 }

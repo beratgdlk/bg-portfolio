@@ -1,5 +1,6 @@
-@use '../../styles/variables';
-@use '../../styles/mixins';
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
 
 .terminal {
   background: linear-gradient(
@@ -18,12 +19,15 @@
   padding: 2rem 0;
   
   &__content {
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 2rem;
+    flex: 1;
     display: flex;
     flex-direction: column;
+    padding: 2rem;
+    margin-top: 90px;
+    max-width: 1540px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 
     .intro-text {
       color: #fff;
@@ -97,4 +101,11 @@
       }
     }
   }
+}
+
+.terminal_content {
+  margin-top: 800px !important;
+  padding: 2rem;
+  width: 100%;
+  max-width: 800px;
 }

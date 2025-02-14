@@ -1,3 +1,5 @@
+@use 'variables' as *;  // Variables'ı import ediyoruz
+
 @mixin flex-center {
   display: flex;
   justify-content: center;
@@ -8,10 +10,10 @@
   @if $breakpoint == mobile {
     @media (max-width: $mobile) { @content; }
   }
-  @if $breakpoint == tablet {
+  @else if $breakpoint == tablet {
     @media (max-width: $tablet) { @content; }
   }
-  @if $breakpoint == desktop {
+  @else if $breakpoint == desktop {
     @media (max-width: $desktop) { @content; }
   }
 }
