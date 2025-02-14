@@ -7,15 +7,13 @@
   justify-content: center;
   align-items: center;
   gap: $gap-xlarge;
-  position: relative;
-  z-index: 1;
   backdrop-filter: blur(8px);
   width: 100%;
   position: fixed;
   bottom: 0;
   left: 0;
   z-index: 1000;
-  /* height: 120px; */
+  height: 220px;
 
   // 1390x790 ve altında footer'ı gizle
   @media (max-width: 1390px) and (max-height: 790px) {
@@ -76,13 +74,13 @@
     gap: $spacing-sm;
     text-decoration: none;
     padding: $spacing-sm $spacing-md;
-    border-radius: 6px;
+    border-radius: 0px;
     white-space: nowrap;
 
     .icon {
       margin-top: -50px;
-      width: 40px;
-      height: 40px;
+      width: 30px;
+      height: 30px;
     }
 
     &:hover {

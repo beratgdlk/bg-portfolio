@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
       </a>
 
       <a 
-        href="/path-to-your-cv.pdf" 
+        href="/assets/pdf/cv-updated-25.pdf" 
         target="_blank" 
         rel="noopener noreferrer" 
         className="footer__link"

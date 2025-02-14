@@ -5,7 +5,12 @@ import Terminal from './components/Terminal/Terminal';
 
 const App: React.FC = () => {
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ 
+      height: '100vh', 
+      display: 'flex', 
+      flexDirection: 'column',
+      position: 'relative'
+    }}>
       <Navbar />
       <Terminal />
     </div>
