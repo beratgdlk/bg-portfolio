@@ -9,6 +9,12 @@
 
 html, body {
   height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  margin: 0;
+  padding: 0;
+  max-width: 100vw;
+  overflow: hidden;
 }
 
 body {
@@ -23,7 +29,58 @@ body {
 }
 
 #root {
+  height: 100vh;
   min-height: 100vh;
+  max-height: 100vh;
+  max-width: 100vw;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  
+  .navbar {
+    width: 100%;
+    max-width: 100vw;
+    height: var(--navbar-height);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  main {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    padding-bottom: 20px;
+  }
+
+  .footer {
+    width: 100%;
+    max-width: 100vw;
+    height: var(--footer-height);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1rem 0;
+    background: transparent;
+    position: relative;
+    margin-top: auto;
+    
+    a {
+      display: flex;
+      align-items: center;
+      padding: 10rem;
+      margin-top: -4rem;
+      background: transparent;
+      
+      &:hover {
+        transform: translateY(-2px);
+        transition: transform 0.2s;
+        background: transparent; // Hover durumunda da arka planı şeffaf tut
+        text-decoration: none;   // Alt çizgiyi kaldır
+        outline: none;           // Dış çizgiyi kaldır
+      }
+    }
+  }
 }
