@@ -2,6 +2,7 @@ import React from 'react';
 import './Terminal.scss';
 import { ProfileData } from '../../types/Profile';
 import Footer from '../Footer/Footer';
+import { Link } from 'react-router-dom';
 
 const profileData: ProfileData = {
   name: "Berat Gudelek",

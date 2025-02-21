@@ -1,0 +1,37 @@
+.about-me-container {
+  padding: 2rem;
+  
+  h1 {
+    color: #f8f8f8;
+    margin-bottom: 2rem;
+  }
+
+  .about-content {
+    p {
+      color: #a1a1a1;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .skills-section {
+    h2 {
+      color: #f8f8f8;
+      margin-bottom: 1rem;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+
+      .skill-item {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+        border-radius: 4px;
+        color: #a1a1a1;
+        text-align: center;
+      }
+    }
+  }
+}
