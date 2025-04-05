@@ -1,6 +1,45 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins' as *;
 
+@keyframes logoGlow {
+  0% {
+    filter: drop-shadow(0 0 2px rgba(192, 169, 62, 0.3));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(192, 169, 62, 0.6));
+    transform: scale(1.05);
+  }
+  100% {
+    filter: drop-shadow(0 0 2px rgba(192, 169, 62, 0.3));
+    transform: scale(1);
+  }
+}
+
+@keyframes logoPulse {
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+}
+
+@keyframes logoRotate {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
 .navbar {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -22,13 +61,21 @@
     display: flex;
     justify-content: center;
     padding: 0 2rem;
+    perspective: 1000px;
     
     .navbar__logo {
       width: 150px; 
       height: 75px;
       object-fit: contain;
+      transition: all 0.5s ease;
+      animation: logoGlow 3s infinite ease-in-out;
+      
+      &:hover {
+        animation: logoRotate 1.5s ease-in-out;
+        cursor: pointer;
+        filter: drop-shadow(0 0 10px rgba(192, 169, 62, 0.8));
+      }
     }
-    
   }
 
   &__hamburger {
@@ -118,9 +165,8 @@
       .navbar__logo {
         width: 80px;
         height: 80px;
+        animation: logoPulse 3s infinite ease-in-out;
       }
-
-
     }
   }
 }

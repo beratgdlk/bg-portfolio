@@ -8,7 +8,7 @@ const Projects: React.FC = () => {
       <Navbar />
       <div className="projects-container">
         <div className="projects-content">
-          <h1>My Projects</h1>
+          <h1>_projects</h1>
           
           <div className="project-grid">
             <div className="project-card">

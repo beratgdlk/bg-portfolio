@@ -127,7 +127,7 @@ const AboutMe: React.FC = () => {
       <Navbar />
       <div className="about-container">
         <div className={`about-me-container ${isVisible ? 'visible' : ''}`}>
-          <h1>About Me</h1>
+          <h1>_about-me</h1>
           
           <div className="about-content" ref={contentRef}>
             <div className="terminal-text">

@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Navbar.scss';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogoClick = () => {
+    navigate('/');
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+    }
   };
 
   return (
@@ -17,7 +25,12 @@ const Navbar: React.FC = () => {
       </div>
       
       <div className="navbar__center">
-        <img src="/assets/images/bg-logo.png" alt="logo" className="navbar__logo" />
+        <img 
+          src="/assets/images/bg-logo.png" 
+          alt="logo" 
+          className="navbar__logo" 
+          onClick={handleLogoClick}
+        />
       </div>
       
       <button className="navbar__hamburger" onClick={toggleMenu}>

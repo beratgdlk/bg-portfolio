@@ -12,7 +12,7 @@ const ContactMe: React.FC = () => {
       <Navbar />
       <div className="contact-container">
         <div className="contact-content">
-          <h1>Contact</h1>
+          <h1>_contact-me</h1>
           
           <div className="contact-sections centered">
             <div className="contact-info">
