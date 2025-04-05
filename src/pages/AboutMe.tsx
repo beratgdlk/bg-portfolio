@@ -2,13 +2,26 @@ import React, { useState, useEffect, useRef } from 'react';
 import './AboutMe.scss';
 import Navbar from '../components/Navbar/Navbar';
 import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt, FaSass, FaGithub, FaDatabase } from 'react-icons/fa';
-import { SiTypescript, SiJavascript, SiNextdotjs, SiExpress, SiNestjs, SiPostgresql, SiBun } from 'react-icons/si';
+import { SiTypescript, SiJavascript, SiNextdotjs, SiExpress, SiNestjs, SiPostgresql, SiPostman, SiPassport, SiFigma, SiCanva } from 'react-icons/si';
 import { TbBrandVscode } from 'react-icons/tb';
+
+// Elysia.js için yeni bileşen - boş daire içinde tilki gözleri
+const ElysiaIcon: React.FC = () => (
+  <svg 
+    viewBox="0 0 24 24" 
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ height: "3rem", width: "3rem" }}
+  >
+    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" fill="none" />
+    <polygon points="3,5 5,10 11,12 3,5" fill="currentColor" />
+    <polygon points="21,5 19,10 13,12 21,5" fill="currentColor" />
+  </svg>
+);
 
 interface Technology {
   name: string;
   icon: React.ReactNode;
-  category: 'frontend' | 'backend' | 'tools';
+  category: 'frontend' | 'backend' | 'tools' | 'fullstack';
 }
 
 const AboutMe: React.FC = () => {
@@ -18,10 +31,23 @@ const AboutMe: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(150);
+  
+  // Teknoloji yazıları için state'ler
+  const [displayFrontendTech, setDisplayFrontendTech] = useState('');
+  const [displayBackendTech, setDisplayBackendTech] = useState('');
+  const [frontendTechIndex, setFrontendTechIndex] = useState(0);
+  const [backendTechIndex, setBackendTechIndex] = useState(0);
+  const [isFrontendDeleting, setIsFrontendDeleting] = useState(false);
+  const [isBackendDeleting, setIsBackendDeleting] = useState(false);
+  
   const contentRef = useRef<HTMLDivElement>(null);
   
   // Rotating developer titles - Only 2 titles
   const titles = ['Frontend Developer', 'Fullstack Developer'];
+  
+  // Rotating technology names
+  const frontendTechs = ['React', 'TypeScript', 'Next.js', 'HTML5'];
+  const backendTechs = ['Node.js', 'Express.js', 'Nest.js'];
   
   // Animate title typing effect
   useEffect(() => {
@@ -56,33 +82,103 @@ const AboutMe: React.FC = () => {
     return () => clearTimeout(timeout);
   }, [displayTitle, isDeleting, currentIndex]);
   
+  // Frontend teknoloji yazısı efekti
+  useEffect(() => {
+    const currentTech = frontendTechs[frontendTechIndex % frontendTechs.length];
+    
+    const timeout = setTimeout(() => {
+      if (!isFrontendDeleting) {
+        // Yazma modu
+        setDisplayFrontendTech(currentTech.substring(0, displayFrontendTech.length + 1));
+        
+        // Yazma tamamlanınca silme moduna geç
+        if (displayFrontendTech.length === currentTech.length) {
+          setTimeout(() => {
+            setIsFrontendDeleting(true);
+          }, 1500);
+        }
+      } else {
+        // Silme modu
+        setDisplayFrontendTech(currentTech.substring(0, displayFrontendTech.length - 1));
+        
+        // Silme tamamlanınca sonraki teknolojiye geç
+        if (displayFrontendTech.length === 0) {
+          setIsFrontendDeleting(false);
+          setFrontendTechIndex(frontendTechIndex + 1);
+        }
+      }
+    }, 120);
+    
+    return () => clearTimeout(timeout);
+  }, [displayFrontendTech, isFrontendDeleting, frontendTechIndex]);
+  
+  // Backend teknoloji yazısı efekti
+  useEffect(() => {
+    const currentTech = backendTechs[backendTechIndex % backendTechs.length];
+    
+    const timeout = setTimeout(() => {
+      if (!isBackendDeleting) {
+        // Yazma modu
+        setDisplayBackendTech(currentTech.substring(0, displayBackendTech.length + 1));
+        
+        // Yazma tamamlanınca silme moduna geç
+        if (displayBackendTech.length === currentTech.length) {
+          setTimeout(() => {
+            setIsBackendDeleting(true);
+          }, 1500);
+        }
+      } else {
+        // Silme modu
+        setDisplayBackendTech(currentTech.substring(0, displayBackendTech.length - 1));
+        
+        // Silme tamamlanınca sonraki teknolojiye geç
+        if (displayBackendTech.length === 0) {
+          setIsBackendDeleting(false);
+          setBackendTechIndex(backendTechIndex + 1);
+        }
+      }
+    }, 120);
+    
+    return () => clearTimeout(timeout);
+  }, [displayBackendTech, isBackendDeleting, backendTechIndex]);
+  
   // Technologies data with icons
   const technologies: Technology[] = [
     // Frontend
     { name: 'React', icon: <FaReact />, category: 'frontend' },
-    { name: 'TypeScript', icon: <SiTypescript />, category: 'frontend' },
-    { name: 'JavaScript', icon: <SiJavascript />, category: 'frontend' },
-    { name: 'Next.js', icon: <SiNextdotjs />, category: 'frontend' },
     { name: 'HTML5', icon: <FaHtml5 />, category: 'frontend' },
     { name: 'CSS3', icon: <FaCss3Alt />, category: 'frontend' },
     { name: 'SASS', icon: <FaSass />, category: 'frontend' },
+    
+    // Fullstack
+    { name: 'TypeScript', icon: <SiTypescript />, category: 'fullstack' },
+    { name: 'JavaScript', icon: <SiJavascript />, category: 'fullstack' },
+    { name: 'Next.js', icon: <SiNextdotjs />, category: 'fullstack' },
     
     // Backend
     { name: 'Node.js', icon: <FaNodeJs />, category: 'backend' },
     { name: 'Express.js', icon: <SiExpress />, category: 'backend' },
     { name: 'Nest.js', icon: <SiNestjs />, category: 'backend' },
-    { name: 'Elysia.js', icon: <SiBun />, category: 'backend' },
+    { name: 'Elysia.js', icon: <ElysiaIcon />, category: 'backend' },
     { name: 'PostgreSQL', icon: <SiPostgresql />, category: 'backend' },
+    { name: 'Passport.js', icon: <SiPassport />, category: 'backend' },
     
     // Tools
     { name: 'VSCode', icon: <TbBrandVscode />, category: 'tools' },
     { name: 'Git', icon: <FaGithub />, category: 'tools' },
+    { name: 'Postman', icon: <SiPostman />, category: 'tools' },
+    { name: 'Figma', icon: <SiFigma />, category: 'tools' },
+    { name: 'Canva', icon: <SiCanva />, category: 'tools' },
   ];
   
   // Filter technologies based on active category
   const filteredTechnologies = activeCategory === 'all' 
     ? technologies 
-    : technologies.filter(tech => tech.category === activeCategory);
+    : technologies.filter(tech => 
+        tech.category === activeCategory || 
+        (activeCategory === 'frontend' && tech.category === 'fullstack') ||
+        (activeCategory === 'fullstack' && (tech.category === 'frontend' || tech.category === 'backend'))
+      );
   
   // Add fade-in animation when component mounts
   useEffect(() => {
@@ -132,8 +228,10 @@ const AboutMe: React.FC = () => {
           <div className="about-content" ref={contentRef}>
             <div className="terminal-text">
               <p>I'm a <span className="highlight typing-text">{displayTitle}</span></p>
-              <p>With expertise in both frontend (React, TypeScript, Next.js) and backend (Node.js, Express) technologies, I create seamless user experiences while implementing robust server-side solutions.</p>
+              <p>With expertise in both frontend (<span className="highlight-frontend typing-text-tech">{displayFrontendTech}</span>) and backend (<span className="highlight-backend typing-text-tech">{displayBackendTech}</span>) technologies, I create seamless user experiences while implementing robust server-side solutions.</p>
+              <p>By integrating AI-powered tools such as Cursor into my software development process, I optimize productivity, dedicating more time to project refinement, thereby delivering smoother results and continuously enhancing my skills.</p>
               <p>I thrive on tackling complex problems, optimizing performance, and staying current with emerging technologies across the entire development stack.</p>
+              <p>I'm committed to staying on the cutting edge of emerging technologies, continuously integrating the latest trends into my development process with a firm belief that my work tomorrow must be better than today.</p>
             </div>
             
             <div className="skills-section">
@@ -157,6 +255,12 @@ const AboutMe: React.FC = () => {
                   onClick={() => handleCategoryChange('backend')}
                 >
                   Backend
+                </button>
+                <button 
+                  className={`filter-btn ${activeCategory === 'fullstack' ? 'active' : ''}`}
+                  onClick={() => handleCategoryChange('fullstack')}
+                >
+                  Fullstack
                 </button>
                 <button 
                   className={`filter-btn ${activeCategory === 'tools' ? 'active' : ''}`}
