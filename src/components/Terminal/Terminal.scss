@@ -1,6 +1,23 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins' as *;
 
+.terminal-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    170deg,
+    rgba(1, 22, 39, 0.9) 0%,
+    rgba(1, 13, 24, 0.95) 100%
+  );
+}
 
 .terminal {
   background: linear-gradient(
@@ -8,27 +25,88 @@
     rgba(1, 22, 39, 0.95) 0%,
     rgba(2, 26, 48, 0.85) 100%
   );
-  min-height: 100vh;
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   color: #A9B1D6;
-  padding: 2rem 0;
+  padding: 0;
+  width: 100%;
+  position: relative;
+  height: calc(100% - var(--navbar-height));
+  margin-top: var(--navbar-height);
+  
+  // Dekoratif terminal efekti ekle
+  &:before {
+    content: '';
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    right: 25px;
+    bottom: 25px;
+    border: 1px solid rgba(77, 91, 206, 0.3);
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  // Dekoratif köşe nokta efektleri
+  &:after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: #4D5BCE;
+    border-radius: 50%;
+    top: 30px;
+    left: 30px;
+    box-shadow: 
+      calc(100% - 60px) 0 0 #43D9AD,
+      0 calc(100% - 60px) 0 #FEA55F,
+      calc(100% - 60px) calc(100% - 60px) 0 #E99287;
+    pointer-events: none;
+    z-index: 1;
+  }
   
   &__content {
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
     padding: 2rem;
-    margin-top: 90px;
     max-width: 1540px;
+    width: 90%;
+    margin: 0 auto;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+  }
+  
+  &__main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 0;
     width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    pointer-events: none;
+    position: relative;
+    
+    // Yazı tipi yanıp sönen imleç efekti
+    &:after {
+      content: '|';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      color: #4D5BCE;
+      animation: blink 1s infinite;
+      opacity: 0;
+    }
+    
+    > div {
+      max-width: 700px;
+      position: relative;
+    }
 
     .intro-text {
       color: #fff;
@@ -39,23 +117,63 @@
     .name {
       font-size: 2.8rem;
       margin: 0.2rem 0;
+      margin-bottom: 0.5rem;
       font-weight: 500;
       color: #fff;
+      text-shadow: 0 0 15px rgba(77, 91, 206, 0.5);
     }
 
     .title {
       color: #4D5BCE;
-      margin-bottom: 0.8rem;
+      margin-bottom: 1.2rem;
       font-size: 0.9rem;
+      position: relative;
+      border: none;
+      text-decoration: none;
+      box-shadow: none;
+      background: transparent;
+      margin-top: 10px;
+      padding-top: 5px;
+      
+      &::before,
+      &::after {
+        display: none;
+      }
+      
+      .typing-text {
+        position: relative;
+        color: #43D9AD;
+        border: none;
+        text-decoration: none;
+        box-shadow: none;
+        background: transparent;
+        
+        &::before {
+          display: none;
+        }
+        
+        &::after {
+          content: '|';
+          position: absolute;
+          right: -10px;
+          font-weight: bold;
+          color: #FEA55F;
+          animation: blink 1s infinite;
+          border: none;
+          background: none;
+          box-shadow: none;
+        }
+      }
     }
 
     .contact-info {
       background: rgba(1, 22, 39, 0.75);
-      padding: 0.8rem 1.5rem;
-      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
       backdrop-filter: blur(8px);
       width: 100%;
-      max-width: 700px;
+      border-left: 2px solid #4D5BCE;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
       
       .comment {
         color: #607B96;
@@ -82,31 +200,96 @@
       }
     }
   }
+}
 
-  &__footer {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
+// Yanıp sönen imleç animasyonu
+@keyframes blink {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
 
-    .left-social, .right-social {
-      a {
-        color: #607B96;
-        font-size: 1.5rem;
-        transition: color 0.3s ease;
-        
-        &:hover {
-          color: #fff;
-        }
+// Mobil uyumlu stillemeler
+@media (max-width: $tablet) {
+  .terminal {
+    height: calc(100% - var(--navbar-height));
+    margin-top: var(--navbar-height);
+    
+    &:before {
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+    }
+    
+    &:after {
+      width: 8px;
+      height: 8px;
+      top: 20px;
+      left: 20px;
+    }
+    
+    &__content {
+      padding: 1rem;
+      width: 95%;
+    }
+    
+    &__main-content {
+      margin-top: 0;
+      
+      .name {
+        font-size: 2.2rem;
+      }
+      
+      .contact-info {
+        padding: 0.6rem 1rem;
       }
     }
   }
 }
 
-.terminal_content {
-  margin-top: 800px !important;
-  padding: 2rem;
-  width: 100%;
-  max-width: 800px;
+@media (max-width: $mobile) {
+  .terminal {
+    &:before {
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+    }
+    
+    &:after {
+      width: 6px;
+      height: 6px;
+      top: 15px;
+      left: 15px;
+    }
+    
+    &__content {
+      padding: 0.8rem;
+      width: 95%;
+    }
+    
+    &__main-content {
+      margin-top: 0;
+      
+      .name {
+        font-size: 1.8rem;
+      }
+      
+      .contact-info {
+        padding: 0.5rem 0.8rem;
+        
+        .const {
+          font-size: 0.75rem;
+          
+          & + p {
+            font-size: 0.85rem;
+          }
+        }
+        
+        .comment {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
 }

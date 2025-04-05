@@ -1,37 +1,533 @@
+// Temel animasyonlar
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px rgba(77, 91, 206, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(77, 91, 206, 0.8); }
+  100% { box-shadow: 0 0 5px rgba(77, 91, 206, 0.5); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes slideProgress {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+// Kategori renkleri
+$frontend-color: #4D5BCE;
+$backend-color: #43D9AD;
+$database-color: #FEA55F;
+$devops-color: #E99287;
+$tools-color: #9F7AEA;
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.about-container {
+  flex: 1;
+  background: linear-gradient(
+    170deg,
+    rgba(1, 22, 39, 0.9) 0%,
+    rgba(1, 13, 24, 0.95) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - var(--navbar-height));
+  margin-top: 0;
+  position: relative;
+  overflow: auto; // Scroll için
+  
+  // Terminal benzeri dekoratif efekt
+  &:before {
+    content: '';
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    right: 25px;
+    bottom: 25px;
+    border: 1px solid rgba(77, 91, 206, 0.3);
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  // Dekoratif köşe nokta efektleri
+  &:after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: #4D5BCE;
+    border-radius: 50%;
+    top: 30px;
+    left: 30px;
+    box-shadow: 
+      calc(100% - 60px) 0 0 #43D9AD,
+      0 calc(100% - 60px) 0 #FEA55F,
+      calc(100% - 60px) calc(100% - 60px) 0 #E99287;
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
 .about-me-container {
   padding: 2rem;
+  color: #e5e9f0;
+  max-width: 1400px; // 900px'den 1400px'e genişlettim
+  margin: 0 auto;
+  width: 95%; // 90%'dan 95%'e çıkardım
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
   
-  h1 {
-    color: #f8f8f8;
-    margin-bottom: 2rem;
+  // Görünür olduğunda animasyon
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
 
-  .about-content {
-    p {
-      color: #a1a1a1;
-      line-height: 1.6;
-      margin-bottom: 2rem;
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem; // Daha az margin
+  color: #4d5bce;
+  text-shadow: 0 0 15px rgba(77, 91, 206, 0.5);
+  position: relative;
+  display: inline-block;
+  
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #4d5bce, transparent);
+    animation: slideProgress 1s ease-out forwards;
+    transform-origin: left;
+  }
+}
+
+.about-content {
+  background-color: rgba(30, 45, 61, 0.7);
+  padding: 1.5rem; // Daha az padding
+  border-radius: 8px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(8px);
+  border-left: 2px solid #4D5BCE;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  @media (min-width: 992px) {
+    flex-direction: row; // Orta ve büyük ekranlarda yan yana yerleştir
+    gap: 2rem; // İçerikler arası boşluk ekle
+  }
+  
+  &:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px);
+  }
+  
+  .terminal-text {
+    margin-bottom: 1.5rem;
+    
+    @media (min-width: 992px) {
+      flex: 1; // Ekranın bir kısmını kapla
+      margin-bottom: 0; // Yan yana dizildiğinde alt boşluğu kaldır
     }
   }
-
-  .skills-section {
-    h2 {
-      color: #f8f8f8;
-      margin-bottom: 1rem;
+  
+  p {
+    line-height: 1.6;
+    margin-bottom: 1rem; // Daha az margin
+    color: #a9b2c3;
+    font-size: 0.95rem; // Daha küçük font
+    position: relative;
+    padding-left: 1rem;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+    
+    // Terminal stil efekti
+    &:before {
+      content: '>';
+      position: absolute;
+      left: 0;
+      color: #FEA55F;
     }
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 1rem;
-
-      .skill-item {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 1rem;
-        border-radius: 4px;
-        color: #a1a1a1;
-        text-align: center;
+    
+    // Animation delay
+    &:nth-child(1) { animation-delay: 0.3s; }
+    &:nth-child(2) { animation-delay: 0.6s; }
+    &:nth-child(3) { animation-delay: 0.9s; }
+    
+    .highlight {
+      color: #43D9AD;
+      font-weight: 500;
+      
+      &.typing-text {
+        position: relative;
+        
+        &::after {
+          content: '|';
+          position: absolute;
+          right: -10px;
+          font-weight: bold;
+          color: #FEA55F;
+          animation: blink 1s infinite;
+        }
       }
     }
+  }
+}
+
+.skills-section {
+  margin-top: 1.5rem; // Daha az margin
+  margin-bottom: auto;
+  
+  @media (min-width: 992px) {
+    flex: 2; // Beceriler bölümü daha fazla alan kaplasın
+    margin-top: 0; // Yan yana olduğunda üst boşluğu kaldır
+  }
+  
+  h2 {
+    font-size: 1.5rem; // Daha küçük başlık
+    margin-bottom: 1.2rem;
+    color: #5565e8;
+    position: relative;
+    display: inline-block;
+    opacity: 0;
+    animation: fadeIn 0.5s ease 1.2s forwards;
+    
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, #5565e8, transparent);
+    }
+  }
+}
+
+// Skills filter butonları
+.skills-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-bottom: 1.2rem;
+  opacity: 0;
+  animation: fadeIn 0.5s ease 1.3s forwards;
+}
+
+.filter-btn {
+  background-color: rgba(35, 53, 84, 0.6);
+  border: none;
+  color: #a9b2c3;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  font-family: 'Fira Code', monospace;
+  
+  &:hover {
+    background-color: rgba(35, 53, 84, 0.9);
+    transform: translateY(-2px);
+  }
+  
+  &.active {
+    background-color: rgba(77, 91, 206, 0.3);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(77, 91, 206, 0.5);
+    
+    &:nth-child(1) { background-color: rgba(67, 217, 173, 0.2); }
+    &:nth-child(2) { background-color: rgba(77, 91, 206, 0.2); }
+    &:nth-child(3) { background-color: rgba(67, 217, 173, 0.2); }
+    &:nth-child(4) { background-color: rgba(254, 165, 95, 0.2); }
+    &:nth-child(5) { background-color: rgba(233, 146, 135, 0.2); }
+  }
+}
+
+// Teknoloji Grid Düzeni
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1.2rem;
+  opacity: 0;
+  animation: fadeIn 0.5s ease 1.4s forwards;
+  
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); // Daha çok öğe yan yana
+  }
+}
+
+.tech-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(35, 53, 84, 0.6);
+  border-radius: 8px;
+  padding: 1.2rem 0.8rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  height: 120px;
+  
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    
+    .tech-icon {
+      animation: pulse 1.5s infinite;
+      color: #fff;
+    }
+    
+    &::before {
+      opacity: 1;
+    }
+  }
+  
+  // Glow efekti için background gradient
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(77, 91, 206, 0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  // Kategori renklerine göre stil
+  &.frontend {
+    .tech-icon {
+      color: $frontend-color;
+    }
+    
+    &:hover {
+      background-color: rgba(77, 91, 206, 0.3);
+      
+      &::before {
+        background: radial-gradient(circle at center, rgba(77, 91, 206, 0.5) 0%, transparent 70%);
+      }
+    }
+  }
+  
+  &.backend {
+    .tech-icon {
+      color: $backend-color;
+    }
+    
+    &:hover {
+      background-color: rgba(67, 217, 173, 0.3);
+      
+      &::before {
+        background: radial-gradient(circle at center, rgba(67, 217, 173, 0.5) 0%, transparent 70%);
+      }
+    }
+  }
+  
+  &.tools {
+    .tech-icon {
+      color: $tools-color;
+    }
+    
+    &:hover {
+      background-color: rgba(159, 122, 234, 0.3);
+      
+      &::before {
+        background: radial-gradient(circle at center, rgba(159, 122, 234, 0.5) 0%, transparent 70%);
+      }
+    }
+  }
+}
+
+.tech-icon {
+  font-size: 3rem;
+  margin-bottom: 0.8rem;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.tech-name {
+  font-size: 0.9rem;
+  color: #e5e9f0;
+  font-family: 'Fira Code', monospace;
+  position: relative;
+  z-index: 2;
+}
+
+// Tablet için medya sorgusu
+@media (max-width: 768px) {
+  .about-container {
+    &:before {
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+    }
+    
+    &:after {
+      width: 8px;
+      height: 8px;
+      top: 20px;
+      left: 20px;
+    }
+  }
+  
+  .about-me-container {
+    padding: 1.2rem;
+    width: 95%;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .about-content {
+    padding: 1.2rem;
+  }
+  
+  .skills-filter {
+    gap: 0.5rem;
+    
+    .filter-btn {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+    }
+  }
+  
+  .tech-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 1rem;
+  }
+  
+  .tech-item {
+    padding: 1rem 0.6rem;
+    height: 100px;
+  }
+  
+  .tech-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.6rem;
+  }
+  
+  .tech-name {
+    font-size: 0.8rem;
+  }
+}
+
+// Mobil için medya sorgusu
+@media (max-width: 480px) {
+  .about-container {
+    &:before {
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+    }
+    
+    &:after {
+      width: 6px;
+      height: 6px;
+      top: 15px;
+      left: 15px;
+    }
+  }
+  
+  .about-me-container {
+    padding: 1rem;
+  }
+  
+  h1 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+  }
+  
+  .about-content {
+    padding: 1rem;
+    
+    p {
+      font-size: 0.85rem;
+      margin-bottom: 0.8rem;
+    }
+  }
+  
+  .skills-filter {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    
+    .filter-btn {
+      padding: 0.35rem 0.7rem;
+      font-size: 0.7rem;
+      flex: 1;
+      min-width: calc(50% - 0.4rem);
+      text-align: center;
+    }
+  }
+  
+  .tech-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 0.8rem;
+  }
+  
+  .tech-item {
+    padding: 0.8rem 0.5rem;
+    height: 90px;
+  }
+  
+  .tech-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .tech-name {
+    font-size: 0.7rem;
   }
 }
