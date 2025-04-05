@@ -5,41 +5,41 @@ import { useProfile } from '../../context/ProfileContext';
 const Terminal: React.FC = () => {
   const profileData = useProfile();
   
-  // Unvan değişim animasyonu için state'ler
+  // States for title animation
   const [displayTitle, setDisplayTitle] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(150);
   
-  // Değişecek ünvanlar - Sadece 2 unvan
+  // Titles to alternate - Only 2 titles
   const titles = ['Frontend Developer', 'Fullstack Developer'];
   
-  // useEffect ile yazma-silme animasyonu
+  // useEffect for typing-deleting animation
   useEffect(() => {
     const currentTitle = titles[currentIndex % titles.length];
     
-    // Yazma veya silme efektini işle
+    // Process typing or deleting effect
     const timeout = setTimeout(() => {
       if (!isDeleting) {
-        // Yazma modu
+        // Typing mode
         setDisplayTitle(currentTitle.substring(0, displayTitle.length + 1));
         
-        // Eğer yazma tamamlandıysa, 2 saniye bekle ve silme moduna geç
+        // If typing is complete, wait 2 seconds and switch to deleting mode
         if (displayTitle.length === currentTitle.length) {
           setTimeout(() => {
             setIsDeleting(true);
-            setTypingSpeed(80); // Silme hızı daha yüksek
-          }, 2000); // 3 saniye yerine 2 saniye bekle
+            setTypingSpeed(80); // Faster delete speed
+          }, 2000); // Wait 2 seconds instead of 3
         }
       } else {
-        // Silme modu
+        // Deleting mode
         setDisplayTitle(currentTitle.substring(0, displayTitle.length - 1));
         
-        // Eğer silme tamamlandıysa, bir sonraki ünvana geç
+        // If deleting is complete, move to the next title
         if (displayTitle.length === 0) {
           setIsDeleting(false);
           setCurrentIndex(currentIndex + 1);
-          setTypingSpeed(150); // Yazma hızını sıfırla
+          setTypingSpeed(150); // Reset typing speed
         }
       }
     }, typingSpeed);

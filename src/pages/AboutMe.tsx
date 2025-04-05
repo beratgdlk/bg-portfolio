@@ -20,7 +20,7 @@ const AboutMe: React.FC = () => {
   const [typingSpeed, setTypingSpeed] = useState(150);
   const contentRef = useRef<HTMLDivElement>(null);
   
-  // Rotating developer titles - Sadece 2 unvan
+  // Rotating developer titles - Only 2 titles
   const titles = ['Frontend Developer', 'Fullstack Developer'];
   
   // Animate title typing effect
@@ -38,7 +38,7 @@ const AboutMe: React.FC = () => {
           setTimeout(() => {
             setIsDeleting(true);
             setTypingSpeed(80); // Faster when deleting
-          }, 2000); // 3 saniye yerine 2 saniye
+          }, 2000); // Wait 2 seconds instead of 3
         }
       } else {
         // Deleting mode

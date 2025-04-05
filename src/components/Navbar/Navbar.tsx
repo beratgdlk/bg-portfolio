@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
         <Link 
           to="/" 
           className={location.pathname === '/' ? 'active' : ''}
-        >_hello</Link>
+        >_home</Link>
         <Link 
           to="/_about-me"
           className={location.pathname === '/_about-me' ? 'active' : ''}

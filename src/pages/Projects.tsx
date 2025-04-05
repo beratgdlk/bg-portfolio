@@ -8,13 +8,13 @@ const Projects: React.FC = () => {
       <Navbar />
       <div className="projects-container">
         <div className="projects-content">
-          <h1>Projelerim</h1>
+          <h1>My Projects</h1>
           
           <div className="project-grid">
             <div className="project-card">
-              <h2>Portfolyo Sitesi</h2>
+              <h2>Portfolio Website</h2>
               <p className="project-description">
-                Terminal temalı kişisel portfolyo sitesi. React, TypeScript ve SASS ile geliştirildi.
+                Terminal-themed personal portfolio website. Developed with React, TypeScript and SASS.
               </p>
               <div className="tech-stack">
                 <span className="tech-tag">React</span>
@@ -28,9 +28,9 @@ const Projects: React.FC = () => {
             </div>
             
             <div className="project-card">
-              <h2>E-Ticaret Uygulaması</h2>
+              <h2>E-Commerce Application</h2>
               <p className="project-description">
-                Modern bir e-ticaret arayüzü. Next.js ve React ile geliştirildi.
+                Modern e-commerce interface. Developed with Next.js and React.
               </p>
               <div className="tech-stack">
                 <span className="tech-tag">Next.js</span>
