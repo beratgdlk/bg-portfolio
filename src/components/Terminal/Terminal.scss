@@ -72,9 +72,9 @@
   &__content {
     flex: 1;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     padding: 2rem;
     max-width: 1540px;
     width: 90%;
@@ -89,19 +89,8 @@
     flex-direction: column;
     justify-content: center;
     margin-top: 0;
-    width: 100%;
+    width: 50%;
     position: relative;
-    
-    // Yazı tipi yanıp sönen imleç efekti
-    &:after {
-      content: '|';
-      position: absolute;
-      bottom: -10px;
-      left: 0;
-      color: #4D5BCE;
-      animation: blink 1s infinite;
-      opacity: 0;
-    }
     
     > div {
       max-width: 700px;
@@ -123,17 +112,24 @@
       text-shadow: 0 0 15px rgba(77, 91, 206, 0.5);
     }
 
+    .title-container {
+      height: 40px;
+      margin-bottom: 2rem;
+      margin-top: 0.8rem;
+      display: flex;
+      align-items: center;
+    }
+
     .title {
       color: #4D5BCE;
-      margin-bottom: 1.2rem;
-      font-size: 0.9rem;
+      font-size: 1.2rem;
       position: relative;
       border: none;
       text-decoration: none;
       box-shadow: none;
       background: transparent;
-      margin-top: 10px;
-      padding-top: 5px;
+      margin: 0;
+      padding: 0;
       
       &::before,
       &::after {
@@ -147,6 +143,8 @@
         text-decoration: none;
         box-shadow: none;
         background: transparent;
+        font-weight: 500;
+        text-shadow: 0 0 5px rgba(67, 217, 173, 0.5);
         
         &::before {
           display: none;
@@ -167,45 +165,311 @@
     }
 
     .contact-info {
-      background: rgba(1, 22, 39, 0.75);
-      padding: 1rem 1.5rem;
+      background: rgba(1, 22, 39, 0.85);
+      padding: 0;
       border-radius: 8px;
-      backdrop-filter: blur(8px);
       width: 100%;
-      border-left: 2px solid #4D5BCE;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(77, 91, 206, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
       
-      .comment {
-        color: #607B96;
-        margin-top: 0.2rem;
-        font-size: 0.85rem;
-      }
-
-      .const {
-        margin: 0.2rem 0;
-        font-family: 'Fira Code', monospace;
-        font-size: 0.85rem;
-
-        &::before {
-          content: "const ";
-          color: #4D5BCE;
+      .code-header {
+        height: 40px;
+        background-color: #0D1117;
+        display: flex;
+        align-items: center;
+        padding: 0 1rem;
+        
+        .code-tabs {
+          display: flex;
+          
+          .code-tab {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            color: #e5e9f0;
+            font-weight: 500;
+            position: relative;
+            
+            &.active {
+              background-color: rgba(1, 22, 39, 0.9);
+              color: #43D9AD;
+              overflow: hidden;
+              
+              &:before {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: linear-gradient(to right, #43D9AD, #4D5BCE);
+              }
+            }
+          }
         }
-
-        color: #43D9AD;
-
-        & + p {
-          color: #c0a93e;
-          font-size: 1rem;
+      }
+      
+      .code-content {
+        display: flex;
+        padding: 1rem 0;
+        font-family: 'Fira Code', monospace;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        
+        .line-numbers {
+          width: 40px;
+          text-align: right;
+          padding-right: 1rem;
+          color: #607B96;
+          user-select: none;
+          
+          span {
+            display: block;
+          }
+        }
+        
+        .code-lines {
+          flex: 1;
+          color: #e5e9f0;
+          
+          pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font-family: inherit;
+          }
         }
       }
     }
   }
 }
 
+// Sözdizimi renklendirme için global sınıflar
+.comment {
+  color: #6A9955; // VS Code'daki yorum satırı rengi (soluk yeşilimsi)
+  opacity: 0.8; // Daha silik görünüm için
+  font-style: italic; // İtalik stil
+}
+
+.keyword {
+  color: #569CD6; // VS Code'daki anahtar kelime rengi
+  font-weight: 500;
+}
+
+.import-keyword {
+  color: #C586C0; // Mor renk import/export için
+  font-weight: 500;
+}
+
+.type-keyword {
+  color: #569CD6; // Tip tanımlama için mavi
+  font-weight: 500;
+}
+
+.library {
+  color: #9CDCFE; // Kütüphane adları için açık mavi
+}
+
+.react-hook {
+  color: #C586C0; // VS Code'daki hook fonksiyonları rengi
+}
+
+.type {
+  color: #4EC9B0; // VS Code'daki tip rengi
+}
+
+.string {
+  color: #CE9178; // VS Code'daki string rengi
+}
+
+.boolean {
+  color: #569CD6; // Boolean değerler için mavi
+  font-weight: 500;
+}
+
+.component {
+  color: #4EC9B0; // VS Code'daki sınıf/bileşen rengi
+  font-weight: 500;
+}
+
+.number {
+  color: #B5CEA8; // VS Code'daki sayı rengi
+}
+
+.literal {
+  color: #569CD6; // VS Code'daki literal değer rengi
+}
+
+.decorator {
+  color: #DCDCAA; // VS Code'daki dekoratör rengi
+}
+
+.modifier {
+  color: #569CD6; // VS Code'daki değiştirici rengi
+  font-style: italic;
+}
+
+.bracket {
+  color: #D4D4D4; // VS Code'daki parantez rengi
+}
+
+.method {
+  color: #DCDCAA; // VS Code'daki metot rengi
+}
+
+.built-in {
+  color: #4FC1FF; // Yerleşik nesneler için parlak mavi
+}
+
+.db-method {
+  color: #DCDCAA; // Veritabanı metotları için altın sarısı
+}
+
+.http-method {
+  color: #C586C0; // HTTP metotları için mor
+  font-weight: 500;
+}
+
+.express-param {
+  color: #9CDCFE; // Express parametreleri için açık mavi
+}
+
+.response-method {
+  color: #DCDCAA; // Yanıt metotları için altın sarısı
+}
+
+.operator {
+  color: #D4D4D4; // Operatörler için gri-beyaz
+}
+
+.template-expr {
+  color: #569CD6; // Template ifadeleri için mavi
+}
+
+.attribute {
+  color: #9CDCFE; // JSX özellikleri için açık mavi
+}
+
+.mongo-method {
+  color: #DCDCAA; // MongoDB metotları için altın sarısı
+}
+
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background-color: #43D9AD;
+  margin-left: 2px;
+  animation: blink 1s infinite;
+  vertical-align: middle;
+}
+
 // Yanıp sönen imleç animasyonu
 @keyframes blink {
   0%, 100% { opacity: 0; }
   50% { opacity: 1; }
+}
+
+// Kod animasyonu stilleri
+.code-animation {
+  width: 45%;
+  max-width: 600px;
+  height: 450px;
+  position: relative;
+  margin-left: 2rem;
+  animation: float 6s ease-in-out infinite;
+  
+  .code-editor {
+    background-color: rgba(1, 22, 39, 0.85);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(77, 91, 206, 0.4);
+    
+    .code-header {
+      height: 40px;
+      background-color: #0D1117;
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      
+      .code-tabs {
+        display: flex;
+        
+        .code-tab {
+          padding: 0.5rem 1rem;
+          font-size: 0.85rem;
+          color: #e5e9f0;
+          font-weight: 500;
+          position: relative;
+          
+          &.active {
+            background-color: rgba(1, 22, 39, 0.9);
+            color: #43D9AD;
+            overflow: hidden;
+            
+            &:before {
+              content: '';
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              width: 100%;
+              height: 2px;
+              background: linear-gradient(to right, #43D9AD, #4D5BCE);
+            }
+          }
+        }
+      }
+    }
+    
+    .code-content {
+      flex: 1;
+      display: flex;
+      padding: 1rem 0;
+      overflow-y: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      
+      .line-numbers {
+        width: 40px;
+        text-align: right;
+        padding-right: 1rem;
+        color: #607B96;
+        user-select: none;
+        
+        span {
+          display: block;
+        }
+      }
+      
+      .code-lines {
+        flex: 1;
+        color: #e5e9f0;
+        
+        pre {
+          margin: 0;
+          white-space: pre-wrap;
+          font-family: inherit;
+        }
+      }
+    }
+  }
+}
+
+// Yüzen animasyon
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(1deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
 }
 
 // Mobil uyumlu stillemeler
@@ -229,21 +493,33 @@
     }
     
     &__content {
+      flex-direction: column;
       padding: 1rem;
       width: 95%;
     }
     
     &__main-content {
-      margin-top: 0;
+      width: 100%;
+      margin-bottom: 2rem;
       
       .name {
         font-size: 2.2rem;
       }
       
       .contact-info {
-        padding: 0.6rem 1rem;
+        .code-content {
+          font-size: 0.8rem;
+        }
       }
     }
+  }
+  
+  .code-animation {
+    width: 100%;
+    max-width: 100%;
+    height: 350px;
+    margin-left: 0;
+    margin-top: 1rem;
   }
 }
 
@@ -276,19 +552,24 @@
       }
       
       .contact-info {
-        padding: 0.5rem 0.8rem;
-        
-        .const {
-          font-size: 0.75rem;
+        .code-content {
+          font-size: 0.7rem;
           
-          & + p {
-            font-size: 0.85rem;
+          .line-numbers {
+            width: 25px;
+            padding-right: 0.5rem;
           }
         }
-        
-        .comment {
-          font-size: 0.75rem;
-        }
+      }
+    }
+  }
+  
+  .code-animation {
+    height: 300px;
+    
+    .code-editor {
+      .code-content {
+        font-size: 0.8rem;
       }
     }
   }
