@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './AboutMe.scss';
 import Navbar from '../components/Navbar/Navbar';
-import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt, FaSass, FaGithub, FaDatabase } from 'react-icons/fa';
-import { SiTypescript, SiJavascript, SiNextdotjs, SiExpress, SiNestjs, SiPostgresql, SiPostman, SiPassport, SiFigma, SiCanva } from 'react-icons/si';
+import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt, FaSass, FaGithub, FaJsSquare } from 'react-icons/fa';
+import { SiTypescript, SiJavascript, SiNextdotjs, SiExpress, SiNestjs, SiPostgresql, SiPostman, SiPassport, SiFigma, SiCanva, SiMongodb, SiRedux, SiTailwindcss, SiFirebase } from 'react-icons/si';
 import { TbBrandVscode } from 'react-icons/tb';
+import { useProfile } from '../context/ProfileContext';
+import { useInView } from 'react-intersection-observer';
+import Skills from '../components/Skills/Skills';
+import ExperienceTimeline from '../components/ExperienceTimeline/ExperienceTimeline';
+import Education from '../components/Education/Education';
 
 // Elysia.js için yeni bileşen - boş daire içinde tilki gözleri
 const ElysiaIcon: React.FC = () => (

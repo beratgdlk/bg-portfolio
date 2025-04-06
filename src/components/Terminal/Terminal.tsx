@@ -18,7 +18,7 @@ const syntaxHighlight = (line: string): React.ReactNode => {
     { pattern: /(useState|useEffect|useContext|useReducer|useCallback|useMemo|useRef|useLayoutEffect|useImperativeHandle|useDebugValue)/g, className: 'react-hook' },
     
     // Bileşenler ve tipler (Pascal case)
-    { pattern: /\b([A-Z][a-zA-Z0-9]*)(\.|\(|\s|$)/g, replacement: (_, m1, m2) => <><span className="component">{m1}</span>{m2}</> },
+    { pattern: /\b([A-Z][a-zA-Z0-9]*)(\.|\(|\s|$)/g, replacement: (_: string, m1: string, m2: string) => <><span className="component">{m1}</span>{m2}</> },
     
     // Üst düzey kütüphaneler
     { pattern: /(React|ReactDOM|Express|Mongoose|MongoDB|Nest|TypeORM|Next|Router)/g, className: 'library' },
@@ -30,7 +30,7 @@ const syntaxHighlight = (line: string): React.ReactNode => {
     { pattern: /\b(\w+)(?=\s*\()/g, className: 'method' },
     
     // HTTP metod isimleri
-    { pattern: /@(Get|Post|Put|Delete|Patch|Options|Head|All)\(/g, replacement: (match) => <><span className="http-method">{match.slice(0, -1)}</span>{'('}</> },
+    { pattern: /@(Get|Post|Put|Delete|Patch|Options|Head|All)\(/g, replacement: (match: string) => <><span className="http-method">{match.slice(0, -1)}</span>{'('}</> },
     { pattern: /(get|post|put|delete|patch)(?=\s*\()/g, className: 'http-method' },
     
     // Express parametreleri ve route tanımları
@@ -47,7 +47,7 @@ const syntaxHighlight = (line: string): React.ReactNode => {
     { pattern: /(console|document|window|process|module|global|Array|Object|String|Number|Boolean|Date|Math|JSON|Promise)/g, className: 'built-in' },
     
     // JSX özellikleri
-    { pattern: /\s(\w+)=(?={|"|')/g, replacement: (match, attr) => <><span className="attribute">{` ${attr}=`}</span></> },
+    { pattern: /\s(\w+)=(?={|"|')/g, replacement: (_: string, attr: string) => <><span className="attribute">{` ${attr}=`}</span></> },
     
     // Parantezler
     { pattern: /(\{|\}|\(|\)|\[|\])/g, className: 'bracket' },
@@ -56,7 +56,7 @@ const syntaxHighlight = (line: string): React.ReactNode => {
     { pattern: /(\$\{.*?\})/g, className: 'template-expr' },
     
     // Stringler
-    { pattern: /(["'`])(.*?)(\1)/g, replacement: (match, q1, content, q2) => 
+    { pattern: /(["'`])(.*?)(\1)/g, replacement: (_: string, q1: string, content: string, q2: string) => 
       <><span className="string">{q1}{content}{q2}</span></> 
     },
     
@@ -88,7 +88,7 @@ const syntaxHighlight = (line: string): React.ReactNode => {
           }
           
           if (replacement) {
-            segments.push(replacement(...match));
+            segments.push(replacement(...match as unknown as [string, ...string[]]));
           } else {
             segments.push(<span className={className}>{match[0]}</span>);
           }
@@ -463,7 +463,7 @@ const CodeAnimation: React.FC = () => {
       "export default function Blog({ posts }: { posts: Post[] }) {",
       "  const [searchTerm, setSearchTerm] = useState('');",
       "",
-      // Filter posts based on search term
+      "  // Filter posts based on search term",
       "  const filteredPosts = posts.filter(post =>",
       "    post.title.toLowerCase().includes(searchTerm.toLowerCase())",
       "  );",
@@ -505,7 +505,7 @@ const CodeAnimation: React.FC = () => {
       "import { Pool } from 'pg';",
       "import { config } from './config';",
       "",
-      // Initialize connection pool
+      "// Initialize connection pool",
       "const pool = new Pool({",
       "  host: config.db.host,",
       "  port: config.db.port,",
@@ -557,6 +557,7 @@ const CodeAnimation: React.FC = () => {
       "import { Elysia } from 'elysia';",
       "import { swagger } from '@elysiajs/swagger';",
       "import { cors } from '@elysiajs/cors';",
+      "import { t } from 'elysia';",
       "import { UserService } from './services/user.service';",
       "",
       "const app = new Elysia()",
@@ -607,7 +608,7 @@ const CodeAnimation: React.FC = () => {
       return () => clearTimeout(timer);
     }
     
-    // Tamamlandığında değiştir
+    // When completed, change to next example
     if (currentLine === codeExamples[codeExample].length) {
       const resetTimer = setTimeout(() => {
         setLines([]);
@@ -619,7 +620,7 @@ const CodeAnimation: React.FC = () => {
     }
   }, [currentLine, codeExample]);
   
-  // Teknoloji adını belirle
+  // Determine technology name
   const getTechName = () => {
     switch(codeExample) {
       case 0: return "React & TypeScript";

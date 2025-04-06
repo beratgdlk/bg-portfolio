@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Projects.scss';
 import Navbar from '../components/Navbar/Navbar';
 import { FaFolder, FaGithub } from 'react-icons/fa';
@@ -65,40 +65,13 @@ const projectsData: Project[] = [
 ];
 
 // Katkı grafiği için renkler - GitHub'ın gerçek katkı takvimi renkleri
-const contributionLevels = [
-  { color: "#161b22" },     // level 0 - boş
-  { color: "#0e4429" },     // level 1 - en açık yeşil
-  { color: "#006d32" },     // level 2 - açık yeşil
-  { color: "#26a641" },     // level 3 - orta yeşil
-  { color: "#39d353" }      // level 4 - en koyu yeşil
-];
-
-// Çeşitli gülen suratlar oluşturan fonksiyon
-const generateMultipleSmiles = () => {
-  const contributions = [];
-  const days = 7; // Haftanın günleri
-  const weeks = 52; // Bir yıl
-  
-  // Grafiği rastgele yeşil seviyelerle doldur
-  for (let w = 0; w < weeks; w++) {
-    const week = [];
-    for (let d = 0; d < days; d++) {
-      // Rastgele seviyeler (0-4 arası) - siyah hücrelerin (0) sıklığını azaltır
-      // Siyah hücre olma olasılığını %15 olarak ayarla
-      let level;
-      if (Math.random() < 0.15) {
-        level = 0; // Siyah kutu (boş gün)
-      } else {
-        // Diğer durumlarda 1-4 arası katkı seviyesi
-        level = Math.floor(Math.random() * 4) + 1;
-      }
-      week.push(level);
-    }
-    contributions.push(week);
-  }
-  
-  return contributions;
-};
+// const contributionLevels = [
+//   { color: "#161b22" },     // level 0 - boş
+//   { color: "#0e4429" },     // level 1 - en açık yeşil
+//   { color: "#006d32" },     // level 2 - açık yeşil
+//   { color: "#26a641" },     // level 3 - orta yeşil
+//   { color: "#39d353" }      // level 4 - en koyu yeşil
+// ];
 
 // GitHub aktivite grafiği için
 const GitHubActivity = () => {
@@ -138,7 +111,8 @@ const GitHubActivity = () => {
     const animateTypingAndErasing = () => {
       // Yeni rastgele sayı al
       const newRandomCount = 1385 + Math.floor(Math.random() * (4743 - 1385));
-      const newCountString = newRandomCount.toString();
+      // Yeni sayı metnini oluştur (kullanılmıyor ancak yorum satırında tutuyoruz)
+      // const newCountString = newRandomCount.toString();
       localStorage.setItem('contributionCount', newRandomCount.toString());
       
       // Yazma animasyonu
@@ -333,7 +307,13 @@ const GitHubActivity = () => {
         
         <div className="contribution-grid">
           {contributions.map((week, weekIndex) => (
-            <div className="contribution-week" key={weekIndex}>
+            <div 
+              key={weekIndex} 
+              className="contribution-week"
+              style={{
+                ["--index" as any]: weekIndex
+              }}
+            >
               {week.map((level, dayIndex) => (
                 <div 
                   className="contribution-cell" 
@@ -344,7 +324,7 @@ const GitHubActivity = () => {
                                     level === 2 ? '#006d32' : 
                                     level === 3 ? '#26a641' : 
                                     level === 4 ? '#39d353' : '#161b22',
-                    '--index': weekIndex * 7 + dayIndex
+                    "--index": weekIndex * 7 + dayIndex
                   }}
                 />
               ))}
@@ -367,8 +347,6 @@ const GitHubActivity = () => {
 };
 
 const Projects: React.FC = () => {
-  const contributions = generateMultipleSmiles();
-
   return (
     <div className="page-wrapper">
       <Navbar />
