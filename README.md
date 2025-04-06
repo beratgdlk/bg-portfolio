@@ -2,8 +2,6 @@
 
 This is my personal portfolio website, built using **React.js, TypeScript, SASS, and Vite**. It serves as a central hub where visitors can explore my skills, projects, and professional journey through an interactive terminal-inspired interface.
 
-![Portfolio Website Screenshot](public/home-screenshot.png)
-
 ## Features
 
 - **Interactive Terminal UI** – Terminal-inspired interface for a unique browsing experience
@@ -120,7 +118,16 @@ This is a personal project, but if you'd like to suggest improvements:
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+MIT License is a permissive license that allows for reuse with few restrictions. It permits:
+- Commercial use
+- Modification
+- Distribution
+- Private use
+
+While requiring:
+- License and copyright notice inclusion
 
 ## Contact
 
