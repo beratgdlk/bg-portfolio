@@ -131,7 +131,7 @@ While requiring:
 
 ## Contact
 
-- **Portfolio:** [Live Site](https://jocular-unicorn-731246.netlify.app/#)
+- **Portfolio:** [Live Site](https://berat-gudelek.netlify.app/)
 - **GitHub:** [beratgdlk](https://github.com/beratgdlk)
 - **Email:** beratgdlk@gmail.com
-- **LinkedIn:** [Berat G.](https://www.linkedin.com/in/beratg/)
+- **LinkedIn:** [Berat G.](https://www.linkedin.com/in/beratgudelek/)
