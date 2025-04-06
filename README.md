@@ -1,4 +1,4 @@
-## The project is currently under development, and only the "Home" page is available at the moment. The "LinkedIn," "CV," "Medium," and "GitHub" links are active and clickable. Other pages on the website are still in the preparation phase. Currently, the most optimized experience is available only for desktop users.
+The project is currently under development, and only the "Home" page is available at the moment. The "LinkedIn," "CV," "Medium," and "GitHub" links are active and clickable. Other pages on the website are still in the preparation phase. Currently, the most optimized experience is available only for desktop users.
 # Berat G. Web Portfolio
 ⌛The project is under development 🕑
 
