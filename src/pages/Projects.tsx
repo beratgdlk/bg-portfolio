@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Projects.scss';
 import Navbar from '../components/Navbar/Navbar';
 import { FaFolder, FaGithub } from 'react-icons/fa';
@@ -316,15 +316,15 @@ const GitHubActivity = () => {
             >
               {week.map((level, dayIndex) => (
                 <div 
-                  className="contribution-cell" 
-                  key={dayIndex}
-                  data-level={level}
+                  key={dayIndex} 
+                  className="contribution-cell"
                   style={{
-                    backgroundColor: level === 1 ? '#0e4429' : 
+                    backgroundColor: level === 0 ? '#161b22' : 
+                                    level === 1 ? '#0e4429' : 
                                     level === 2 ? '#006d32' : 
                                     level === 3 ? '#26a641' : 
                                     level === 4 ? '#39d353' : '#161b22',
-                    "--index": weekIndex * 7 + dayIndex
+                    ["--index" as any]: weekIndex * 7 + dayIndex
                   }}
                 />
               ))}

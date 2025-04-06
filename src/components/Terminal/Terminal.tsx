@@ -1,11 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Terminal.scss';
 import { useProfile } from '../../context/ProfileContext';
+
+// Replacement fonksiyonu için tip tanımı
+type ReplacementFunction = (match: string, ...args: string[]) => React.ReactNode;
 
 // Sözdizimi renklendirme işlevi
 const syntaxHighlight = (line: string): React.ReactNode => {
   // Temel desenleri tanımla
-  const patterns = [
+  const patterns: Array<{
+    pattern: RegExp;
+    className?: string;
+    replacement?: ReplacementFunction;
+  }> = [
     // Import/Export ifadeleri
     { pattern: /(import|export|from|as|default)/g, className: 'import-keyword' },
     { pattern: /(const|let|var|function|class|interface|type|enum|namespace)/g, className: 'keyword' },
@@ -18,7 +25,10 @@ const syntaxHighlight = (line: string): React.ReactNode => {
     { pattern: /(useState|useEffect|useContext|useReducer|useCallback|useMemo|useRef|useLayoutEffect|useImperativeHandle|useDebugValue)/g, className: 'react-hook' },
     
     // Bileşenler ve tipler (Pascal case)
-    { pattern: /\b([A-Z][a-zA-Z0-9]*)(\.|\(|\s|$)/g, replacement: (_: string, m1: string, m2: string) => <><span className="component">{m1}</span>{m2}</> },
+    { 
+      pattern: /\b([A-Z][a-zA-Z0-9]*)(\.|\(|\s|$)/g, 
+      replacement: (_: string, m1: string, m2: string) => <><span className="component">{m1}</span>{m2}</> 
+    },
     
     // Üst düzey kütüphaneler
     { pattern: /(React|ReactDOM|Express|Mongoose|MongoDB|Nest|TypeORM|Next|Router)/g, className: 'library' },
@@ -30,7 +40,10 @@ const syntaxHighlight = (line: string): React.ReactNode => {
     { pattern: /\b(\w+)(?=\s*\()/g, className: 'method' },
     
     // HTTP metod isimleri
-    { pattern: /@(Get|Post|Put|Delete|Patch|Options|Head|All)\(/g, replacement: (match: string) => <><span className="http-method">{match.slice(0, -1)}</span>{'('}</> },
+    { 
+      pattern: /@(Get|Post|Put|Delete|Patch|Options|Head|All)\(/g, 
+      replacement: (match: string) => <><span className="http-method">{match.slice(0, -1)}</span>{'('}</> 
+    },
     { pattern: /(get|post|put|delete|patch)(?=\s*\()/g, className: 'http-method' },
     
     // Express parametreleri ve route tanımları
@@ -47,7 +60,10 @@ const syntaxHighlight = (line: string): React.ReactNode => {
     { pattern: /(console|document|window|process|module|global|Array|Object|String|Number|Boolean|Date|Math|JSON|Promise)/g, className: 'built-in' },
     
     // JSX özellikleri
-    { pattern: /\s(\w+)=(?={|"|')/g, replacement: (_: string, attr: string) => <><span className="attribute">{` ${attr}=`}</span></> },
+    { 
+      pattern: /\s(\w+)=(?={|"|')/g, 
+      replacement: (_: string, attr: string) => <><span className="attribute">{` ${attr}=`}</span></> 
+    },
     
     // Parantezler
     { pattern: /(\{|\}|\(|\)|\[|\])/g, className: 'bracket' },
@@ -56,8 +72,10 @@ const syntaxHighlight = (line: string): React.ReactNode => {
     { pattern: /(\$\{.*?\})/g, className: 'template-expr' },
     
     // Stringler
-    { pattern: /(["'`])(.*?)(\1)/g, replacement: (_: string, q1: string, content: string, q2: string) => 
-      <><span className="string">{q1}{content}{q2}</span></> 
+    { 
+      pattern: /(["'`])(.*?)(\1)/g, 
+      replacement: (_: string, q1: string, content: string, q2: string) => 
+        <><span className="string">{q1}{content}{q2}</span></> 
     },
     
     // Sayılar
@@ -88,9 +106,12 @@ const syntaxHighlight = (line: string): React.ReactNode => {
           }
           
           if (replacement) {
-            segments.push(replacement(...match as unknown as [string, ...string[]]));
-          } else {
+            // Explicit type casting to make TypeScript happy
+            segments.push(replacement(match[0], ...(match.slice(1) as string[])));
+          } else if (className) {
             segments.push(<span className={className}>{match[0]}</span>);
+          } else {
+            segments.push(match[0]);
           }
           
           lastIndex = pattern.lastIndex;
@@ -108,241 +129,6 @@ const syntaxHighlight = (line: string): React.ReactNode => {
   };
 
   return <>{processTextWithPatterns(line)}</>;
-};
-
-// Teknoloji örnekleri
-const codeExamples = {
-  react: [
-    "// React & TypeScript component example",
-    "import React, { useState, useEffect } from 'react';",
-    "import { User } from '../types/user';",
-    "",
-    "interface ProfileProps {",
-    "  userId: string;",
-    "  showDetails: boolean;",
-    "}",
-    "",
-    "export const UserProfile: React.FC<ProfileProps> = ({ userId, showDetails }) => {",
-    "  const [user, setUser] = useState<User | null>(null);",
-    "  const [loading, setLoading] = useState<boolean>(true);",
-    "",
-    "  useEffect(() => {",
-    "    const fetchUserData = async () => {",
-    "      try {",
-    "        const response = await fetch(`/api/users/${userId}`);",
-    "        const data = await response.json();",
-    "        setUser(data);",
-    "      } catch (error) {",
-    "        console.error('Failed to fetch user:', error);",
-    "      } finally {",
-    "        setLoading(false);",
-    "      }",
-    "    };",
-    "",
-    "    fetchUserData();",
-    "  }, [userId]);",
-    "",
-    "  if (loading) return <div>Loading...</div>;",
-    "  if (!user) return <div>User not found</div>;",
-    "",
-    "  return (",
-    "    <div className=\"user-profile\">",
-    "      <h2>{user.name}</h2>",
-    "      {showDetails && (",
-    "        <div className=\"user-details\">",
-    "          <p>Email: {user.email}</p>",
-    "          <p>Role: {user.role}</p>",
-    "        </div>",
-    "      )}",
-    "    </div>",
-    "  );",
-    "};",
-  ],
-  nodejs: [
-    "// Node.js & Express API example",
-    "import express from 'express';",
-    "import { connect } from 'mongoose';",
-    "import { UserModel } from './models/user';",
-    "",
-    "const app = express();",
-    "app.use(express.json());",
-    "",
-    // Database connection
-    "connect('mongodb://localhost:27017/myapp', {",
-    "  useNewUrlParser: true,",
-    "  useUnifiedTopology: true",
-    "});",
-    "",
-    // Get all users
-    "app.get('/api/users', async (req, res) => {",
-    "  try {",
-    "    const users = await UserModel.find()",
-    "      .select('-password')",
-    "      .sort({ createdAt: -1 });",
-    "      ",
-    "    res.status(200).json(users);",
-    "  } catch (error) {",
-    "    console.error('Error fetching users:', error);",
-    "    res.status(500).json({ message: 'Server error' });",
-    "  }",
-    "});",
-    "",
-    // Create new user
-    "app.post('/api/users', async (req, res) => {",
-    "  const { name, email, password } = req.body;",
-    "",
-    "  try {",
-    "    const userExists = await UserModel.findOne({ email });",
-    "    if (userExists) {",
-    "      return res.status(400).json({ message: 'User already exists' });",
-    "    }",
-    "",
-    "    const user = await UserModel.create({",
-    "      name,",
-    "      email,",
-    "      password,", 
-    "    });",
-    "",
-    "    res.status(201).json({",
-    "      _id: user._id,",
-    "      name: user.name,",
-    "      email: user.email",
-    "    });",
-    "  } catch (error) {",
-    "    res.status(500).json({ message: 'Server error' });",
-    "  }",
-    "});",
-  ],
-  nestjs: [
-    "// NestJS API example",
-    "import { Controller, Injectable, Get, Post, Param, Body } from '@nestjs/common';",
-    "import { InjectRepository } from '@nestjs/typeorm';",
-    "import { Repository } from 'typeorm';",
-    "import { Task } from './task.entity';",
-    "import { CreateTaskDto } from './dto/create-task.dto';",
-    "",
-    "@Injectable()",
-    "export class TasksService {",
-    "  constructor(",
-    "    @InjectRepository(Task)",
-    "    private tasksRepository: Repository<Task>,",
-    "  ) {}",
-    "",
-    "  async findAll(): Promise<Task[]> {",
-    "    return this.tasksRepository.find();",
-    "  }",
-    "",
-    "  async findOne(id: string): Promise<Task> {",
-    "    const task = await this.tasksRepository.findOne({ where: { id } });",
-    "    ",
-    "    if (!task) {",
-    "      throw new Error(`Task with id ${id} not found`);",
-    "    }",
-    "    ",
-    "    return task;",
-    "  }",
-    "",
-    "  async create(createTaskDto: CreateTaskDto): Promise<Task> {",
-    "    const task = this.tasksRepository.create(createTaskDto);",
-    "    return this.tasksRepository.save(task);",
-    "  }",
-    "}",
-    "",
-    "@Controller('tasks')",
-    "export class TasksController {",
-    "  constructor(private tasksService: TasksService) {}",
-    "",
-    "  @Get()",
-    "  findAll() {",
-    "    return this.tasksService.findAll();",
-    "  }",
-    "",
-    "  @Get(':id')",
-    "  findOne(@Param('id') id: string) {",
-    "    return this.tasksService.findOne(id);",
-    "  }",
-    "",
-    "  @Post()",
-    "  create(@Body() createTaskDto: CreateTaskDto) {",
-    "    return this.tasksService.create(createTaskDto);",
-    "  }",
-    "}",
-  ],
-  nextjs: [
-    "// Next.js page example",
-    "import { GetServerSideProps } from 'next';",
-    "import { useRouter } from 'next/router';",
-    "import React, { useEffect, useState } from 'react';",
-    "import Layout from '../components/Layout';",
-    "import ProductCard from '../components/ProductCard';",
-    "import { getProducts } from '../lib/api';",
-    "import { Product } from '../types';",
-    "",
-    "interface ProductsPageProps {",
-    "  initialProducts: Product[];",
-    "  totalCount: number;",
-    "}",
-    "",
-    "export default function ProductsPage({ initialProducts, totalCount }: ProductsPageProps) {",
-    "  const router = useRouter();",
-    "  const [products, setProducts] = useState<Product[]>(initialProducts);",
-    "  const [loading, setLoading] = useState<boolean>(false);",
-    "  const [page, setPage] = useState<number>(1);",
-    "",
-    // Handle pagination change
-    "  const handlePageChange = async (newPage: number) => {",
-    "    setLoading(true);",
-    "    setPage(newPage);",
-    "    ",
-    "    router.push({",
-    "      pathname: '/products',",
-    "      query: { page: newPage }",
-    "    }, undefined, { shallow: true });",
-    "    ",
-    "    try {",
-    "      const response = await fetch(`/api/products?page=${newPage}`);",
-    "      const data = await response.json();",
-    "      setProducts(data.products);",
-    "    } catch (error) {",
-    "      console.error('Error fetching products:', error);",
-    "    } finally {",
-    "      setLoading(false);",
-    "    }",
-    "  };",
-    "",
-    "  return (",
-    "    <Layout title=\"Products | My Store\">",
-    "      <div className=\"products-container\">",
-    "        <h1>Products</h1>",
-    "        ",
-    "        {loading ? (",
-    "          <div>Loading products...</div>",
-    "        ) : (",
-    "          <div className=\"products-grid\">",
-    "            {products.map((product) => (",
-    "              <ProductCard key={product.id} product={product} />",
-    "            ))}",
-    "          </div>",
-    "        )}",
-    "        ",
-    "        {/* Pagination controls would go here */}",
-    "      </div>",
-    "    </Layout>",
-    "  );",
-    "}",
-    "",
-    "export const getServerSideProps: GetServerSideProps = async (context) => {",
-    "  const page = Number(context.query.page) || 1;",
-    "  const { products, totalCount } = await getProducts(page);",
-    "  ",
-    "  return {",
-    "    props: {",
-    "      initialProducts: products,",
-    "      totalCount,",
-    "    },",
-    "  };",
-    "};",
-  ],
 };
 
 const CodeAnimation: React.FC = () => {
