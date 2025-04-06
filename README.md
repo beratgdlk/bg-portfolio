@@ -1,34 +1,36 @@
-The project is currently under development, and only the "Home" page is available at the moment. The "LinkedIn," "CV," "Medium," and "GitHub" links are active and clickable. Other pages on the website are still in the preparation phase. Currently, the most optimized experience is available only for desktop users.
 # Berat G. Web Portfolio
-⌛The project is under development 🕑
 
-This is my personal portfolio website, built using **React.js, TypeScript, SASS, and Vite**. It serves as a central hub where visitors can explore my skills, projects, and professional journey.
+This is my personal portfolio website, built using **React.js, TypeScript, SASS, and Vite**. It serves as a central hub where visitors can explore my skills, projects, and professional journey through an interactive terminal-inspired interface.
+
+![Portfolio Website Screenshot](public/home-screenshot.png)
 
 ## Features
 
-- **Modern UI** – Clean and responsive design.
-- **Technology Stack** – Developed using React.js, TypeScript, SASS, and Vite for a fast and efficient experience.
-- **Project Showcase** – Displays my latest web development projects.
-- **About Me** – Information about my skills, experience, and career journey.
-- **Contact Section** – Easy way to reach out for collaboration or inquiries.
+- **Interactive Terminal UI** – Terminal-inspired interface for a unique browsing experience
+- **GitHub Activity Integration** – Real-time GitHub contributions display
+- **Responsive Design** – Optimized for desktop and mobile devices
+- **Modern Stack** – Built with React.js, TypeScript, SASS, and Vite
+- **Syntax Highlighting** – Custom code snippets with syntax highlighting
+- **Dark Mode** – Eye-friendly dark theme with neon accents
 
 ## Technologies Used
 
-- **React.js** – Component-based UI development.
-- **TypeScript** – Strongly typed JavaScript for maintainability.
-- **SASS** – Advanced styling with modular SCSS files.
-- **Vite** – Fast build tool and development server for optimal performance.
+- **React.js** – Component-based UI development
+- **TypeScript** – Strongly typed JavaScript for maintainability
+- **SASS** – Advanced styling with modular SCSS files
+- **Vite** – Fast build tool and development server for optimal performance
+- **Context API** – State management for profile data
 
 ## Installation & Usage
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/beratgdlk/beratg_web_portfolio.git
+   git clone https://github.com/beratgdlk/bg-portfolio.git
    ```
 
 2. Navigate to the project folder:
    ```bash
-   cd beratg_web_portfolio
+   cd bg-portfolio
    ```
 
 3. Install dependencies:
@@ -43,39 +45,59 @@ This is my personal portfolio website, built using **React.js, TypeScript, SASS,
 
 5. Open the project in your browser at `http://localhost:5173` (default Vite port).
 
+6. Build for production:
+   ```bash
+   npm run build
+   ```
+
 ## Project Structure
 
 ```
-beratg_web_portfolio/
+bg-portfolio/
 ├── src/
-│   ├── App.tsx       # Main App component
-│   ├── main.tsx      # Entry point
-│   ├── vite-env.d.ts # Vite environment types
-│   ├── components/   # Reusable UI components
-│   │   ├── Navbar/
+│   ├── App.tsx              # Main App component
+│   ├── main.tsx             # Entry point
+│   ├── vite-env.d.ts        # Vite environment types
+│   ├── components/          # Reusable UI components
+│   │   ├── Navbar/          # Navigation components
 │   │   │   ├── Navbar.tsx
-│   │   │   ├── Navbar.scss
-│   │   ├── Terminal/
+│   │   │   └── Navbar.scss
+│   │   ├── Terminal/        # Terminal UI components
 │   │   │   ├── Terminal.tsx
-│   │   │   ├── Terminal.scss
-│   ├── styles/       # Global and modular SASS styles
+│   │   │   └── Terminal.scss
+│   ├── context/            # React Context providers
+│   │   └── ProfileContext.ts
+│   ├── pages/              # Main application pages
+│   │   ├── AboutMe.tsx
+│   │   ├── AboutMe.scss
+│   │   ├── Projects.tsx
+│   │   ├── Projects.scss
+│   │   ├── ContactMe.tsx
+│   │   └── ContactMe.scss
+│   ├── styles/             # Global and modular SASS styles
 │   │   ├── main.scss
 │   │   ├── mixins.scss
-│   │   ├── variables.scss
-│   ├── types/        # TypeScript types
-│   │   ├── index.ts
-│   │   ├── Profile.ts
-├── public/           # Static assets
-├── package.json      # Dependencies and scripts
-├── README.md         # Project documentation
-└── vite.config.ts    # Vite configuration
+│   │   └── variables.scss
+│   ├── types/              # TypeScript type definitions
+├── public/                 # Static assets
+├── dist/                   # Build output
+├── package.json            # Dependencies and scripts
+├── README.md               # Project documentation
+└── vite.config.ts          # Vite configuration
 ```
 
-## How It Works
+## Page Overview
 
-- The website consists of multiple sections including Home, About, Projects, and Contact.
-- Visitors can explore my development expertise, previous work, and ways to connect.
-- The dark mode and performance optimizations ensure a seamless user experience.
+1. **Home** - Terminal-inspired welcome page with interactive experience
+2. **About Me** - Personal information, skills, and professional experience
+3. **Projects** - Showcase of completed projects with GitHub activity integration
+4. **Contact** - Contact form and social media links
+
+## Key Components
+
+- **Terminal** - Interactive command-line interface with custom syntax highlighting
+- **Navbar** - Responsive navigation with animated links
+- **GitHub Activity** - Visual representation of GitHub contributions
 
 ## Contributing
 
@@ -102,6 +124,7 @@ This project is licensed under the MIT License.
 
 ## Contact
 
-- **Portfolio:** (#) *([Live](https://jocular-unicorn-731246.netlify.app/#))*
+- **Portfolio:** [Live Site](https://jocular-unicorn-731246.netlify.app/#)
 - **GitHub:** [beratgdlk](https://github.com/beratgdlk)
 - **Email:** beratgdlk@gmail.com
+- **LinkedIn:** [Berat G.](https://www.linkedin.com/in/beratg/)
