@@ -165,7 +165,7 @@ const ContactMe: React.FC = () => {
                 </a>
 
                 <a 
-                  href="/assets/pdf/cv-updated-25-1.pdf" 
+                  href="/assets/pdf/resume.pdf" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="social-link"
