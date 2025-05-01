@@ -43,7 +43,7 @@ const AboutMe: React.FC = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   
   // Rotating developer titles - Only 2 titles
-  const titles = ['Frontend Developer', 'Fullstack Developer'];
+  const titles = ['Frontend Developer', 'Fullstack Developer', 'Software Developer'];
   
   // Rotating technology names
   const frontendTechs = ['React', 'TypeScript', 'Next.js', 'HTML5'];
