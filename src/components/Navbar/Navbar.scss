@@ -85,8 +85,10 @@
   &__center {
     display: flex;
     justify-content: center;
-    padding: 0 2rem;
+    padding: 1.5rem 4rem;
     perspective: 1000px;
+    position: relative;
+    top: -20px;
     
     .navbar__logo {
       width: 150px; 
@@ -102,6 +104,13 @@
         transform: scale(1.05);
         animation-fill-mode: forwards;
       }
+    }
+
+    &:hover .navbar__logo {
+      animation: logoRotate 2s infinite linear;
+      cursor: pointer;
+      transform: scale(1.05);
+      animation-fill-mode: forwards;
     }
   }
 
