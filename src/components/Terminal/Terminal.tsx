@@ -525,7 +525,12 @@ const Terminal: React.FC = () => {
                   </div>
                   <div className="code-lines">
                     <pre><span className="comment">// my phone number</span></pre>
-                    <pre><span className="keyword">const</span> <span className="library">telephoneNum</span> = <span className="string">"{profileData.contact.telephoneNum}"</span>;</pre>
+                    <div className="blur-phone-wrapper" style={{position: 'relative', display: 'inline-block'}}>
+                      <pre style={{margin: 0}}>
+                        <span className="keyword">const</span> <span className="library">telephoneNum</span> = <span className="string">"{profileData.contact.telephoneNum}"</span>;
+                      </pre>
+                      <div className="blur-overlay-phone" style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backdropFilter: 'blur(8px)', background: 'rgba(30,45,61,0.6)', borderRadius: '4px', zIndex: 2, pointerEvents: 'none'}}></div>
+                    </div>
                     <pre><span className="comment">// my e-mail address</span></pre>
                     <pre><span className="keyword">const</span> <span className="library">email</span> = <span className="string">"{profileData.contact.email}"</span>;</pre>
                     <pre><span className="comment">// check out my GitHub profile</span></pre>

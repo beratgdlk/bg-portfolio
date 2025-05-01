@@ -574,3 +574,25 @@
     }
   }
 }
+
+.blur-phone-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.blur-overlay-phone {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  backdrop-filter: blur(8px);
+  background: rgba(30, 45, 61, 0.6);
+  border-radius: 4px;
+  z-index: 2;
+  pointer-events: none;
+  transition: backdrop-filter 0.3s, background 0.3s;
+  animation: blurFadeIn 0.7s;
+}
+
+@keyframes blurFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
