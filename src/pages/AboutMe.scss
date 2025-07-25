@@ -1,3 +1,6 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
 // Temel animasyonlar
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
@@ -11,15 +14,9 @@
 }
 
 @keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 @keyframes slideProgress {
@@ -48,46 +45,37 @@
   50% { opacity: 1; }
 }
 
-// Değişkenler
-$background-color: #1e293b;
-$text-color: #e2e8f0;
-$primary-color: #38bdf8;
-$secondary-color: #10b981;
-$accent-color: #7c3aed;
-$highlight-color: #f59e0b;
-$dark-color: #0f172a;
-$card-bg-color: rgba(30, 41, 59, 0.5);
-$border-color: rgba(226, 232, 240, 0.1);
+// Yazılım Temalı Renk Paleti
+$primary-blue: #4D5BCE;      // Ana mavi
+$gold: #C0A93E;              // Altın sarısı
+$teal: #43D9AD;              // Yeşil-mavi
+$orange: #FEA55F;            // Turuncu
+$coral: #E99287;             // Mercan
+$purple: #673AB7;            // Mor
+$matrix-green: #00ff41;      // Matrix yeşili
 
-// Kategori renkleri
-$frontend-color: #ED6CA7; // Pembe ton
-$backend-color: #596cea; // Mavi
-$tools-color: #E09F1D; // Altın sarısı rengi
-$fullstack-color: #EA6BA7; // Yeni pembe ton
+// Kategori renkleri - yeni palette
+$frontend-color: $coral;     // #E99287
+$backend-color: $primary-blue;  // #4D5BCE
+$tools-color: $gold;         // #C0A93E
+$fullstack-color: $teal;     // #43D9AD
 
 .page-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
-  overflow: hidden;
+  padding-top: 80px;
+  // Terminal'le aynı arka plan
+  background: linear-gradient(150deg, #011627 0%, #010D18 100%);
 }
 
 .about-container {
-  flex: 1;
-  background: linear-gradient(
-    170deg,
-    rgba(1, 22, 39, 0.9) 0%,
-    rgba(1, 13, 24, 0.95) 100%
-  );
+  min-height: calc(100vh - 80px);
   display: flex;
   flex-direction: column;
-  height: calc(100% - var(--navbar-height));
-  margin-top: 0;
   position: relative;
-  overflow: auto; // Scroll için
+  overflow-x: hidden;
   
-  // Terminal benzeri dekoratif efekt
+  // Terminal benzeri dekoratif efekt - yeni renk paleti
   &:before {
     content: '';
     position: absolute;
@@ -101,20 +89,20 @@ $fullstack-color: #EA6BA7; // Yeni pembe ton
     z-index: 0;
   }
   
-  // Dekoratif köşe nokta efektleri
+  // Dekoratif köşe nokta efektleri - yeni renkler
   &:after {
     content: '';
     position: absolute;
     width: 12px;
     height: 12px;
-    background-color: #4D5BCE;
+    background-color: $primary-blue;
     border-radius: 50%;
     top: 30px;
     left: 30px;
     box-shadow: 
-      calc(100% - 60px) 0 0 #596cea,
-      0 calc(100% - 60px) 0 #FEA55F,
-      calc(100% - 60px) calc(100% - 60px) 0 #E99287;
+      calc(100vw - 120px) 0 0 $gold,
+      0 calc(100vh - 160px) 0 $orange,
+      calc(100vw - 120px) calc(100vh - 160px) 0 $coral;
     pointer-events: none;
     z-index: 1;
   }
@@ -123,9 +111,9 @@ $fullstack-color: #EA6BA7; // Yeni pembe ton
 .about-me-container {
   padding: 2rem;
   color: #e5e9f0;
-  max-width: 1400px; // 900px'den 1400px'e genişlettim
+  max-width: 1400px;
   margin: 0 auto;
-  width: 95%; // 90%'dan 95%'e çıkardım
+  width: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -135,7 +123,6 @@ $fullstack-color: #EA6BA7; // Yeni pembe ton
   transform: translateY(20px);
   transition: opacity 0.6s ease, transform 0.6s ease;
   
-  // Görünür olduğunda animasyon
   &.visible {
     opacity: 1;
     transform: translateY(0);
@@ -144,9 +131,9 @@ $fullstack-color: #EA6BA7; // Yeni pembe ton
 
 h1 {
   font-size: 2.5rem;
-  margin-bottom: 1.5rem; // Daha az margin
-  color: #4d5bce;
-  text-shadow: 0 0 15px rgba(77, 91, 206, 0.5);
+  margin-bottom: 1.5rem;
+  color: $gold; // Ana başlık altın rengi
+  text-shadow: 0 0 15px rgba(192, 169, 62, 0.5);
   position: relative;
   display: inline-block;
   
@@ -157,7 +144,7 @@ h1 {
     left: 0;
     width: 60px;
     height: 3px;
-    background: linear-gradient(90deg, #4d5bce, transparent);
+    background: linear-gradient(90deg, $gold, transparent);
     animation: slideProgress 1s ease-out forwards;
     transform-origin: left;
   }
@@ -165,111 +152,107 @@ h1 {
 
 .about-content {
   background-color: rgba(30, 45, 61, 0.7);
-  padding: 1.5rem; // Daha az padding
-  border-radius: 8px;
+  padding: 2rem;
+  border-radius: 12px;
   flex: 1;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
   backdrop-filter: blur(8px);
-  border-left: 2px solid #4D5BCE;
+  border-left: 2px solid $primary-blue;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
   transform: translateY(0);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   
   @media (min-width: 992px) {
-    flex-direction: row; // Orta ve büyük ekranlarda yan yana yerleştir
-    gap: 2rem; // İçerikler arası boşluk ekle
+    grid-template-columns: 1fr 1fr;
   }
   
   &:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 25px rgba(77, 91, 206, 0.2);
     transform: translateY(-5px);
   }
   
   .terminal-text {
-    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
     
-    @media (min-width: 992px) {
-      flex: 1; // Ekranın bir kısmını kapla
-      margin-bottom: 0; // Yan yana dizildiğinde alt boşluğu kaldır
-    }
-  }
-  
-  p {
-    line-height: 1.6;
-    margin-bottom: 1rem; // Daha az margin
-    color: #a9b2c3;
-    font-size: 0.95rem; // Daha küçük font
-    position: relative;
-    padding-left: 1rem;
-    opacity: 0;
-    animation: fadeIn 0.5s ease forwards;
-    
-    // Terminal stil efekti
-    &:before {
-      content: '>';
-      position: absolute;
-      left: 0;
-      color: #FEA55F;
-    }
-    
-    // Animation delay
-    &:nth-child(1) { animation-delay: 0.3s; }
-    &:nth-child(2) { animation-delay: 0.6s; }
-    &:nth-child(3) { animation-delay: 0.9s; }
-    &:nth-child(4) { animation-delay: 1.2s; }
-    &:nth-child(5) { animation-delay: 1.5s; }
-    
-    .highlight {
-      color: #43D9AD;
-      font-weight: 500;
+    p {
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      color: #a9b2c3;
+      font-size: 0.95rem;
+      position: relative;
+      padding-left: 1rem;
+      opacity: 0;
+      animation: fadeIn 0.5s ease forwards;
       
-      &.typing-text {
-        position: relative;
+      // Terminal stil efekti
+      &:before {
+        content: '>';
+        position: absolute;
+        left: 0;
+        color: $orange; // Terminal prompt turuncu
+      }
+      
+      // Animation delay
+      &:nth-child(1) { animation-delay: 0.3s; }
+      &:nth-child(2) { animation-delay: 0.6s; }
+      &:nth-child(3) { animation-delay: 0.9s; }
+      &:nth-child(4) { animation-delay: 1.2s; }
+      &:nth-child(5) { animation-delay: 1.5s; }
+      
+      .highlight {
+        color: $teal; // Ana vurgu yeşil-mavi
+        font-weight: 500;
         
-        &::after {
-          content: '|';
-          position: absolute;
-          right: -10px;
-          font-weight: bold;
-          color: #FEA55F;
-          animation: blink 1s infinite;
+        &.typing-text {
+          position: relative;
+          
+          &::after {
+            content: '|';
+            position: absolute;
+            right: -10px;
+            font-weight: bold;
+            color: $orange;
+            animation: blink 1s infinite;
+          }
         }
       }
-    }
-    
-    .highlight-frontend {
-      color: $frontend-color;
-      font-weight: 500;
       
-      &.typing-text-tech {
-        position: relative;
+      .highlight-frontend {
+        color: $frontend-color; // Mercan
+        font-weight: 500;
         
-        &::after {
-          content: '|';
-          position: absolute;
-          right: -10px;
-          font-weight: bold;
-          color: $frontend-color;
-          animation: blink 1s infinite;
+        &.typing-text-tech {
+          position: relative;
+          
+          &::after {
+            content: '|';
+            position: absolute;
+            right: -10px;
+            font-weight: bold;
+            color: $frontend-color;
+            animation: blink 1s infinite;
+          }
         }
       }
-    }
-    
-    .highlight-backend {
-      color: $backend-color;
-      font-weight: 500;
       
-      &.typing-text-tech {
-        position: relative;
+      .highlight-backend {
+        color: $backend-color; // Mavi
+        font-weight: 500;
         
-        &::after {
-          content: '|';
-          position: absolute;
-          right: -10px;
-          font-weight: bold;
-          color: $backend-color;
-          animation: blink 1s infinite;
+        &.typing-text-tech {
+          position: relative;
+          
+          &::after {
+            content: '|';
+            position: absolute;
+            right: -10px;
+            font-weight: bold;
+            color: $backend-color;
+            animation: blink 1s infinite;
+          }
         }
       }
     }
@@ -277,18 +260,13 @@ h1 {
 }
 
 .skills-section {
-  margin-top: 1.5rem; // Daha az margin
-  margin-bottom: auto;
-  
-  @media (min-width: 992px) {
-    flex: 2; // Beceriler bölümü daha fazla alan kaplasın
-    margin-top: 0; // Yan yana olduğunda üst boşluğu kaldır
-  }
+  display: flex;
+  flex-direction: column;
   
   h2 {
-    font-size: 1.5rem; // Daha küçük başlık
-    margin-bottom: 1.2rem;
-    color: #5565e8;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: $primary-blue; // Section başlık mavi
     position: relative;
     display: inline-block;
     opacity: 0;
@@ -299,76 +277,79 @@ h1 {
       position: absolute;
       bottom: -8px;
       left: 0;
-      width: 40px;
+      width: 50px;
       height: 2px;
-      background: linear-gradient(90deg, #5565e8, transparent);
+      background: linear-gradient(90deg, $primary-blue, transparent);
     }
   }
 }
 
-// Skills filter butonları
+// Skills filter butonları - yeni renk paleti
 .skills-filter {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.7rem;
-  margin-bottom: 1.2rem;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
   opacity: 0;
   animation: fadeIn 0.5s ease 1.3s forwards;
   
   .filter-btn {
-    background-color: rgba(35, 53, 84, 0.6);
-    border: none;
+    background-color: rgba(30, 45, 61, 0.6);
+    border: 1px solid rgba(77, 91, 206, 0.3);
     color: #a9b2c3;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
-    font-family: 'Fira Code', monospace;
+    font-family: 'Courier New', monospace;
     
     &:hover {
-      background-color: rgba(35, 53, 84, 0.9);
+      background-color: rgba(30, 45, 61, 0.9);
+      border-color: rgba(192, 169, 62, 0.5);
       transform: translateY(-2px);
     }
     
     &.active {
       color: #fff;
-      box-shadow: 0 0 10px rgba(77, 91, 206, 0.5);
+      box-shadow: 0 0 10px rgba(77, 91, 206, 0.3);
       
       &:nth-child(1) { // all
         background-color: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.3);
       }
       
       &:nth-child(2) { // frontend
-        background-color: rgba(237, 108, 167, 0.3); // Pembe
+        background-color: rgba(233, 146, 135, 0.3);
+        border-color: $frontend-color;
       }
       
       &:nth-child(3) { // backend
-        background-color: rgba(89, 108, 234, 0.3); // Mavi
+        background-color: rgba(77, 91, 206, 0.3);
+        border-color: $backend-color;
       }
       
       &:nth-child(4) { // fullstack
-        background-color: rgba(234, 107, 167, 0.3); // Yeni pembe ton
+        background-color: rgba(67, 217, 173, 0.3);
+        border-color: $fullstack-color;
       }
       
       &:nth-child(5) { // tools
-        background-color: rgba(224, 159, 29, 0.3); // Altın sarısı
+        background-color: rgba(192, 169, 62, 0.3);
+        border-color: $tools-color;
       }
     }
   }
 }
 
-// Teknoloji Grid Düzeni
+// Teknoloji Grid Düzeni - yeni tema
 .tech-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 1.5rem;
   opacity: 0;
   animation: fadeIn 0.5s ease 1.4s forwards;
-  
-  @media (min-width: 992px) {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); // Daha çok öğe yan yana
-  }
+  max-width: 100%;
   
   .tech-item {
     display: flex;
@@ -376,7 +357,7 @@ h1 {
     align-items: center;
     justify-content: center;
     padding: 1.5rem 1rem;
-    background-color: rgba(35, 53, 84, 0.4);
+    background-color: rgba(30, 45, 61, 0.4);
     border-radius: 8px;
     transition: all 0.3s ease;
     border-left: 3px solid transparent;
@@ -385,10 +366,12 @@ h1 {
     overflow: hidden;
     cursor: pointer;
     height: 120px;
+    border: 1px solid rgba(77, 91, 206, 0.2);
     
     &:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      border-color: rgba(192, 169, 62, 0.4);
       
       .tech-icon {
         animation: pulse 1.5s infinite;
@@ -409,7 +392,7 @@ h1 {
       height: 100%;
       background: radial-gradient(
         circle at 50% 0%, 
-        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(192, 169, 62, 0.1) 0%, 
         transparent 70%
       );
       border-radius: 8px;
@@ -418,7 +401,7 @@ h1 {
       z-index: 1;
     }
     
-    // Kategori spesifik stiller
+    // Kategori spesifik stiller - yeni renk paleti
     &.frontend {
       border-left: 3px solid $frontend-color;
       
@@ -428,12 +411,19 @@ h1 {
         
         &:hover {
           color: lighten($frontend-color, 10%);
-          filter: drop-shadow(0 0 5px rgba(237, 108, 167, 0.8));
+          filter: drop-shadow(0 0 5px rgba(233, 146, 135, 0.8));
         }
       }
       
       &:hover {
-        background-color: rgba(237, 108, 167, 0.1);
+        background-color: rgba(233, 146, 135, 0.1);
+        &::before {
+          background: radial-gradient(
+            circle at 50% 0%, 
+            rgba(233, 146, 135, 0.1) 0%, 
+            transparent 70%
+          );
+        }
       }
     }
     
@@ -446,12 +436,19 @@ h1 {
         
         &:hover {
           color: lighten($backend-color, 10%);
-          filter: drop-shadow(0 0 5px rgba(89, 108, 234, 0.8));
+          filter: drop-shadow(0 0 5px rgba(77, 91, 206, 0.8));
         }
       }
       
       &:hover {
-        background-color: rgba(89, 108, 234, 0.1);
+        background-color: rgba(77, 91, 206, 0.1);
+        &::before {
+          background: radial-gradient(
+            circle at 50% 0%, 
+            rgba(77, 91, 206, 0.1) 0%, 
+            transparent 70%
+          );
+        }
       }
     }
     
@@ -464,12 +461,19 @@ h1 {
         
         &:hover {
           color: lighten($fullstack-color, 10%);
-          filter: drop-shadow(0 0 5px rgba(234, 107, 167, 0.8));
+          filter: drop-shadow(0 0 5px rgba(67, 217, 173, 0.8));
         }
       }
       
       &:hover {
-        background-color: rgba(234, 107, 167, 0.1);
+        background-color: rgba(67, 217, 173, 0.1);
+        &::before {
+          background: radial-gradient(
+            circle at 50% 0%, 
+            rgba(67, 217, 173, 0.1) 0%, 
+            transparent 70%
+          );
+        }
       }
     }
     
@@ -482,12 +486,19 @@ h1 {
         
         &:hover {
           color: lighten($tools-color, 10%);
-          filter: drop-shadow(0 0 5px rgba(224, 159, 29, 0.8));
+          filter: drop-shadow(0 0 5px rgba(192, 169, 62, 0.8));
         }
       }
       
       &:hover {
-        background-color: rgba(224, 159, 29, 0.1);
+        background-color: rgba(192, 169, 62, 0.1);
+        &::before {
+          background: radial-gradient(
+            circle at 50% 0%, 
+            rgba(192, 169, 62, 0.1) 0%, 
+            transparent 70%
+          );
+        }
       }
     }
   }
@@ -504,14 +515,33 @@ h1 {
 .tech-name {
   font-size: 0.9rem;
   color: #e5e9f0;
-  font-family: 'Fira Code', monospace;
+  font-family: 'Courier New', monospace;
   position: relative;
   z-index: 2;
+  text-align: center;
+}
+
+// Responsive Design
+@media (max-width: 992px) {
+  .about-content {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
+  
+  .tech-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
 }
 
 // Tablet için medya sorgusu
 @media (max-width: 768px) {
+  .page-wrapper {
+    padding-top: 70px;
+  }
+  
   .about-container {
+    min-height: calc(100vh - 70px);
+    
     &:before {
       top: 15px;
       left: 15px;
@@ -528,8 +558,7 @@ h1 {
   }
   
   .about-me-container {
-    padding: 1.2rem;
-    width: 95%;
+    padding: 1.5rem;
   }
   
   h1 {
@@ -538,25 +567,25 @@ h1 {
   }
   
   .about-content {
-    padding: 1.2rem;
+    padding: 1.5rem;
   }
   
   .skills-filter {
-    gap: 0.5rem;
+    gap: 0.6rem;
     
     .filter-btn {
-      padding: 0.4rem 0.8rem;
-      font-size: 0.8rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
     }
   }
   
   .tech-grid {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
     gap: 1rem;
   }
   
   .tech-item {
-    padding: 1rem 0.6rem;
+    padding: 1rem 0.8rem;
     height: 100px;
   }
   
@@ -572,7 +601,13 @@ h1 {
 
 // Mobil için medya sorgusu
 @media (max-width: 480px) {
+  .page-wrapper {
+    padding-top: 60px;
+  }
+  
   .about-container {
+    min-height: calc(100vh - 60px);
+    
     &:before {
       top: 10px;
       left: 10px;
@@ -593,40 +628,39 @@ h1 {
   }
   
   h1 {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     margin-bottom: 1rem;
   }
   
   .about-content {
     padding: 1rem;
     
-    p {
+    .terminal-text p {
       font-size: 0.85rem;
       margin-bottom: 0.8rem;
     }
   }
   
   .skills-filter {
-    flex-wrap: wrap;
-    gap: 0.4rem;
+    gap: 0.5rem;
     
     .filter-btn {
-      padding: 0.35rem 0.7rem;
-      font-size: 0.7rem;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.75rem;
       flex: 1;
-      min-width: calc(50% - 0.4rem);
+      min-width: calc(50% - 0.25rem);
       text-align: center;
     }
   }
   
   .tech-grid {
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     gap: 0.8rem;
   }
   
   .tech-item {
-    padding: 0.8rem 0.5rem;
-    height: 90px;
+    padding: 0.8rem 0.6rem;
+    height: 85px;
   }
   
   .tech-icon {

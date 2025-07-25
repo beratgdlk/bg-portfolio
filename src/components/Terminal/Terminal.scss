@@ -2,597 +2,778 @@
 @use '../../styles/mixins' as *;
 
 .terminal-page-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    170deg,
-    rgba(1, 22, 39, 0.9) 0%,
-    rgba(1, 13, 24, 0.95) 100%
-  );
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: linear-gradient(150deg, #011627 0%, #010D18 100%);
 }
 
-.terminal {
-  background: linear-gradient(
-    150deg,
-    rgba(1, 22, 39, 0.95) 0%,
-    rgba(2, 26, 48, 0.85) 100%
-  );
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #A9B1D6;
-  padding: 0;
+// Code Elements Background - Yazılım Temalı
+.code-background {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  position: relative;
-  height: calc(100% - var(--navbar-height));
-  margin-top: var(--navbar-height);
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
   
-  // Dekoratif terminal efekti ekle
-  &:before {
-    content: '';
+  // Kod elementleri için genel stiller
+  .code-element {
     position: absolute;
-    top: 25px;
-    left: 25px;
-    right: 25px;
-    bottom: 25px;
-    border: 1px solid rgba(77, 91, 206, 0.3);
-    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
     pointer-events: none;
-    z-index: 0;
-  }
-  
-  // Dekoratif köşe nokta efektleri
-  &:after {
-    content: '';
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    background-color: #4D5BCE;
-    border-radius: 50%;
-    top: 30px;
-    left: 30px;
-    box-shadow: 
-      calc(100% - 60px) 0 0 #43D9AD,
-      0 calc(100% - 60px) 0 #FEA55F,
-      calc(100% - 60px) calc(100% - 60px) 0 #E99287;
-    pointer-events: none;
+    user-select: none;
     z-index: 1;
-  }
-  
-  &__content {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2rem;
-    max-width: 1540px;
-    width: 90%;
-    margin: 0 auto;
-    height: 100%;
-    position: relative;
-    z-index: 2;
-  }
-  
-  &__main-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 0;
-    width: 50%;
-    position: relative;
+    font-size: 14px;
     
-    > div {
-      max-width: 700px;
-      position: relative;
-    }
-
-    .intro-text {
-      color: #fff;
-      font-size: 0.9rem;
-      margin-bottom: 0.2rem;
-    }
-
-    .name {
-      font-size: 2.8rem;
-      margin: 0.2rem 0;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-      color: #fff;
-      text-shadow: 0 0 15px rgba(77, 91, 206, 0.5);
-    }
-
-    .title-container {
-      height: 40px;
-      margin-bottom: 2rem;
-      margin-top: 0.8rem;
-      display: flex;
-      align-items: center;
-    }
-
-    .title {
+    // Normal kod elementleri - farklı renkler
+    &.element-0 {
       color: #4D5BCE;
-      font-size: 1.2rem;
-      position: relative;
-      border: none;
-      text-decoration: none;
-      box-shadow: none;
-      background: transparent;
-      margin: 0;
-      padding: 0;
+      text-shadow: 0 0 3px #4D5BCE;
+    }
+    
+    &.element-1 {
+      color: #C0A93E;
+      text-shadow: 0 0 3px #C0A93E;
+    }
+    
+    &.element-2 {
+      color: #43D9AD;
+      text-shadow: 0 0 3px #43D9AD;
+    }
+    
+    &.element-3 {
+      color: #FEA55F;
+      text-shadow: 0 0 3px #FEA55F;
+    }
+    
+    &.element-4 {
+      color: #E99287;
+      text-shadow: 0 0 3px #E99287;
+    }
+    
+    &.element-5 {
+      color: #673AB7;
+      text-shadow: 0 0 3px #673AB7;
+    }
+    
+    // Matrix tarzı kod yağmuru
+    &.matrix-code {
+      color: #00ff41 !important;
+      text-shadow: 0 0 5px #00ff41 !important;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
       
       &::before,
       &::after {
-        display: none;
+    content: '';
+        position: absolute;
+        width: 1px;
+        height: 20px;
+        background: linear-gradient(to bottom, 
+          transparent 0%, 
+          #00ff41 50%, 
+          transparent 100%);
+        left: 50%;
+        transform: translateX(-50%);
       }
       
-      .typing-text {
-        position: relative;
-        color: #43D9AD;
-        border: none;
-        text-decoration: none;
-        box-shadow: none;
-        background: transparent;
-        font-weight: 500;
-        text-shadow: 0 0 5px rgba(67, 217, 173, 0.5);
-        
-        &::before {
-          display: none;
-        }
-        
-        &::after {
-          content: '|';
-          position: absolute;
-          right: -10px;
-          font-weight: bold;
-          color: #FEA55F;
-          animation: blink 1s infinite;
-          border: none;
-          background: none;
-          box-shadow: none;
-        }
+      &::before {
+        top: -25px;
+      }
+      
+      &::after {
+        bottom: -25px;
       }
     }
+  }
+  
+  // Digital noise pixeller
+  .digital-noise {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background-color: #00ff41;
+    opacity: 0.3;
+    pointer-events: none;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: radial-gradient(circle, #00ff41 0%, transparent 70%);
+      top: -1px;
+      left: -1px;
+      opacity: 0.5;
+    }
+  }
+  
+  // Scanline efekti
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      #00ff41 20%, 
+      #4D5BCE 40%,
+      #C0A93E 60%,
+      #43D9AD 80%, 
+      transparent 100%);
+    opacity: 0.3;
+    animation: scanline 4s linear infinite;
+  }
+  
+  // Terminal grid pattern
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      linear-gradient(rgba(77, 91, 206, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(77, 91, 206, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    opacity: 0.4;
+  }
+}
 
-    .contact-info {
-      background: rgba(1, 22, 39, 0.85);
-      padding: 0;
-      border-radius: 8px;
-      width: 100%;
-      border: 1px solid rgba(77, 91, 206, 0.4);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      overflow: hidden;
+// Hero Section (existing terminal styles)
+.terminal {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 2rem;
+  
+  &__content {
+    display: grid;
+    grid-template-columns: 2fr 1fr; // Terminal'e daha az alan
+    gap: 3rem;
+    align-items: center;
+    flex: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+
+    @media (max-width: $tablet) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      text-align: left;
+    }
+  }
+  
+  &__main-content {
+    .intro-text {
+      font-size: 1.2rem;
+      color: $text-color;
+      margin-bottom: 0.5rem;
+      opacity: 0.8;
+    }
+
+    .name {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: bold;
+      color: #C0A93E;
+      margin: 0.5rem 0;
+      text-shadow: 0 0 20px rgba(192, 169, 62, 0.3);
+    }
+
+    .title-container {
+      margin: 1rem 0 2rem 0;
       
-      .code-header {
-        height: 40px;
-        background-color: #0D1117;
-        display: flex;
-        align-items: center;
-        padding: 0 1rem;
+      .title {
+        font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+        color: $text-color;
+        margin: 0;
         
-        .code-tabs {
-          display: flex;
-          
-          .code-tab {
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
-            color: #e5e9f0;
-            font-weight: 500;
-            position: relative;
-            
-            &.active {
-              background-color: rgba(1, 22, 39, 0.9);
-              color: #43D9AD;
-              overflow: hidden;
-              
-              &:before {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                height: 2px;
-                background: linear-gradient(to right, #43D9AD, #4D5BCE);
-              }
-            }
-          }
-        }
-      }
-      
-      .code-content {
-        display: flex;
-        padding: 1rem 0;
-        font-family: 'Fira Code', monospace;
-        font-size: 0.9rem;
-        line-height: 1.5;
-        
-        .line-numbers {
-          width: 40px;
-          text-align: right;
-          padding-right: 1rem;
-          color: #607B96;
-          user-select: none;
-          
-          span {
-            display: block;
-          }
-        }
-        
-        .code-lines {
-          flex: 1;
-          color: #e5e9f0;
-          
-          pre {
-            margin: 0;
-            white-space: pre-wrap;
-            font-family: inherit;
-          }
+        .typing-text {
+          color: #4D5BCE;
+          font-weight: 500;
         }
       }
     }
   }
 }
 
-// Sözdizimi renklendirme için global sınıflar
-.comment {
-  color: #6A9955; // VS Code'daki yorum satırı rengi (soluk yeşilimsi)
-  opacity: 0.8; // Daha silik görünüm için
-  font-style: italic; // İtalik stil
-}
-
-.keyword {
-  color: #569CD6; // VS Code'daki anahtar kelime rengi
-  font-weight: 500;
-}
-
-.import-keyword {
-  color: #C586C0; // Mor renk import/export için
-  font-weight: 500;
-}
-
-.type-keyword {
-  color: #569CD6; // Tip tanımlama için mavi
-  font-weight: 500;
-}
-
-.library {
-  color: #9CDCFE; // Kütüphane adları için açık mavi
-}
-
-.react-hook {
-  color: #C586C0; // VS Code'daki hook fonksiyonları rengi
-}
-
-.type {
-  color: #4EC9B0; // VS Code'daki tip rengi
-}
-
-.string {
-  color: #CE9178; // VS Code'daki string rengi
-}
-
-.boolean {
-  color: #569CD6; // Boolean değerler için mavi
-  font-weight: 500;
-}
-
-.component {
-  color: #4EC9B0; // VS Code'daki sınıf/bileşen rengi
-  font-weight: 500;
-}
-
-.number {
-  color: #B5CEA8; // VS Code'daki sayı rengi
-}
-
-.literal {
-  color: #569CD6; // VS Code'daki literal değer rengi
-}
-
-.decorator {
-  color: #DCDCAA; // VS Code'daki dekoratör rengi
-}
-
-.modifier {
-  color: #569CD6; // VS Code'daki değiştirici rengi
-  font-style: italic;
-}
-
-.bracket {
-  color: #D4D4D4; // VS Code'daki parantez rengi
-}
-
-.method {
-  color: #DCDCAA; // VS Code'daki metot rengi
-}
-
-.built-in {
-  color: #4FC1FF; // Yerleşik nesneler için parlak mavi
-}
-
-.db-method {
-  color: #DCDCAA; // Veritabanı metotları için altın sarısı
-}
-
-.http-method {
-  color: #C586C0; // HTTP metotları için mor
-  font-weight: 500;
-}
-
-.express-param {
-  color: #9CDCFE; // Express parametreleri için açık mavi
-}
-
-.response-method {
-  color: #DCDCAA; // Yanıt metotları için altın sarısı
-}
-
-.operator {
-  color: #D4D4D4; // Operatörler için gri-beyaz
-}
-
-.template-expr {
-  color: #569CD6; // Template ifadeleri için mavi
-}
-
-.attribute {
-  color: #9CDCFE; // JSX özellikleri için açık mavi
-}
-
-.mongo-method {
-  color: #DCDCAA; // MongoDB metotları için altın sarısı
-}
-
-.cursor {
-  display: inline-block;
-  width: 2px;
-  height: 1.2em;
-  background-color: #43D9AD;
-  margin-left: 2px;
-  animation: blink 1s infinite;
-  vertical-align: middle;
-}
-
-// Yanıp sönen imleç animasyonu
-@keyframes blink {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 1; }
-}
-
-// Kod animasyonu stilleri
-.code-animation {
-  width: 45%;
-  max-width: 600px;
-  height: 450px;
-  position: relative;
-  margin-left: 2rem;
-  animation: float 6s ease-in-out infinite;
+// Section Styles
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
   
-  .code-editor {
-    background-color: rgba(1, 22, 39, 0.85);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid rgba(77, 91, 206, 0.4);
+  @media (max-width: $tablet) {
+    padding: 0 1rem;
+  }
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 4rem;
+  opacity: 0; // Animasyon için başlangıç
+  
+  .section-number {
+    font-size: 1rem;
+    color: #4D5BCE;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+  }
+  
+  h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: #C0A93E;
+    margin: 0;
+    font-weight: 600;
+  }
+  
+  .section-line {
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, #4D5BCE, transparent);
+  }
+}
+
+// Skills Section
+.skills-section {
+  position: relative;
+  z-index: 2;
+  padding: 8rem 0;
+  background: rgba(1, 22, 39, 0.3);
+  backdrop-filter: blur(10px);
+  
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
     
-    .code-header {
-      height: 40px;
-      background-color: #0D1117;
+    @media (max-width: $mobile) {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+  
+  .skill-item {
+    background: rgba(30, 45, 61, 0.4);
+    border: 1px solid rgba(77, 91, 206, 0.3);
+    border-radius: 12px;
+    padding: 2rem;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-5px);
+      border-color: rgba(192, 169, 62, 0.5);
+      box-shadow: 0 10px 30px rgba(77, 91, 206, 0.2);
+    }
+    
+    .skill-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      
+      .skill-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: $text-color;
+      }
+      
+      .skill-level {
+        font-size: 1rem;
+        color: #4D5BCE;
+          font-weight: bold;
+      }
+    }
+
+    .skill-bar-container {
+      background: rgba(77, 91, 206, 0.1);
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      
+      .skill-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #4D5BCE, #C0A93E);
+        border-radius: 4px;
+        transition: width 1.5s ease;
+      }
+    }
+    
+    .skill-category {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  }
+}
+
+// Projects Section
+.projects-section {
+            position: relative;
+  z-index: 2;
+  padding: 8rem 0;
+  
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 3rem;
+    
+    @media (max-width: $tablet) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+  
+  .project-card {
+    background: rgba(30, 45, 61, 0.6);
+    border: 2px solid rgba(77, 91, 206, 0.2);
+    border-radius: 16px;
+    padding: 2.5rem;
+    position: relative;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s ease;
+    
+    &:hover {
+      transform: translateY(-10px) rotateY(5deg);
+      border-color: rgba(192, 169, 62, 0.6);
+      box-shadow: 0 20px 50px rgba(77, 91, 206, 0.3);
+    }
+    
+    .project-number {
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background: linear-gradient(135deg, #4D5BCE, #673AB7);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      font-family: 'Courier New', monospace;
+      }
+      
+    .project-content {
+      .project-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        
+        h3 {
+          font-size: 1.5rem;
+          color: #C0A93E;
+          margin: 0;
+          font-weight: 600;
+        }
+        
+        .project-year {
+          color: #4D5BCE;
+          font-size: 0.9rem;
+          font-weight: bold;
+        }
+      }
+      
+      .project-category {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      
+      .project-description {
+        color: $text-color;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+      }
+      
+      .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        
+        .tech-tag {
+          background: rgba(77, 91, 206, 0.2);
+          color: #4D5BCE;
+          padding: 0.3rem 0.8rem;
+          border-radius: 20px;
+          font-size: 0.8rem;
+          border: 1px solid rgba(77, 91, 206, 0.3);
+        }
+      }
+    }
+  }
+}
+
+// Experience Section
+.experience-section {
+  position: relative;
+  z-index: 2;
+  padding: 8rem 0;
+  background: rgba(1, 22, 39, 0.5);
+  backdrop-filter: blur(15px);
+  
+  .timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 30px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, #4D5BCE, #C0A93E, #673AB7);
+      
+      @media (max-width: $mobile) {
+        left: 15px;
+      }
+    }
+}
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 4rem;
+    padding-left: 5rem;
+    
+    @media (max-width: $mobile) {
+      padding-left: 3rem;
+}
+
+    .timeline-number {
+      position: absolute;
+      left: 15px;
+      top: 0;
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(135deg, #4D5BCE, #673AB7);
+      border-radius: 50%;
       display: flex;
       align-items: center;
-      padding: 0 1rem;
+      justify-content: center;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: bold;
+      font-family: 'Courier New', monospace;
+      
+      @media (max-width: $mobile) {
+        left: 0;
+        width: 25px;
+        height: 25px;
+        font-size: 0.7rem;
+      }
+}
+
+    .timeline-content {
+      background: rgba(30, 45, 61, 0.6);
+      border: 1px solid rgba(77, 91, 206, 0.3);
+      border-radius: 12px;
+      padding: 2rem;
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      
+      &:hover {
+        transform: translateX(10px);
+        border-color: rgba(192, 169, 62, 0.5);
+        box-shadow: 0 15px 40px rgba(77, 91, 206, 0.2);
+}
+
+      .timeline-year {
+        color: #4D5BCE;
+        font-size: 0.9rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      
+      h3 {
+        color: #C0A93E;
+        font-size: 1.3rem;
+        margin: 0 0 0.5rem 0;
+        font-weight: 600;
+      }
+      
+      h4 {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1rem;
+        margin: 0 0 1rem 0;
+  font-weight: 500;
+}
+
+      p {
+        color: $text-color;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+}
+
+      .timeline-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        
+        .tech-badge {
+          background: rgba(192, 169, 62, 0.2);
+          color: #C0A93E;
+          padding: 0.3rem 0.8rem;
+          border-radius: 15px;
+          font-size: 0.8rem;
+          border: 1px solid rgba(192, 169, 62, 0.3);
+        }
+      }
+    }
+  }
+}
+
+// Code Editor Styles (Minimal Design)
+.code-animation {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 350px; // Yüksekliği sınırla
+  
+  .code-editor {
+    background: rgba(30, 45, 61, 0.95);
+    border-radius: 8px; // Daha küçük border radius
+    overflow: hidden;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(77, 91, 206, 0.3);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); // Gölge ekle
+    
+    .code-header {
+      background: rgba(77, 91, 206, 0.1);
+      padding: 0.6rem 1rem; // Daha az padding
+      border-bottom: 1px solid rgba(77, 91, 206, 0.2);
       
       .code-tabs {
         display: flex;
+        gap: 0.5rem;
         
         .code-tab {
-          padding: 0.5rem 1rem;
-          font-size: 0.85rem;
-          color: #e5e9f0;
-          font-weight: 500;
-          position: relative;
+          background: rgba(77, 91, 206, 0.2);
+          color: #4D5BCE;
+          padding: 0.3rem 0.8rem; // Daha kompakt
+          border-radius: 4px; // Daha küçük
+          font-size: 0.8rem; // Daha küçük font
+          border: 1px solid rgba(77, 91, 206, 0.3);
           
           &.active {
-            background-color: rgba(1, 22, 39, 0.9);
-            color: #43D9AD;
-            overflow: hidden;
-            
-            &:before {
-              content: '';
-              position: absolute;
-              bottom: 0;
-              left: 0;
-              width: 100%;
-              height: 2px;
-              background: linear-gradient(to right, #43D9AD, #4D5BCE);
-            }
+            background: rgba(192, 169, 62, 0.2);
+            color: #C0A93E;
+            border-color: rgba(192, 169, 62, 0.3);
           }
         }
       }
     }
     
     .code-content {
-      flex: 1;
       display: flex;
-      padding: 1rem 0;
-      overflow-y: auto;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.9rem;
-      line-height: 1.5;
+      flex: 1;
+      overflow: hidden;
       
       .line-numbers {
-        width: 40px;
-        text-align: right;
-        padding-right: 1rem;
-        color: #607B96;
-        user-select: none;
+        background: rgba(77, 91, 206, 0.05);
+        padding: 0.8rem 0; // Daha az padding
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: 40px; // Daha dar
+        border-right: 1px solid rgba(77, 91, 206, 0.2);
         
         span {
-          display: block;
+          color: rgba(255, 255, 255, 0.4);
+          font-size: 0.75rem; // Daha küçük
+          line-height: 1.3; // Daha sıkışık
+          font-family: 'Courier New', monospace;
         }
       }
       
       .code-lines {
         flex: 1;
-        color: #e5e9f0;
+        padding: 0.8rem; // Daha az padding
+        overflow-y: auto;
         
         pre {
           margin: 0;
+          color: $text-color;
+          font-size: 0.8rem; // Daha küçük font
+          line-height: 1.3; // Daha sıkışık
+          font-family: 'Courier New', monospace;
           white-space: pre-wrap;
-          font-family: inherit;
-        }
-      }
-    }
-  }
-}
+          word-wrap: break-word;
 
-// Yüzen animasyon
-@keyframes float {
-  0% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-15px) rotate(1deg);
-  }
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-}
-
-// Mobil uyumlu stillemeler
-@media (max-width: $tablet) {
-  .terminal {
-    height: calc(100% - var(--navbar-height));
-    margin-top: var(--navbar-height);
-    
-    &:before {
-      top: 15px;
-      left: 15px;
-      right: 15px;
-      bottom: 15px;
-    }
-    
-    &:after {
-      width: 8px;
-      height: 8px;
-      top: 20px;
-      left: 20px;
-    }
-    
-    &__content {
-      flex-direction: column;
-      padding: 1rem;
-      width: 95%;
-    }
-    
-    &__main-content {
-      width: 100%;
-      margin-bottom: 2rem;
-      
-      .name {
-        font-size: 2.2rem;
-      }
-      
-      .contact-info {
-        .code-content {
-          font-size: 0.8rem;
-        }
-      }
-    }
-  }
-  
-  .code-animation {
-    width: 100%;
-    max-width: 100%;
-    height: 350px;
-    margin-left: 0;
-    margin-top: 1rem;
-  }
-}
-
-@media (max-width: $mobile) {
-  .terminal {
-    &:before {
-      top: 10px;
-      left: 10px;
-      right: 10px;
-      bottom: 10px;
-    }
-    
-    &:after {
-      width: 6px;
-      height: 6px;
-      top: 15px;
-      left: 15px;
-    }
-    
-    &__content {
-      padding: 0.8rem;
-      width: 95%;
-    }
-    
-    &__main-content {
-      margin-top: 0;
-      
-      .name {
-        font-size: 1.8rem;
-      }
-      
-      .contact-info {
-        .code-content {
-          font-size: 0.7rem;
-          
-          .line-numbers {
-            width: 25px;
-            padding-right: 0.5rem;
+          .cursor {
+            animation: blink 1s infinite;
+            color: #C0A93E;
           }
         }
       }
     }
   }
+}
+
+.contact-info.code-editor {
+  max-width: 100%;
+  margin-top: 2rem;
+  max-height: 280px; // Contact info da sınırla
+}
+
+// Syntax highlighting (existing)
+.import-keyword { color: #9370DB; }
+.keyword { color: #4D5BCE; }
+.type-keyword { color: #673AB7; }
+.react-hook { color: #C0A93E; }
+.component { color: #FFD700; }
+.library { color: #32CD32; }
+.boolean { color: #FF6347; }
+.method { color: #87CEEB; }
+.http-method { color: #FF69B4; }
+.express-param { color: #DDA0DD; }
+.response-method { color: #98FB98; }
+.operator { color: #FFA500; }
+.mongo-method { color: #20B2AA; }
+.built-in { color: #FFB6C1; }
+.attribute { color: #F0E68C; }
+.bracket { color: #DC143C; }
+.template-expr { color: #FF1493; }
+.string { color: #98FB98; }
+.number { color: #FF6347; }
+.comment { color: #808080; }
+
+// Scanline animasyonu
+@keyframes scanline {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+// Responsive Design
+@media (max-width: $tablet) {
+  .terminal {
+    padding: 1rem;
+    
+    &__content {
+      gap: 1.5rem;
+    }
+  }
+  
+  .section-header {
+      flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    
+    .section-line {
+      width: 100%;
+      height: 1px;
+    }
+      }
+      
+  .skills-section,
+  .projects-section,
+  .experience-section {
+    padding: 4rem 0;
+  }
   
   .code-animation {
-    height: 300px;
+    max-height: 300px; // Tablet'te daha da küçük
+  }
+  
+  // Code elements daha az görünür olsun mobilde
+  .code-background .code-element {
+    opacity: 0.3;
+    font-size: 10px;
     
-    .code-editor {
-      .code-content {
-        font-size: 0.8rem;
-      }
+    &.matrix-code {
+      font-size: 8px;
     }
   }
 }
 
-.blur-phone-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-.blur-overlay-phone {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  backdrop-filter: blur(8px);
-  background: rgba(30, 45, 61, 0.6);
-  border-radius: 4px;
-  z-index: 2;
-  pointer-events: none;
-  transition: backdrop-filter 0.3s, background 0.3s;
-  animation: blurFadeIn 0.7s;
-}
-
-@keyframes blurFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@media (max-width: $mobile) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+    }
+    
+  .project-card {
+    padding: 2rem;
+    }
+    
+  .timeline-item {
+    margin-bottom: 3rem;
+  }
+  
+  .code-animation {
+    max-height: 250px; // Mobil'de en küçük
+    
+    .code-editor .code-content .code-lines {
+      padding: 0.6rem;
+      
+      pre {
+          font-size: 0.7rem;
+      }
+    }
+  }
+  
+  // Code elements çok daha az mobilde
+  .code-background {
+    opacity: 0.3;
+    
+    .code-element {
+      opacity: 0.2;
+      font-size: 8px;
+      
+      &.matrix-code {
+        font-size: 6px;
+        
+        &::before,
+        &::after {
+          display: none; // Matrix trail'ler mobilde kapalı
+        }
+      }
+    }
+    
+    .digital-noise {
+      display: none; // Digital noise mobilde kapalı
+    }
+    
+    // Scanline mobilde daha subtle
+    &::before {
+      opacity: 0.1;
+    }
+    
+    // Grid pattern mobilde kapalı
+    &::after {
+      display: none;
+    }
+  }
 }

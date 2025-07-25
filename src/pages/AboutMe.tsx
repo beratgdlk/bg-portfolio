@@ -219,7 +219,7 @@ const AboutMe: React.FC = () => {
   };
   
 
-
+  
   return (
     <div className="page-wrapper">
       <Navbar />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import Footer from './components/Footer/Footer';
 import Navbar from './components/Navbar/Navbar';
 import Terminal from './components/Terminal/Terminal';
 import { ProfileProvider } from './context/ProfileContext';
@@ -20,6 +21,7 @@ const App: React.FC = () => {
             <>
               <Navbar />
               <Terminal />
+              <Footer />
             </>
           } />
         </Routes>
