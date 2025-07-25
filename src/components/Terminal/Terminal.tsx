@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import './Terminal.scss';
+import React, { useEffect, useState } from 'react';
 import { useProfile } from '../../context/ProfileContext';
+import './Terminal.scss';
 
 // Replacement fonksiyonu için tip tanımı
 type ReplacementFunction = (match: string, ...args: string[]) => React.ReactNode;
@@ -459,32 +459,29 @@ const Terminal: React.FC = () => {
   // Titles to alternate - Only 2 titles
   const titles = ['Frontend Developer', 'Fullstack Developer'];
   
-  // useEffect for typing-deleting animation
+
+  
+  // Original typing effect for title
   useEffect(() => {
     const currentTitle = titles[currentIndex % titles.length];
     
-    // Process typing or deleting effect
     const timeout = setTimeout(() => {
       if (!isDeleting) {
-        // Typing mode
         setDisplayTitle(currentTitle.substring(0, displayTitle.length + 1));
         
-        // If typing is complete, wait 2 seconds and switch to deleting mode
         if (displayTitle.length === currentTitle.length) {
           setTimeout(() => {
             setIsDeleting(true);
-            setTypingSpeed(80); // Faster delete speed
-          }, 2000); // Wait 2 seconds instead of 3
+            setTypingSpeed(80);
+          }, 2000);
         }
       } else {
-        // Deleting mode
         setDisplayTitle(currentTitle.substring(0, displayTitle.length - 1));
         
-        // If deleting is complete, move to the next title
         if (displayTitle.length === 0) {
           setIsDeleting(false);
           setCurrentIndex(currentIndex + 1);
-          setTypingSpeed(150); // Reset typing speed
+          setTypingSpeed(150);
         }
       }
     }, typingSpeed);

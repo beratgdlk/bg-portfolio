@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import './AboutMe.scss';
-import Navbar from '../components/Navbar/Navbar';
-import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt, FaSass, FaGithub } from 'react-icons/fa';
-import { SiTypescript, SiJavascript, SiNextdotjs, SiExpress, SiNestjs, SiPostgresql, SiPostman, SiPassport, SiFigma, SiCanva } from 'react-icons/si';
+import React, { useEffect, useRef, useState } from 'react';
+import { FaCss3Alt, FaGithub, FaHtml5, FaNodeJs, FaReact, FaSass } from 'react-icons/fa';
+import { SiCanva, SiExpress, SiFigma, SiJavascript, SiNestjs, SiNextdotjs, SiPassport, SiPostgresql, SiPostman, SiTypescript } from 'react-icons/si';
 import { TbBrandVscode } from 'react-icons/tb';
+import Navbar from '../components/Navbar/Navbar';
+import './AboutMe.scss';
 
 // Elysia.js için yeni bileşen - boş daire içinde tilki gözleri
 const ElysiaIcon: React.FC = () => (
@@ -218,6 +218,8 @@ const AboutMe: React.FC = () => {
     setActiveCategory(category);
   };
   
+
+
   return (
     <div className="page-wrapper">
       <Navbar />

@@ -6,6 +6,8 @@ const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -17,6 +19,8 @@ const Navbar: React.FC = () => {
       setIsMenuOpen(false);
     }
   };
+
+
 
   return (
     <nav className="navbar">

@@ -1,7 +1,7 @@
 import React from 'react';
-import './Projects.scss';
-import Navbar from '../components/Navbar/Navbar';
 import { FaFolder, FaGithub } from 'react-icons/fa';
+import Navbar from '../components/Navbar/Navbar';
+import './Projects.scss';
 
 // Proje verileri
 interface Project {

@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
-import './ContactMe.scss';
+import React, { useEffect, useRef, useState } from 'react';
+import { FaEnvelope, FaFileAlt, FaGithub, FaLinkedin, FaMapMarkerAlt, FaMedium, FaPhone } from 'react-icons/fa';
 import Navbar from '../components/Navbar/Navbar';
 import { useProfile } from '../context/ProfileContext';
-import { FaGithub, FaLinkedin, FaMedium, FaFileAlt, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import './ContactMe.scss';
 
 const ContactMe: React.FC = () => {
   const profileData = useProfile();
@@ -183,6 +183,8 @@ const ContactMe: React.FC = () => {
         return null;
     }
   };
+
+
 
   return (
     <div className="page-wrapper">

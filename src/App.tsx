@@ -1,12 +1,12 @@
 import React from 'react';
-import './styles/main.scss';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Terminal from './components/Terminal/Terminal';
-import AboutMe from './pages/AboutMe';
-import Projects from './pages/Projects';
-import ContactMe from './pages/ContactMe';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ProfileProvider } from './context/ProfileContext';
+import AboutMe from './pages/AboutMe';
+import ContactMe from './pages/ContactMe';
+import Projects from './pages/Projects';
+import './styles/main.scss';
 
 const App: React.FC = () => {
   return (
