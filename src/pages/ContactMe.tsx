@@ -189,78 +189,143 @@ const ContactMe: React.FC = () => {
   return (
     <div className="page-wrapper">
       <Navbar />
-      <div className="contact-container">
-        <div className={`contact-content ${isVisible ? 'visible' : ''}`} ref={contactRef}>
-          <h1>_contact-me</h1>
-          
-          <div className="terminal-container expanded">
-            <div className="terminal-header">
-              <div className="terminal-buttons">
-                <span className="terminal-button close"></span>
-                <span className="terminal-button minimize"></span>
-                <span className="terminal-button expand"></span>
-              </div>
-              <div className="terminal-title">contact@berat-gudelek</div>
-            </div>
+      <main id="main-content" role="main">
+        <div className="contact-container">
+          <div className={`contact-content ${isVisible ? 'visible' : ''}`} ref={contactRef}>
+            <h1>_contact-me</h1>
             
-            <div className="terminal-body">
-              <div className="terminal-line">
-                <span className="prompt">$</span> <span className="command">cd ~/_contact-me</span>
-              </div>
-              <div className="terminal-line">
-                <span className="prompt">$</span> <span className="command">ls -la</span>
-              </div>
-              <div className="terminal-line file-list">
-                <span 
-                  className={`file email ${activeFile === 'email' ? 'active' : ''}`}
-                  onClick={() => setActiveFile('email')}
-                >
-                  email.txt
-                </span>
-                <span 
-                  className={`file phone ${activeFile === 'phone' ? 'active' : ''}`}
-                  onClick={() => setActiveFile('phone')}
-                >
-                  phone.txt
-                </span>
-                <span 
-                  className={`file location ${activeFile === 'location' ? 'active' : ''}`}
-                  onClick={() => setActiveFile('location')}
-                >
-                  location.txt
-                </span>
-                <span 
-                  className={`file social ${activeFile === 'social' ? 'active' : ''}`}
-                  onClick={() => setActiveFile('social')}
-                >
-                  social-links.md
-                </span>
-              </div>
-              
-              {!activeFile && (
-                <>
-                  <div className="terminal-line">
-                    <span className="prompt">$</span> <span className="command">echo "For the fastest and most efficient communication, email is highly recommended! :)"</span>
-                  </div>
-                  <div className="terminal-line">
-                    <span className="prompt">$</span> <span className="command typing-text">{typingText}</span>
-                    {!isComplete && <span className="cursor">|</span>}
-                  </div>
-                </>
-              )}
-              
-              {activeFile && renderFileContent()}
-              
-              {activeFile && (
-                <div className="terminal-line back-option">
-                  <span className="prompt">$</span> <span className="command back-command" onClick={() => setActiveFile(null)}>cd ..</span>
-                  <span className="back-text"> (go back)</span>
+            <div 
+              className="terminal-container expanded"
+              role="application"
+              aria-label="İletişim bilgileri terminali"
+            >
+              <div className="terminal-header">
+                <div className="terminal-buttons" aria-hidden="true">
+                  <span className="terminal-button close"></span>
+                  <span className="terminal-button minimize"></span>
+                  <span className="terminal-button expand"></span>
                 </div>
-              )}
+                <div className="terminal-title" role="banner">
+                  contact@berat-gudelek
+                </div>
+              </div>
+              
+              <div className="terminal-body" role="main">
+                <div className="terminal-line" aria-hidden="true">
+                  <span className="prompt">$</span> <span className="command">cd ~/_contact-me</span>
+                </div>
+                <div className="terminal-line" aria-hidden="true">
+                  <span className="prompt">$</span> <span className="command">ls -la</span>
+                </div>
+                
+                {/* File List - Accessible Navigation */}
+                <div className="terminal-line file-list" role="navigation" aria-label="İletişim bilgileri menüsü">
+                  <button
+                    className={`file email ${activeFile === 'email' ? 'active' : ''}`}
+                    onClick={() => setActiveFile('email')}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setActiveFile('email');
+                      }
+                    }}
+                    aria-label="E-posta bilgilerini görüntüle"
+                    aria-pressed={activeFile === 'email'}
+                    type="button"
+                  >
+                    email.txt
+                  </button>
+                  <button
+                    className={`file phone ${activeFile === 'phone' ? 'active' : ''}`}
+                    onClick={() => setActiveFile('phone')}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setActiveFile('phone');
+                      }
+                    }}
+                    aria-label="Telefon bilgilerini görüntüle"
+                    aria-pressed={activeFile === 'phone'}
+                    type="button"
+                  >
+                    phone.txt
+                  </button>
+                  <button
+                    className={`file location ${activeFile === 'location' ? 'active' : ''}`}
+                    onClick={() => setActiveFile('location')}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setActiveFile('location');
+                      }
+                    }}
+                    aria-label="Konum bilgilerini görüntüle"
+                    aria-pressed={activeFile === 'location'}
+                    type="button"
+                  >
+                    location.txt
+                  </button>
+                  <button
+                    className={`file social ${activeFile === 'social' ? 'active' : ''}`}
+                    onClick={() => setActiveFile('social')}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setActiveFile('social');
+                      }
+                    }}
+                    aria-label="Sosyal medya bağlantılarını görüntüle"
+                    aria-pressed={activeFile === 'social'}
+                    type="button"
+                  >
+                    social-links.md
+                  </button>
+                </div>
+                
+                {!activeFile && (
+                  <div role="region" aria-label="Hoşgeldin mesajları">
+                    <div className="terminal-line" aria-hidden="true">
+                      <span className="prompt">$</span> <span className="command">echo "For the fastest and most efficient communication, email is highly recommended! :)"</span>
+                    </div>
+                    <div className="terminal-line">
+                      <span className="prompt" aria-hidden="true">$</span> 
+                      <span className="command typing-text" aria-live="polite">{typingText}</span>
+                      {!isComplete && <span className="cursor" aria-hidden="true">|</span>}
+                    </div>
+                  </div>
+                )}
+                
+                {activeFile && (
+                  <div role="region" aria-label={`${activeFile} dosya içeriği`} aria-live="polite">
+                    {renderFileContent()}
+                  </div>
+                )}
+                
+                {activeFile && (
+                  <div className="terminal-line back-option">
+                    <span className="prompt" aria-hidden="true">$</span>
+                    <button 
+                      className="command back-command" 
+                      onClick={() => setActiveFile(null)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setActiveFile(null);
+                        }
+                      }}
+                      aria-label="Ana menüye geri dön"
+                      type="button"
+                    >
+                      cd ..
+                    </button>
+                    <span className="back-text" aria-hidden="true"> (go back)</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 };

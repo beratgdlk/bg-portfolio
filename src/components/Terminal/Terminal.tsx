@@ -2,6 +2,10 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import React, { useEffect, useRef, useState } from 'react';
 import { useProfile } from '../../context/ProfileContext';
+import CodeBackground, { CodeBackgroundRef } from './CodeBackground';
+import ExperienceSection from './ExperienceSection';
+import ProjectsSection from './ProjectsSection';
+import SkillsSection from './SkillsSection';
 import './Terminal.scss';
 
 // GSAP plugin'ini kaydet

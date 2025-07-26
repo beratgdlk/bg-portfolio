@@ -1,6 +1,37 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins' as *;
 
+// Accessibility styles
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: $primary-blue;
+  color: $white;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border-radius: 0 0 4px 0;
+  z-index: 9999;
+  font-weight: 600;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+
+  &:focus {
+    transform: translateY(0) !important;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
 .navbar {
   position: fixed;
   top: 0;
