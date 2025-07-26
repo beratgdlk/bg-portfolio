@@ -83,77 +83,81 @@ const GitHubActivity = () => {
   const [displayedCount, setDisplayedCount] = React.useState<string>("");
   const [isTyping, setIsTyping] = React.useState<boolean>(true);
   
-  // Katkı sayısını yerel depolamadan al veya yeni oluştur
+  // Timeout referansları için useRef
+  const typingTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = React.useRef<NodeJS.Timeout | null>(null);
+  const animationFrameRef = React.useRef<number | null>(null);
+  
+  // Typing animasyon mantığını optimize edilmiş halde
+  const animateTypingAndErasing = React.useCallback(() => {
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+
+    const newRandomCount = 1385 + Math.floor(Math.random() * (4743 - 1385));
+    
+    if (isTyping) {
+      const currentText = displayedCount;
+      const targetText = totalContributions.toString();
+      
+      if (currentText.length < targetText.length) {
+        setDisplayedCount(targetText.substring(0, currentText.length + 1));
+        typingTimeoutRef.current = setTimeout(animateTypingAndErasing, 6000 / targetText.length);
+      } else {
+        setIsTyping(false);
+        typingTimeoutRef.current = setTimeout(animateTypingAndErasing, 30000);
+      }
+    } else {
+      if (displayedCount.length > 0) {
+        setDisplayedCount(displayedCount.substring(0, displayedCount.length - 1));
+        typingTimeoutRef.current = setTimeout(animateTypingAndErasing, 6000 / totalContributions.toString().length);
+      } else {
+        setTotalContributions(newRandomCount);
+        localStorage.setItem('contributionCount', newRandomCount.toString());
+        setIsTyping(true);
+        typingTimeoutRef.current = setTimeout(animateTypingAndErasing, 4000);
+      }
+    }
+  }, [displayedCount, isTyping, totalContributions]);
+
+  // İlk contribution count'u ayarla - sadece component mount olduğunda
   React.useEffect(() => {
     let savedContributionCount = localStorage.getItem('contributionCount');
     let savedTimestamp = localStorage.getItem('contributionTimestamp');
     let currentCount;
     
     const currentTime = new Date().getTime();
-    
-    // Sayfa yenilendi mi kontrolü
     const isPageRefresh = savedTimestamp && (currentTime - parseInt(savedTimestamp)) < 3000;
     
     if (savedContributionCount && isPageRefresh) {
-      // Sayfa yenilendi ve katkı sayısı mevcut ise +1 artır
       currentCount = parseInt(savedContributionCount) + 1;
     } else {
-      // Sayfa ilk kez açılıyor veya uzun süre sonra yenileniyorsa rastgele başlat
       currentCount = 1385 + Math.floor(Math.random() * (4743 - 1385));
     }
     
-    // Değerleri güncelle ve sakla
     localStorage.setItem('contributionCount', currentCount.toString());
     localStorage.setItem('contributionTimestamp', currentTime.toString());
     setTotalContributions(currentCount);
 
-    // Animasyon için dizi ve zamanlamalar oluştur
-    const animateTypingAndErasing = () => {
-      // Yeni rastgele sayı al
-      const newRandomCount = 1385 + Math.floor(Math.random() * (4743 - 1385));
-      // Yeni sayı metnini oluştur (kullanılmıyor ancak yorum satırında tutuyoruz)
-      // const newCountString = newRandomCount.toString();
-      localStorage.setItem('contributionCount', newRandomCount.toString());
-      
-      // Yazma animasyonu
-      if (isTyping) {
-        // Mevcut görüntülenen metni al
-        const currentText = displayedCount;
-        // Hedef sayı metni
-        const targetText = totalContributions.toString();
-        
-        if (currentText.length < targetText.length) {
-          // Sayıyı karakter karakter yazma
-          setDisplayedCount(targetText.substring(0, currentText.length + 1));
-          // Sabit yazma hızı: toplamda 6 saniye sürecek şekilde
-          setTimeout(animateTypingAndErasing, 6000 / targetText.length);
-        } else {
-          // Yazma tamamlandı, silme moduna geç
-          setIsTyping(false);
-          setTimeout(animateTypingAndErasing, 30000); // Silmeye başlamadan önce 30 saniye bekle
-        }
-      } 
-      // Silme animasyonu
-      else {
-        if (displayedCount.length > 0) {
-          // Bir karakter sil
-          setDisplayedCount(displayedCount.substring(0, displayedCount.length - 1));
-          // Sabit silme hızı: toplamda 6 saniye sürecek şekilde
-          setTimeout(animateTypingAndErasing, 6000 / totalContributions.toString().length);
-        } else {
-          // Silme tamamlandı, yeni sayıyı ayarla ve yazma moduna geç
-          setTotalContributions(newRandomCount);
-          setIsTyping(true);
-          setTimeout(animateTypingAndErasing, 4000); // Yeni sayı yazmaya başlamadan önce 4 saniye bekle
-        }
+    // İlk animasyonu başlat
+    typingTimeoutRef.current = setTimeout(animateTypingAndErasing, 500);
+
+    // Cleanup
+    return () => {
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
       }
     };
-    
-    // İlk kez animasyonu başlat
-    setTimeout(animateTypingAndErasing, 500);
-    
-    return () => {};
-  }, [displayedCount, isTyping]);
+  }, []); // Empty dependency array - sadece mount'ta çalışsın
+
+  // Typing animasyonu için ayrı effect
+  React.useEffect(() => {
+    // Bu effect sadece totalContributions değiştiğinde çalışsın
+    if (totalContributions > 0) {
+      setDisplayedCount("");
+      setIsTyping(true);
+    }
+  }, [totalContributions]);
 
   // Katkı grafiğini oluştur ve rastgele yanıp sönme efekti ekle
   React.useEffect(() => {
@@ -224,53 +228,71 @@ const GitHubActivity = () => {
     };
     
     // İlk katkıları oluştur
-    const { contribs, total } = generateInitialContributions();
+    const { contribs } = generateInitialContributions();
     setContributions(contribs);
-    setTotalContributions(total);
     
-    // Yanıp sönme efekti için aralıklı güncelleme
-    const interval = setInterval(() => {
-      setContributions(prevContribs => {
-        const newContribs = [...prevContribs];
-        
-        // Rastgele 1-3 hücre seç ve değerlerini değiştir
-        const updates = Math.floor(Math.random() * 3) + 1;
-        let newTotal = totalContributions;
-        
-        for (let i = 0; i < updates; i++) {
-          const randomWeek = Math.floor(Math.random() * 52);
-          const randomDay = Math.floor(Math.random() * 7);
+    // Yanıp sönme efekti için aralıklı güncelleme - OPTIMIZE EDİLDİ
+    intervalRef.current = setInterval(() => {
+      // RequestAnimationFrame kullanarak performans iyileştirmesi
+      animationFrameRef.current = requestAnimationFrame(() => {
+        setContributions(prevContribs => {
+          const newContribs = [...prevContribs.map(week => [...week])]; // Deep copy
           
-          // Önceki değeri al
-          const prevValue = newContribs[randomWeek][randomDay];
+          // Rastgele 1-2 hücre seç (daha az işlem)
+          const updates = Math.floor(Math.random() * 2) + 1;
           
-          // Yeni bir değer ata
-          if (prevValue === 0) {
-            // Boş hücreyi doldur (yüksek olasılıkla)
-            if (Math.random() < 0.9) {
-              newContribs[randomWeek][randomDay] = Math.floor(Math.random() * 4) + 1;
-              newTotal++;
-            }
-          } else {
-            // Dolu hücreyi boşalt veya seviyesini değiştir (düşük olasılıkla boşalt)
-            if (Math.random() < 0.15) {
-              newContribs[randomWeek][randomDay] = 0;
-              newTotal--;
+          for (let i = 0; i < updates; i++) {
+            const randomWeek = Math.floor(Math.random() * 52);
+            const randomDay = Math.floor(Math.random() * 7);
+            
+            // Önceki değeri al
+            const prevValue = newContribs[randomWeek][randomDay];
+            
+            // Yeni bir değer ata
+            if (prevValue === 0) {
+              // Boş hücreyi doldur (yüksek olasılıkla)
+              if (Math.random() < 0.8) { // 0.9'den 0.8'e düşürdük
+                newContribs[randomWeek][randomDay] = Math.floor(Math.random() * 4) + 1;
+              }
             } else {
-              const newLevel = Math.floor(Math.random() * 4) + 1;
-              newContribs[randomWeek][randomDay] = newLevel;
+              // Dolu hücreyi boşalt veya seviyesini değiştir (düşük olasılıkla boşalt)
+              if (Math.random() < 0.1) { // 0.15'ten 0.1'e düşürdük
+                newContribs[randomWeek][randomDay] = 0;
+              } else if (Math.random() < 0.3) { // Bazen sadece renk değiştir
+                const newLevel = Math.floor(Math.random() * 4) + 1;
+                newContribs[randomWeek][randomDay] = newLevel;
+              }
             }
           }
-        }
-        
-        // Toplam katkı sayısını güncelle
-        setTotalContributions(newTotal);
-        
-        return newContribs;
+          
+          return newContribs;
+        });
       });
-    }, 800); // 800ms aralıklarla güncelle
+    }, 1200); // 800ms'den 1200ms'ye çıkardık - daha az sıklıkta güncelleme
     
-    return () => clearInterval(interval);
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, []); // Empty dependency array
+
+  // Component unmount'ta tüm timeout'ları temizle
+  React.useEffect(() => {
+    return () => {
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
   }, []);
   
   // Ayları oluşturalım

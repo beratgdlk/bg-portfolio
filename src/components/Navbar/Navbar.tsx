@@ -9,7 +9,7 @@ const Navbar: React.FC = () => {
   
   // Logo refs
   const logoRef = useRef<HTMLImageElement>(null);
-  const logoContainerRef = useRef<HTMLDivElement>(null);
+  const logoContainerRef = useRef<HTMLButtonElement>(null);
 
   // Modern GSAP logo animasyonları
   useEffect(() => {
@@ -247,37 +247,114 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="navbar">
-      <div className="navbar__content">
-        <div 
-          className="navbar__logo" 
-          ref={logoContainerRef}
-          onMouseEnter={handleLogoMouseEnter}
-          onMouseMove={handleLogoMouseMove} 
-          onMouseLeave={handleLogoMouseLeave}
-          onClick={handleLogoClick}
-        >
-          <img 
-            src="/assets/images/bg-logo.png" 
-            alt="Logo" 
-            ref={logoRef}
-          />
-        </div>
+    <>
+      {/* Skip Navigation Link - Accessibility */}
+      <a 
+        href="#main-content" 
+        className="skip-link"
+        onFocus={(e) => e.target.style.transform = 'translateY(0)'}
+        onBlur={(e) => e.target.style.transform = 'translateY(-100%)'}
+      >
+        Ana içeriğe geç
+      </a>
 
-        <div className={`navbar__menu ${isMenuOpen ? 'active' : ''}`}>
-          <Link to="/" onClick={() => setIsMenuOpen(false)}>_hello</Link>
-          <Link to="/_about-me" onClick={() => setIsMenuOpen(false)}>_about-me</Link>
-          <Link to="/_projects" onClick={() => setIsMenuOpen(false)}>_projects</Link>
-          <Link to="/_contact-me" onClick={() => setIsMenuOpen(false)}>_contact-me</Link>
-        </div>
+      <nav className="navbar" role="navigation" aria-label="Ana navigasyon">
+        <div className="navbar__content">
+          {/* Logo - Keyboard Accessible */}
+          <button
+            className="navbar__logo" 
+            ref={logoContainerRef}
+            onMouseEnter={handleLogoMouseEnter}
+            onMouseMove={handleLogoMouseMove} 
+            onMouseLeave={handleLogoMouseLeave}
+            onClick={handleLogoClick}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleLogoClick();
+              }
+            }}
+            aria-label="Ana sayfaya git - Berat Gudelek Portfolio"
+            type="button"
+          >
+            <img 
+              src="/assets/images/bg-logo.png" 
+              alt="Berat Gudelek - Portfolio Logo" 
+              ref={logoRef}
+            />
+          </button>
 
-        <div className="navbar__hamburger" onClick={toggleMenu}>
-          <span></span>
-          <span></span>
-          <span></span>
+          {/* Navigation Menu */}
+          <div 
+            className={`navbar__menu ${isMenuOpen ? 'active' : ''}`}
+            role="menu"
+            aria-hidden={!isMenuOpen}
+            aria-labelledby="menu-button"
+          >
+            <Link 
+              to="/" 
+              onClick={() => setIsMenuOpen(false)}
+              role="menuitem"
+              tabIndex={isMenuOpen ? 0 : -1}
+              aria-label="Ana sayfa"
+            >
+              _hello
+            </Link>
+            <Link 
+              to="/_about-me" 
+              onClick={() => setIsMenuOpen(false)}
+              role="menuitem"
+              tabIndex={isMenuOpen ? 0 : -1}
+              aria-label="Hakkımda sayfası"
+            >
+              _about-me
+            </Link>
+            <Link 
+              to="/_projects" 
+              onClick={() => setIsMenuOpen(false)}
+              role="menuitem"
+              tabIndex={isMenuOpen ? 0 : -1}
+              aria-label="Projeler sayfası"
+            >
+              _projects
+            </Link>
+            <Link 
+              to="/_contact-me" 
+              onClick={() => setIsMenuOpen(false)}
+              role="menuitem"
+              tabIndex={isMenuOpen ? 0 : -1}
+              aria-label="İletişim sayfası"
+            >
+              _contact-me
+            </Link>
+          </div>
+
+          {/* Hamburger Menu Button - Accessible */}
+          <button 
+            className="navbar__hamburger" 
+            onClick={toggleMenu}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleMenu();
+              }
+            }}
+            aria-expanded={isMenuOpen}
+            aria-controls="navbar-menu"
+            aria-label={isMenuOpen ? "Menüyü kapat" : "Menüyü aç"}
+            id="menu-button"
+            type="button"
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span className="sr-only">
+              {isMenuOpen ? "Menüyü kapat" : "Navigasyon menüsünü aç"}
+            </span>
+          </button>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 };
 
