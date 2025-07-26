@@ -1,10 +1,38 @@
 @use '../styles/variables' as *;
 @use '../styles/mixins' as *;
 
+// Terminal animations
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes typeWriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px rgba(77, 91, 206, 0.3); }
+  50% { box-shadow: 0 0 15px rgba(77, 91, 206, 0.6); }
+  100% { box-shadow: 0 0 5px rgba(77, 91, 206, 0.3); }
+}
+
 .page-wrapper {
   min-height: 100vh;
   width: 100%;
-  padding-top: 80px; // Fixed navbar için space
+  padding-top: 80px;
+  // Terminal consistent background
   background: linear-gradient(150deg, #011627 0%, #010D18 100%);
 }
 
@@ -13,8 +41,11 @@
   padding: 2rem;
   color: #e5e9f0;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
-  // Terminal benzeri dekoratif efekt
+  // Terminal frame decoration - consistent with other pages
   &:before {
     content: '';
     position: absolute;
@@ -28,7 +59,7 @@
     z-index: 0;
   }
   
-  // Dekoratif köşe nokta efektleri
+  // Decorative corner dots - consistent colors
   &:after {
     content: '';
     position: absolute;
@@ -39,135 +70,413 @@
     top: 30px;
     left: 30px;
     box-shadow: 
-      calc(100vw - 120px) 0 0 #43D9AD,
-      0 calc(100vh - 160px) 0 #FEA55F,
+      calc(100vw - 120px) 0 0 #C0A93E,
+      0 calc(100vh - 160px) 0 #43D9AD,
       calc(100vw - 120px) calc(100vh - 160px) 0 #E99287;
     pointer-events: none;
     z-index: 1;
   }
   
-  .page-content {
+  .projects-content {
     position: relative;
     z-index: 2;
-    max-width: 1400px;
-    margin: 0 auto;
+    max-width: 1200px;
+    width: 100%;
     
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-      color: #4d5bce;
-      text-shadow: 0 0 15px rgba(77, 91, 206, 0.5);
-      position: relative;
-      display: inline-block;
+    .terminal-window {
+      background-color: rgba(14, 32, 48, 0.7);
+      border-radius: 12px;
+      border-left: 3px solid $primary-blue;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
       
-      &:after {
-        content: '';
-        position: absolute;
-        bottom: -10px;
-        left: 0;
-        width: 60px;
-        height: 3px;
-        background: linear-gradient(90deg, #4d5bce, transparent);
+      .terminal-header {
+        background-color: rgba(14, 32, 48, 0.9);
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid rgba(77, 91, 206, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
+        .terminal-controls {
+          display: flex;
+          gap: 8px;
+          
+          .control-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            
+            &.close { background-color: #E99287; }
+            &.minimize { background-color: #FEA55F; }
+            &.maximize { background-color: #43D9AD; }
+          }
+        }
+        
+        .terminal-title {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: #C0A93E;
+          font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+          font-size: 0.9rem;
+          
+          .terminal-icon {
+            font-size: 1rem;
+          }
+        }
+      }
+      
+      .terminal-body {
+        padding: 1.5rem;
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        font-size: 0.95rem;
+        line-height: 1.4;
+        
+        .welcome-line {
+          color: #a9b2c3;
+          margin-bottom: 1rem;
+          animation: fadeIn 0.5s ease;
+          
+          .user-prompt {
+            color: #43D9AD;
+            font-weight: 600;
+          }
+          
+          .path {
+            color: #4D5BCE;
+            font-weight: 600;
+          }
+          
+          .welcome-text {
+            color: #FEA55F;
+          }
+        }
+        
+        .command-block {
+          margin-bottom: 1.5rem;
+          
+          .command-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            
+            .user-prompt {
+              color: #43D9AD;
+              font-weight: 600;
+              margin-right: 0.5rem;
+            }
+            
+            .path {
+              color: #4D5BCE;
+              font-weight: 600;
+              margin-right: 0.5rem;
+            }
+            
+            .command-text {
+              color: #e5e9f0;
+            }
+            
+            .terminal-cursor {
+              background-color: #C0A93E;
+              animation: blink 1s infinite;
+              margin-left: 2px;
+              
+              &.active {
+                animation-duration: 0.8s;
+              }
+            }
+          }
+          
+          .command-output {
+            margin-left: 1rem;
+            animation: slideInLeft 0.3s ease;
+            
+            .success-text {
+              color: #43D9AD;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Project list terminal output styles
+.project-list-output {
+  .output-header {
+    margin-bottom: 1rem;
+    
+    .output-meta {
+      color: #a9b2c3;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    
+    .column-headers {
+      display: grid;
+      grid-template-columns: 100px 100px 120px 1fr;
+      gap: 1rem;
+      font-size: 0.75rem;
+      color: #FEA55F;
+      font-weight: 600;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(77, 91, 206, 0.2);
+    }
+  }
+  
+  .project-line {
+    display: grid;
+    grid-template-columns: 100px 100px 120px 1fr;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(77, 91, 206, 0.1);
+    transition: all 0.2s ease;
+    animation: slideInLeft 0.4s ease;
+    animation-delay: calc(var(--index) * 0.1s);
+    animation-fill-mode: both;
+    
+    &:hover {
+      background-color: rgba(14, 32, 48, 0.8);
+      transform: translateX(5px);
+    }
+    
+    .project-permissions {
+      color: #43D9AD;
+      font-size: 0.85rem;
+    }
+    
+    .project-language {
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    
+    .project-date {
+      color: #a9b2c3;
+      font-size: 0.85rem;
+    }
+    
+    .project-name {
+      color: #C0A93E;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      
+      .folder-icon {
+        color: #FEA55F;
+        font-size: 0.9rem;
+      }
+      
+      &:hover {
+        color: #fff;
+        text-shadow: 0 0 8px rgba(192, 169, 62, 0.6);
+        
+        .folder-icon {
+          color: #C0A93E;
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+}
+
+// GitHub activity terminal styles
+.github-activity-terminal {
+  margin-top: 1rem;
+  
+  .activity-output {
+    .github-stats-line {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      
+      .github-icon {
+        color: #a9b2c3;
+        font-size: 1.1rem;
+      }
+      
+      .stats-text {
+        color: #a9b2c3;
+        
+        .contribution-count {
+          color: #43D9AD;
+          font-weight: 600;
+        }
       }
     }
     
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 2rem;
-      margin-bottom: 3rem;
+    .contribution-graph-terminal {
+      background-color: rgba(6, 14, 22, 0.6);
+      border-radius: 8px;
+      padding: 1rem;
+      border: 1px solid rgba(77, 91, 206, 0.2);
       
-      .project-card {
-        background: rgba(30, 45, 61, 0.7);
-        border-radius: 12px;
-        padding: 2rem;
-        border-left: 3px solid #4D5BCE;
-        transition: all 0.3s ease;
+      .graph-header {
+        margin-bottom: 1rem;
         
-        &:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 10px 30px rgba(77, 91, 206, 0.3);
+        .graph-title {
+          color: #FEA55F;
+          font-size: 0.9rem;
+          font-weight: 600;
         }
+      }
+      
+      .contribution-grid-terminal {
+        display: grid;
+        grid-template-columns: repeat(52, 1fr);
+        gap: 2px;
+        margin-bottom: 1rem;
         
-        h3 {
-          color: #43D9AD;
-          margin-bottom: 1rem;
-          font-size: 1.5rem;
-        }
-        
-        p {
-          color: #a9b2c3;
-          line-height: 1.6;
-          margin-bottom: 1.5rem;
-        }
-        
-        .tech-stack {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.5rem;
+        .contribution-week-terminal {
+          display: grid;
+          grid-template-rows: repeat(7, 1fr);
+          gap: 2px;
+          animation: fadeIn 0.3s ease;
+          animation-delay: calc(var(--index) * 0.01s);
+          animation-fill-mode: both;
           
-          span {
-            background: rgba(77, 91, 206, 0.2);
-            color: #4D5BCE;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
+          .contribution-cell-terminal {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            transition: all 0.2s ease;
+            
+            &.level-0 { background-color: #0d1117; }
+            &.level-1 { background-color: #0e4429; }
+            &.level-2 { background-color: #006d32; }
+            &.level-3 { background-color: #26a641; }
+            &.level-4 { background-color: #39d353; }
+            
+            &:hover {
+              transform: scale(1.2);
+              box-shadow: 0 0 8px rgba(57, 211, 83, 0.4);
+            }
+          }
+        }
+      }
+      
+      .graph-legend {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-size: 0.8rem;
+        color: #a9b2c3;
+        
+        .legend-cells {
+          display: flex;
+          gap: 2px;
+          
+          .legend-cell {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            
+            &.level-0 { background-color: #0d1117; }
+            &.level-1 { background-color: #0e4429; }
+            &.level-2 { background-color: #006d32; }
+            &.level-3 { background-color: #26a641; }
+            &.level-4 { background-color: #39d353; }
           }
         }
       }
     }
     
-    .github-activity {
-      background: rgba(30, 45, 61, 0.7);
-      border-radius: 12px;
-      padding: 2rem;
-      border-left: 3px solid #43D9AD;
+    .github-link-terminal {
+      margin-top: 1rem;
       
-      h2 {
-        color: #43D9AD;
-        margin-bottom: 1.5rem;
-        font-size: 1.8rem;
-      }
-      
-      .activity-graph {
-        width: 100%;
-        height: 200px;
-        background: rgba(0, 0, 0, 0.3);
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #a9b2c3;
-        font-style: italic;
+      a {
+        color: #C0A93E;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          color: #fff;
+          text-shadow: 0 0 8px rgba(192, 169, 62, 0.6);
+        }
       }
     }
   }
 }
 
-// Responsive
-@media (max-width: $tablet) {
-  .page-wrapper {
-    padding-top: 70px;
+// Terminal typing component styles
+.terminal-typing {
+  .terminal-cursor {
+    background-color: #C0A93E;
+    animation: blink 1s infinite;
+    margin-left: 1px;
   }
-  
+}
+
+// Responsive design
+@include responsive(tablet) {
   .projects-container {
-    min-height: calc(100vh - 70px);
     padding: 1.5rem;
     
-    .page-content {
-      h1 {
-        font-size: 2rem;
+    .projects-content {
+      .terminal-window {
+        .terminal-header {
+          padding: 0.8rem 1rem;
+          
+          .terminal-title {
+            font-size: 0.8rem;
+          }
+        }
+        
+        .terminal-body {
+          padding: 1rem;
+          font-size: 0.85rem;
+        }
       }
-      
-      .projects-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+    }
+  }
+  
+  .project-list-output {
+    .column-headers {
+      grid-template-columns: 80px 80px 100px 1fr;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+    }
+    
+    .project-line {
+      grid-template-columns: 80px 80px 100px 1fr;
+      gap: 0.5rem;
+    }
+  }
+  
+  .github-activity-terminal {
+    .activity-output {
+      .contribution-graph-terminal {
+        .contribution-grid-terminal {
+          .contribution-week-terminal {
+            .contribution-cell-terminal {
+              width: 10px;
+              height: 10px;
+            }
+          }
+        }
+        
+        .graph-legend {
+          .legend-cells {
+            .legend-cell {
+              width: 10px;
+              height: 10px;
+            }
+          }
+        }
       }
     }
   }
 }
 
-@media (max-width: $mobile) {
+@include responsive(mobile) {
   .page-wrapper {
     padding-top: 60px;
   }
@@ -176,15 +485,95 @@
     min-height: calc(100vh - 60px);
     padding: 1rem;
     
-    .page-content {
-      h1 {
-        font-size: 1.8rem;
-      }
-      
-      .project-card,
-      .github-activity {
-        padding: 1.5rem;
+    .projects-content {
+      .terminal-window {
+        .terminal-header {
+          padding: 0.6rem 0.8rem;
+          
+          .terminal-controls {
+            .control-dot {
+              width: 10px;
+              height: 10px;
+            }
+          }
+          
+          .terminal-title {
+            font-size: 0.75rem;
+          }
+        }
+        
+        .terminal-body {
+          padding: 0.8rem;
+          font-size: 0.8rem;
+        }
       }
     }
+  }
+  
+  .project-list-output {
+    .column-headers {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+      
+      .col-permissions,
+      .col-language,
+      .col-size {
+        display: none;
+      }
+    }
+    
+    .project-line {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+      
+      .project-permissions,
+      .project-language,
+      .project-date {
+        display: none;
+      }
+    }
+  }
+  
+  .github-activity-terminal {
+    .activity-output {
+      .contribution-graph-terminal {
+        padding: 0.8rem;
+        
+        .contribution-grid-terminal {
+          gap: 1px;
+          
+          .contribution-week-terminal {
+            gap: 1px;
+            
+            .contribution-cell-terminal {
+              width: 8px;
+              height: 8px;
+            }
+          }
+        }
+        
+        .graph-legend {
+          font-size: 0.7rem;
+          
+          .legend-cells {
+            gap: 1px;
+            
+            .legend-cell {
+              width: 8px;
+              height: 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Reduced motion preferences
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 } 
