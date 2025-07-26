@@ -151,22 +151,18 @@ h1 {
 }
 
 .about-content {
-  background-color: rgba(30, 45, 61, 0.7);
+  background-color: rgba(14, 32, 48, 0.7);
   padding: 2rem;
   border-radius: 12px;
   flex: 1;
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
   backdrop-filter: blur(8px);
   border-left: 2px solid $primary-blue;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
   transform: translateY(0);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  
-  @media (min-width: 992px) {
-    grid-template-columns: 1fr 1fr;
-  }
   
   &:hover {
     box-shadow: 0 8px 25px rgba(77, 91, 206, 0.2);
@@ -176,6 +172,7 @@ h1 {
   .terminal-text {
     display: flex;
     flex-direction: column;
+    flex: 1;
     
     p {
       line-height: 1.6;
@@ -187,12 +184,12 @@ h1 {
       opacity: 0;
       animation: fadeIn 0.5s ease forwards;
       
-      // Terminal stil efekti
+      // Terminal style effect
       &:before {
         content: '>';
         position: absolute;
         left: 0;
-        color: $orange; // Terminal prompt turuncu
+        color: $orange; // Terminal prompt orange
       }
       
       // Animation delay
@@ -203,7 +200,7 @@ h1 {
       &:nth-child(5) { animation-delay: 1.5s; }
       
       .highlight {
-        color: $teal; // Ana vurgu yeşil-mavi
+        color: $teal; // Main highlight blue-green
         font-weight: 500;
         
         &.typing-text {
@@ -221,7 +218,7 @@ h1 {
       }
       
       .highlight-frontend {
-        color: $frontend-color; // Mercan
+        color: $frontend-color; // Coral
         font-weight: 500;
         
         &.typing-text-tech {
@@ -239,7 +236,7 @@ h1 {
       }
       
       .highlight-backend {
-        color: $backend-color; // Mavi
+        color: $backend-color; // Blue
         font-weight: 500;
         
         &.typing-text-tech {
@@ -257,11 +254,20 @@ h1 {
       }
     }
   }
+  
+  .skills-section {
+    width: 100%;
+    flex: none;
+  }
 }
 
 .skills-section {
   display: flex;
   flex-direction: column;
+  background-color: rgba(14, 32, 48, 0.7);
+  padding: 2rem;
+  border-radius: 12px;
+  border-left: 2px solid $primary-blue;
   
   h2 {
     font-size: 1.8rem;
@@ -284,7 +290,7 @@ h1 {
   }
 }
 
-// Skills filter butonları - yeni renk paleti
+// Skills filter buttons - updated color palette
 .skills-filter {
   display: flex;
   flex-wrap: wrap;
@@ -294,9 +300,9 @@ h1 {
   animation: fadeIn 0.5s ease 1.3s forwards;
   
   .filter-btn {
-    background-color: rgba(30, 45, 61, 0.6);
-    border: 1px solid rgba(77, 91, 206, 0.3);
-    color: #a9b2c3;
+    background-color: rgba(14, 32, 48, 0.8);
+    border: 1px solid rgba(77, 91, 206, 0.4);
+    color: #c9d1d9;
     padding: 0.6rem 1.2rem;
     border-radius: 6px;
     cursor: pointer;
@@ -305,44 +311,49 @@ h1 {
     font-family: 'Courier New', monospace;
     
     &:hover {
-      background-color: rgba(30, 45, 61, 0.9);
-      border-color: rgba(192, 169, 62, 0.5);
+      background-color: rgba(14, 32, 48, 0.95);
+      border-color: rgba(192, 169, 62, 0.6);
       transform: translateY(-2px);
+      color: #fff;
     }
     
     &.active {
       color: #fff;
-      box-shadow: 0 0 10px rgba(77, 91, 206, 0.3);
+      box-shadow: 0 0 15px rgba(77, 91, 206, 0.4);
       
       &:nth-child(1) { // all
-        background-color: rgba(255, 255, 255, 0.15);
-        border-color: rgba(255, 255, 255, 0.3);
+        background-color: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.5);
       }
       
       &:nth-child(2) { // frontend
-        background-color: rgba(233, 146, 135, 0.3);
+        background-color: rgba(233, 146, 135, 0.4);
         border-color: $frontend-color;
+        box-shadow: 0 0 15px rgba(233, 146, 135, 0.4);
       }
       
       &:nth-child(3) { // backend
-        background-color: rgba(77, 91, 206, 0.3);
+        background-color: rgba(77, 91, 206, 0.4);
         border-color: $backend-color;
+        box-shadow: 0 0 15px rgba(77, 91, 206, 0.4);
       }
       
       &:nth-child(4) { // fullstack
-        background-color: rgba(67, 217, 173, 0.3);
+        background-color: rgba(67, 217, 173, 0.4);
         border-color: $fullstack-color;
+        box-shadow: 0 0 15px rgba(67, 217, 173, 0.4);
       }
       
       &:nth-child(5) { // tools
-        background-color: rgba(192, 169, 62, 0.3);
+        background-color: rgba(192, 169, 62, 0.4);
         border-color: $tools-color;
+        box-shadow: 0 0 15px rgba(192, 169, 62, 0.4);
       }
     }
   }
 }
 
-// Teknoloji Grid Düzeni - yeni tema
+// Technology Grid Layout - updated theme
 .tech-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -357,25 +368,27 @@ h1 {
     align-items: center;
     justify-content: center;
     padding: 1.5rem 1rem;
-    background-color: rgba(30, 45, 61, 0.4);
+    background-color: rgba(14, 32, 48, 0.8);
     border-radius: 8px;
     transition: all 0.3s ease;
     border-left: 3px solid transparent;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     position: relative;
     overflow: hidden;
     cursor: pointer;
     height: 120px;
-    border: 1px solid rgba(77, 91, 206, 0.2);
+    border: 1px solid rgba(77, 91, 206, 0.4);
     
     &:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-      border-color: rgba(192, 169, 62, 0.4);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+      border-color: rgba(192, 169, 62, 0.6);
+      background-color: rgba(14, 32, 48, 0.95);
       
       .tech-icon {
         animation: pulse 1.5s infinite;
         color: #fff;
+        transform: scale(1.1);
       }
       
       &::before {
@@ -392,7 +405,7 @@ h1 {
       height: 100%;
       background: radial-gradient(
         circle at 50% 0%, 
-        rgba(192, 169, 62, 0.1) 0%, 
+        rgba(192, 169, 62, 0.15) 0%, 
         transparent 70%
       );
       border-radius: 8px;
@@ -401,7 +414,7 @@ h1 {
       z-index: 1;
     }
     
-    // Kategori spesifik stiller - yeni renk paleti
+    // Category specific styles - updated color palette
     &.frontend {
       border-left: 3px solid $frontend-color;
       
@@ -410,17 +423,18 @@ h1 {
         color: $frontend-color;
         
         &:hover {
-          color: lighten($frontend-color, 10%);
-          filter: drop-shadow(0 0 5px rgba(233, 146, 135, 0.8));
+          color: lighten($frontend-color, 15%);
+          filter: drop-shadow(0 0 8px rgba(233, 146, 135, 0.9));
         }
       }
       
       &:hover {
-        background-color: rgba(233, 146, 135, 0.1);
+        background-color: rgba(233, 146, 135, 0.15);
+        border-color: $frontend-color;
         &::before {
           background: radial-gradient(
             circle at 50% 0%, 
-            rgba(233, 146, 135, 0.1) 0%, 
+            rgba(233, 146, 135, 0.2) 0%, 
             transparent 70%
           );
         }
@@ -435,17 +449,18 @@ h1 {
         color: $backend-color;
         
         &:hover {
-          color: lighten($backend-color, 10%);
-          filter: drop-shadow(0 0 5px rgba(77, 91, 206, 0.8));
+          color: lighten($backend-color, 15%);
+          filter: drop-shadow(0 0 8px rgba(77, 91, 206, 0.9));
         }
       }
       
       &:hover {
-        background-color: rgba(77, 91, 206, 0.1);
+        background-color: rgba(77, 91, 206, 0.15);
+        border-color: $backend-color;
         &::before {
           background: radial-gradient(
             circle at 50% 0%, 
-            rgba(77, 91, 206, 0.1) 0%, 
+            rgba(77, 91, 206, 0.2) 0%, 
             transparent 70%
           );
         }
@@ -460,17 +475,18 @@ h1 {
         color: $fullstack-color;
         
         &:hover {
-          color: lighten($fullstack-color, 10%);
-          filter: drop-shadow(0 0 5px rgba(67, 217, 173, 0.8));
+          color: lighten($fullstack-color, 15%);
+          filter: drop-shadow(0 0 8px rgba(67, 217, 173, 0.9));
         }
       }
       
       &:hover {
-        background-color: rgba(67, 217, 173, 0.1);
+        background-color: rgba(67, 217, 173, 0.15);
+        border-color: $fullstack-color;
         &::before {
           background: radial-gradient(
             circle at 50% 0%, 
-            rgba(67, 217, 173, 0.1) 0%, 
+            rgba(67, 217, 173, 0.2) 0%, 
             transparent 70%
           );
         }
@@ -485,17 +501,18 @@ h1 {
         color: $tools-color;
         
         &:hover {
-          color: lighten($tools-color, 10%);
-          filter: drop-shadow(0 0 5px rgba(192, 169, 62, 0.8));
+          color: lighten($tools-color, 15%);
+          filter: drop-shadow(0 0 8px rgba(192, 169, 62, 0.9));
         }
       }
       
       &:hover {
-        background-color: rgba(192, 169, 62, 0.1);
+        background-color: rgba(192, 169, 62, 0.15);
+        border-color: $tools-color;
         &::before {
           background: radial-gradient(
             circle at 50% 0%, 
-            rgba(192, 169, 62, 0.1) 0%, 
+            rgba(192, 169, 62, 0.2) 0%, 
             transparent 70%
           );
         }
@@ -524,7 +541,6 @@ h1 {
 // Responsive Design
 @media (max-width: 992px) {
   .about-content {
-    grid-template-columns: 1fr;
     padding: 1.5rem;
   }
   
