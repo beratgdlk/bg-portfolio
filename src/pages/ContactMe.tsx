@@ -1,318 +1,298 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FaEnvelope, FaFileAlt, FaGithub, FaLinkedin, FaMapMarkerAlt, FaMedium, FaPhone } from 'react-icons/fa';
+import { FaEnvelope, FaFileAlt, FaGithub, FaLinkedin, FaMapMarkerAlt, FaMedium, FaPhone, FaTerminal } from 'react-icons/fa';
 import Navbar from '../components/Navbar/Navbar';
 import { useProfile } from '../context/ProfileContext';
 import './ContactMe.scss';
 
+// Contact file data structure
+interface ContactFile {
+  name: string;
+  command: string;
+  icon: React.ReactNode;
+  content: React.ReactNode;
+}
+
+// Terminal typing component
+const TerminalTyping: React.FC<{ text: string; onComplete?: () => void }> = ({ text, onComplete }) => {
+  const [displayedText, setDisplayedText] = useState('');
+  const [showCursor, setShowCursor] = useState(true);
+
+  useEffect(() => {
+    let currentIndex = 0;
+    
+    const typeWriter = () => {
+      if (currentIndex < text.length) {
+        setDisplayedText(text.substring(0, currentIndex + 1));
+        currentIndex++;
+        setTimeout(typeWriter, 50);
+      } else {
+        setShowCursor(false);
+        onComplete?.();
+      }
+    };
+
+    const timer = setTimeout(typeWriter, 500);
+    return () => clearTimeout(timer);
+  }, [text, onComplete]);
+
+  return (
+    <span className="terminal-typing">
+      {displayedText}
+      {showCursor && <span className="terminal-cursor">_</span>}
+    </span>
+  );
+};
+
 const ContactMe: React.FC = () => {
   const profileData = useProfile();
-  const [isVisible, setIsVisible] = useState(false);
-  const [typingText, setTypingText] = useState('');
-  const [isComplete, setIsComplete] = useState(false);
   const [activeFile, setActiveFile] = useState<string | null>(null);
-
+  const [showWelcome, setShowWelcome] = useState(false);
   const contactRef = useRef<HTMLDivElement>(null);
 
-  // Terminal typing effect
-  useEffect(() => {
-    const text = "echo 'Welcome! Choose a file to view contact information.'";
-    let currentIndex = 0;
-
-    if (!activeFile) {
-      const typingInterval = setInterval(() => {
-        if (currentIndex <= text.length) {
-          setTypingText(text.substring(0, currentIndex));
-          currentIndex++;
-        } else {
-          setIsComplete(true);
-          clearInterval(typingInterval);
-        }
-      }, 50);
-
-      return () => clearInterval(typingInterval);
+  // Contact files configuration
+  const contactFiles: ContactFile[] = [
+    {
+      name: 'email.txt',
+      command: 'cat email.txt',
+      icon: <FaEnvelope />,
+      content: (
+        <div className="contact-item">
+          <div className="contact-icon">
+            <FaEnvelope />
+          </div>
+          <div className="contact-info">
+            <h3>Email Address</h3>
+            <a href={`mailto:${profileData.contact.email}`} className="contact-link">
+              {profileData.contact.email}
+            </a>
+          </div>
+        </div>
+      )
+    },
+    {
+      name: 'phone.txt',
+      command: 'cat phone.txt',
+      icon: <FaPhone />,
+      content: (
+        <div className="contact-item">
+          <div className="contact-icon">
+            <FaPhone />
+          </div>
+          <div className="contact-info">
+            <h3>Phone Number</h3>
+            <a href={`tel:${profileData.contact.telephoneNum}`} className="contact-link">
+              {profileData.contact.telephoneNum}
+            </a>
+          </div>
+        </div>
+      )
+    },
+    {
+      name: 'location.txt',
+      command: 'cat location.txt',
+      icon: <FaMapMarkerAlt />,
+      content: (
+        <div className="contact-item">
+          <div className="contact-icon">
+            <FaMapMarkerAlt />
+          </div>
+          <div className="contact-info">
+            <h3>Location</h3>
+            <p className="contact-text">Istanbul, Turkey</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      name: 'social.md',
+      command: 'cat social.md',
+      icon: <FaGithub />,
+      content: (
+        <div className="social-links-grid">
+          <a
+            href={profileData.contact.githubLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-link-item"
+          >
+            <FaGithub className="social-icon" />
+            <span>GitHub</span>
+          </a>
+          <a
+            href={profileData.contact.linkedinPage}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-link-item"
+          >
+            <FaLinkedin className="social-icon" />
+            <span>LinkedIn</span>
+          </a>
+          <a
+            href={profileData.contact.mediumLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-link-item"
+          >
+            <FaMedium className="social-icon" />
+            <span>Medium</span>
+          </a>
+          <a
+            href="/assets/pdf/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-link-item"
+          >
+            <FaFileAlt className="social-icon" />
+            <span>Resume</span>
+          </a>
+        </div>
+      )
     }
-  }, [activeFile]);
+  ];
 
-  // Visibility animation
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, []);
-
+  // Scroll to view on mount
   useEffect(() => {
     if (contactRef.current) {
       contactRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, []);
 
-  const handleCategoryChange = (category: string) => {
-    setActiveFile(category);
-    setTypingText('');
-    setIsComplete(false);
+  const handleFileSelect = (fileName: string) => {
+    setActiveFile(fileName);
+    setShowWelcome(false);
   };
 
-  // Display file content
-  const renderFileContent = () => {
-    switch (activeFile) {
-      case 'email':
-        return (
-          <div className="file-content">
-            <div className="terminal-line">
-              <span className="prompt">$</span> <span className="command">cat email.txt</span>
-            </div>
-            <div className="file-data">
-              <div className="card-item">
-                <div className="card-icon">
-                  <FaEnvelope />
-                </div>
-                <div className="card-content">
-                  <h3>Email</h3>
-                  <a href={`mailto:${profileData.contact.email}`}>{profileData.contact.email}</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      case 'phone':
-        return (
-          <div className="file-content">
-            <div className="terminal-line">
-              <span className="prompt">$</span> <span className="command">cat phone.txt</span>
-            </div>
-            <div className="file-data">
-              <div className="card-item">
-                <div className="card-icon">
-                  <FaPhone />
-                </div>
-                <div className="card-content">
-                  <h3>Phone</h3>
-                  <a href={`tel:${profileData.contact.telephoneNum}`}>{profileData.contact.telephoneNum}</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      case 'location':
-        return (
-          <div className="file-content">
-            <div className="terminal-line">
-              <span className="prompt">$</span> <span className="command">cat location.txt</span>
-            </div>
-            <div className="file-data">
-              <div className="card-item">
-                <div className="card-icon">
-                  <FaMapMarkerAlt />
-                </div>
-                <div className="card-content">
-                  <h3>Location</h3>
-                  <p>Istanbul, Turkey</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      case 'social':
-        return (
-          <div className="file-content">
-            <div className="terminal-line">
-              <span className="prompt">$</span> <span className="command">cat social-links.md</span>
-            </div>
-            <div className="file-data">
-              <div className="social-grid terminal-social">
-                <a
-                  href={profileData.contact.githubLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="social-link"
-                  title="GitHub"
-                  style={{ '--index': 1 } as React.CSSProperties}
-                >
-                  <FaGithub className="icon" />
-                  <span>GitHub</span>
-                </a>
-
-                <a
-                  href={profileData.contact.linkedinPage}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="social-link"
-                  title="LinkedIn"
-                  style={{ '--index': 2 } as React.CSSProperties}
-                >
-                  <FaLinkedin className="icon" />
-                  <span>LinkedIn</span>
-                </a>
-
-                <a
-                  href={profileData.contact.mediumLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="social-link"
-                  title="Medium"
-                  style={{ '--index': 3 } as React.CSSProperties}
-                >
-                  <FaMedium className="icon" />
-                  <span>Medium</span>
-                </a>
-
-                <a
-                  href="/assets/pdf/resume.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="social-link"
-                  title="CV"
-                  style={{ '--index': 4 } as React.CSSProperties}
-                >
-                  <FaFileAlt className="icon" />
-                  <span>Resume</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        );
-      default:
-        return null;
-    }
+  const handleBackToDirectory = () => {
+    setActiveFile(null);
+    setShowWelcome(true);
   };
 
-
+  const getActiveFileData = () => {
+    return contactFiles.find(file => file.name === activeFile);
+  };
 
   return (
     <div className="page-wrapper">
       <Navbar />
       <main id="main-content" role="main">
         <div className="contact-container">
-          <div className={`contact-content ${isVisible ? 'visible' : ''}`} ref={contactRef}>
-            <h1>_contact-me</h1>
-
-            <div
-              className="terminal-container expanded"
-              role="application"
-              aria-label="İletişim bilgileri terminali"
-            >
+          <div className="contact-content" ref={contactRef}>
+            <div className="terminal-window">
               <div className="terminal-header">
-                <div className="terminal-buttons" aria-hidden="true">
-                  <span className="terminal-button close"></span>
-                  <span className="terminal-button minimize"></span>
-                  <span className="terminal-button expand"></span>
+                <div className="terminal-controls">
+                  <span className="control-dot close"></span>
+                  <span className="control-dot minimize"></span>
+                  <span className="control-dot maximize"></span>
                 </div>
-                <div className="terminal-title" role="banner">
-                  contact@berat-gudelek
+                <div className="terminal-title">
+                  <FaTerminal className="terminal-icon" />
+                  <span>contact@portfolio:~</span>
                 </div>
               </div>
-
-              <div className="terminal-body" role="main">
-                <div className="terminal-line" aria-hidden="true">
-                  <span className="prompt">$</span> <span className="command">cd ~/_contact-me</span>
+              
+              <div className="terminal-body">
+                <div className="welcome-line">
+                  <span className="user-prompt">beratgdlk@portfolio</span>
+                  <span className="path">:~/contact$</span>
+                  <span className="welcome-text"> # Contact information terminal</span>
                 </div>
-                <div className="terminal-line" aria-hidden="true">
-                  <span className="prompt">$</span> <span className="command">ls -la</span>
+                
+                <div className="command-line">
+                  <span className="user-prompt">beratgdlk@portfolio</span>
+                  <span className="path">:~/contact$</span>
+                  <span className="command-text">ls -la</span>
                 </div>
-
-                {/* File List - Accessible Navigation */}
-                <div className="terminal-line file-list" role="navigation" aria-label="İletişim bilgileri menüsü">
-                  <button
-                    className={`file email ${activeFile === 'email' ? 'active' : ''}`}
-                    onClick={() => setActiveFile('email')}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        setActiveFile('email');
-                      }
-                    }}
-                    aria-label="E-posta bilgilerini görüntüle"
-                    aria-pressed={activeFile === 'email'}
-                    type="button"
-                  >
-                    email.txt
-                  </button>
-                  <button
-                    className={`file phone ${activeFile === 'phone' ? 'active' : ''}`}
-                    onClick={() => setActiveFile('phone')}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        setActiveFile('phone');
-                      }
-                    }}
-                    aria-label="Telefon bilgilerini görüntüle"
-                    aria-pressed={activeFile === 'phone'}
-                    type="button"
-                  >
-                    phone.txt
-                  </button>
-                  <button
-                    className={`file location ${activeFile === 'location' ? 'active' : ''}`}
-                    onClick={() => setActiveFile('location')}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        setActiveFile('location');
-                      }
-                    }}
-                    aria-label="Konum bilgilerini görüntüle"
-                    aria-pressed={activeFile === 'location'}
-                    type="button"
-                  >
-                    location.txt
-                  </button>
-                  <button
-                    className={`file social ${activeFile === 'social' ? 'active' : ''}`}
-                    onClick={() => setActiveFile('social')}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        setActiveFile('social');
-                      }
-                    }}
-                    aria-label="Sosyal medya bağlantılarını görüntüle"
-                    aria-pressed={activeFile === 'social'}
-                    type="button"
-                  >
-                    social-links.md
-                  </button>
-                </div>
-
-                {!activeFile && (
-                  <div role="region" aria-label="Hoşgeldin mesajları">
-                    <div className="terminal-line" aria-hidden="true">
-                      <span className="prompt">$</span> <span className="command">echo "For the fastest and most efficient communication, email is highly recommended! :)"</span>
-                    </div>
-                    <div className="terminal-line">
-                      <span className="prompt" aria-hidden="true">$</span>
-                      <span className="command typing-text" aria-live="polite">{typingText}</span>
-                      {!isComplete && <span className="cursor" aria-hidden="true">|</span>}
-                    </div>
+                
+                {/* File listing */}
+                <div className="file-listing">
+                  <div className="listing-header">
+                    <span className="permissions">PERMISSIONS</span>
+                    <span className="file-name">FILENAME</span>
+                    <span className="description">DESCRIPTION</span>
                   </div>
-                )}
-
-                {activeFile && (
-                  <div role="region" aria-label={`${activeFile} dosya içeriği`} aria-live="polite">
-                    {renderFileContent()}
-                  </div>
-                )}
-
-                {activeFile && (
-                  <div className="terminal-line back-option">
-                    <span className="prompt" aria-hidden="true">$</span>
+                  
+                  {contactFiles.map((file, index) => (
                     <button
-                      className="command back-command"
-                      onClick={() => setActiveFile(null)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          setActiveFile(null);
-                        }
-                      }}
-                      aria-label="Ana menüye geri dön"
-                      type="button"
+                      key={file.name}
+                      className={`file-item ${activeFile === file.name ? 'active' : ''}`}
+                      onClick={() => handleFileSelect(file.name)}
+                      style={{ '--index': index } as React.CSSProperties}
                     >
-                      cd ..
+                      <span className="file-permissions">-rw-r--r--</span>
+                      <span className="file-name-display">
+                        {file.icon}
+                        {file.name}
+                      </span>
+                      <span className="file-description">
+                        {file.name.includes('email') && 'Contact via email'}
+                        {file.name.includes('phone') && 'Phone number'}
+                        {file.name.includes('location') && 'Geographic location'}
+                        {file.name.includes('social') && 'Social media links'}
+                      </span>
                     </button>
-                    <span className="back-text" aria-hidden="true"> (go back)</span>
+                  ))}
+                </div>
+                
+                {/* File content display */}
+                {activeFile && (
+                  <div className="file-content">
+                    <div className="command-line">
+                      <span className="user-prompt">beratgdlk@portfolio</span>
+                      <span className="path">:~/contact$</span>
+                      <TerminalTyping text={getActiveFileData()?.command || ''} />
+                    </div>
+                    
+                    <div className="file-output">
+                      {getActiveFileData()?.content}
+                    </div>
+                    
+                    <div className="back-navigation">
+                      <span className="user-prompt">beratgdlk@portfolio</span>
+                      <span className="path">:~/contact$</span>
+                      <button 
+                        className="back-command"
+                        onClick={handleBackToDirectory}
+                      >
+                        cd ..
+                      </button>
+                      <span className="back-hint"> # Go back to directory</span>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Welcome message when no file is selected */}
+                {!activeFile && (
+                  <div className="welcome-message">
+                    <div className="command-line">
+                      <span className="user-prompt">beratgdlk@portfolio</span>
+                      <span className="path">:~/contact$</span>
+                      <TerminalTyping 
+                        text="echo 'Select a file to view contact information'" 
+                        onComplete={() => setShowWelcome(true)}
+                      />
+                    </div>
+                    
+                    {showWelcome && (
+                      <div className="help-text">
+                        <p className="help-line">
+                          <span className="help-prefix">→</span>
+                          Click on any file above to view details
+                        </p>
+                        <p className="help-line">
+                          <span className="help-prefix">→</span>
+                          For fastest response, email is recommended!
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+                
+                {/* Terminal cursor */}
+                {!activeFile && showWelcome && (
+                  <div className="command-line">
+                    <span className="user-prompt">beratgdlk@portfolio</span>
+                    <span className="path">:~/contact$</span>
+                    <span className="terminal-cursor active">_</span>
                   </div>
                 )}
               </div>

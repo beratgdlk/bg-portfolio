@@ -1,33 +1,33 @@
 @use '../styles/variables' as *;
 @use '../styles/mixins' as *;
 
-@import url('https://fonts.googleapis.com/css2?family=Consolas:wght@400;700&display=swap');
-
+// Terminal animations
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes glowPulse {
-  0% { box-shadow: 0 0 5px rgba(255, 165, 0, 0.3); }
-  50% { box-shadow: 0 0 15px rgba(192, 169, 62, 0.6); }
-  100% { box-shadow: 0 0 5px rgba(255, 165, 0, 0.3); }
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
 }
 
-@keyframes slideIn {
+@keyframes slideInLeft {
   from { transform: translateX(-20px); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
 }
 
-@keyframes blinkCursor {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 1; }
+@keyframes glow {
+  0% { box-shadow: 0 0 5px rgba(77, 91, 206, 0.3); }
+  50% { box-shadow: 0 0 15px rgba(77, 91, 206, 0.6); }
+  100% { box-shadow: 0 0 5px rgba(77, 91, 206, 0.3); }
 }
 
 .page-wrapper {
   min-height: 100vh;
   width: 100%;
-  padding-top: 80px; // Fixed navbar için space
+  padding-top: 80px;
+  // Terminal consistent background
   background: linear-gradient(150deg, #011627 0%, #010D18 100%);
 }
 
@@ -40,7 +40,7 @@
   align-items: center;
   justify-content: center;
   
-  // Terminal benzeri dekoratif efekt
+  // Terminal frame decoration - consistent with other pages
   &:before {
     content: '';
     position: absolute;
@@ -54,10 +54,10 @@
     z-index: 0;
   }
   
-  // Dekoratif köşe nokta efektleri
+  // Decorative corner dots - consistent colors
   &:after {
-      content: '';
-      position: absolute;
+    content: '';
+    position: absolute;
     width: 12px;
     height: 12px;
     background-color: #4D5BCE;
@@ -72,229 +72,395 @@
     z-index: 1;
   }
   
-  .page-content {
+  .contact-content {
     position: relative;
     z-index: 2;
-    max-width: 800px;
+    max-width: 1000px;
     width: 100%;
     
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-      color: #4d5bce;
-      text-shadow: 0 0 15px rgba(77, 91, 206, 0.5);
-      text-align: center;
-      position: relative;
-      display: inline-block;
-      width: 100%;
-          
-      &:after {
-        content: '';
-            position: absolute;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60px;
-        height: 3px;
-        background: linear-gradient(90deg, #4d5bce, transparent);
-      }
-    }
-    
-    .terminal-interface {
-      background: rgba(30, 45, 61, 0.9);
+    .terminal-window {
+      background-color: rgba(14, 32, 48, 0.7);
       border-radius: 12px;
-      border: 1px solid rgba(77, 91, 206, 0.3);
+      border-left: 3px solid $primary-blue;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
       overflow: hidden;
       
       .terminal-header {
-        background: rgba(77, 91, 206, 0.1);
-        padding: 1rem;
+        background-color: rgba(14, 32, 48, 0.9);
+        padding: 1rem 1.5rem;
         border-bottom: 1px solid rgba(77, 91, 206, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         
-        h2 {
-          color: #43D9AD;
-          margin: 0;
-          font-size: 1.2rem;
-          font-family: 'Fira Code', monospace;
-        }
-      }
-      
-      .terminal-content {
-        padding: 2rem;
-        font-family: 'Fira Code', monospace;
-        
-        .contact-info {
-          margin-bottom: 2rem;
+        .terminal-controls {
+          display: flex;
+          gap: 8px;
           
-          .info-line {
-      display: flex;
-      align-items: center;
-            margin-bottom: 1rem;
-            color: #a9b2c3;
+          .control-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
             
-            .prefix {
-              color: #FEA55F;
-              margin-right: 0.5rem;
-    }
-    
-            .label {
-              color: #4D5BCE;
-              margin-right: 0.5rem;
-      }
-      
-            .value {
-              color: #43D9AD;
-              
-              a {
-                color: #43D9AD;
-        text-decoration: none;
-        
-        &:hover {
-                  text-decoration: underline;
-                }
+            &.close { background-color: #E99287; }
+            &.minimize { background-color: #FEA55F; }
+            &.maximize { background-color: #43D9AD; }
+          }
         }
-      }
-    }
-  }
-  
-        .social-links {
-          .info-line {
-      .social-link {
-              display: inline-flex;
-      align-items: center;
-              gap: 0.5rem;
-              color: #43D9AD;
-        text-decoration: none;
-              padding: 0.5rem;
-              border-radius: 6px;
-        transition: all 0.3s ease;
         
-        &:hover {
-                background: rgba(67, 217, 173, 0.1);
-                transform: translateX(5px);
-        }
-      }
-    }
-  }
-}
-    }
-  }
-}
-
-// Responsive
-@media (max-width: $tablet) {
-  .page-wrapper {
-    padding-top: 70px;
-    }
-    
-  .contact-container {
-    min-height: calc(100vh - 70px);
-    padding: 1.5rem;
-    
-    .page-content {
-      h1 {
-        font-size: 2rem;
-    }
-    
-      .terminal-interface .terminal-content {
-        padding: 1.5rem;
-      }
-    }
-  }
-}
-
-@media (max-width: $mobile) {
-  .page-wrapper {
-    padding-top: 60px;
-  }
-  
-  .contact-container {
-    min-height: calc(100vh - 60px);
-    padding: 1rem;
-    
-    .page-content {
-      h1 {
-        font-size: 1.8rem;
-  }
-  
-      .terminal-interface {
-        .terminal-header {
-          padding: 0.8rem;
-    
-    h2 {
+        .terminal-title {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: #C0A93E;
+          font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+          font-size: 0.9rem;
+          
+          .terminal-icon {
             font-size: 1rem;
-    }
-  }
-  
-        .terminal-content {
-          padding: 1rem;
-      
-          .contact-info .info-line {
-            flex-direction: column;
-            align-items: flex-start;
-            margin-bottom: 1.5rem;
           }
         }
       }
-    }
-  }
-} 
-
-// Enhanced Mobile Responsive Design
-@include responsive(tablet) {
-  .page-wrapper {
-    padding-top: 70px;
-  }
-    
-  .contact-container {
-    min-height: calc(100vh - 70px);
-    padding: 1.5rem;
-    
-    .contact-content {
-      h1 {
-        font-size: 2rem;
-        margin-bottom: 1.5rem;
-      }
-    }
-    
-    .terminal-container {
+      
       .terminal-body {
         padding: 1.5rem;
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        font-size: 0.95rem;
+        line-height: 1.4;
         
-        .terminal-line {
-          font-size: 0.9rem;
-          margin-bottom: 0.8rem;
-        }
-        
-        .file-list {
-          gap: 1rem;
-          margin: 1.5rem 0;
-          flex-wrap: wrap;
+        .welcome-line {
+          color: #a9b2c3;
+          margin-bottom: 1rem;
+          animation: fadeIn 0.5s ease;
           
-          button {
-            padding: 0.8rem 1.2rem;
-            font-size: 0.85rem;
-            min-width: 120px;
-            
-            // Touch-friendly minimum size
-            min-height: 44px;
+          .user-prompt {
+            color: #43D9AD;
+            font-weight: 600;
+          }
+          
+          .path {
+            color: #4D5BCE;
+            font-weight: 600;
+          }
+          
+          .welcome-text {
+            color: #FEA55F;
           }
         }
         
-        .info-line {
-          font-size: 0.9rem;
+        .command-line {
+          display: flex;
+          align-items: center;
           margin-bottom: 1rem;
           
-          .social-link {
-            padding: 0.6rem 0.8rem;
-            gap: 0.6rem;
-            min-height: 44px;
+          .user-prompt {
+            color: #43D9AD;
+            font-weight: 600;
+            margin-right: 0.5rem;
+          }
+          
+          .path {
+            color: #4D5BCE;
+            font-weight: 600;
+            margin-right: 0.5rem;
+          }
+          
+          .command-text {
+            color: #e5e9f0;
+          }
+          
+          .terminal-cursor {
+            background-color: #C0A93E;
+            animation: blink 1s infinite;
+            margin-left: 2px;
             
-            svg {
-              font-size: 1.2rem;
+            &.active {
+              animation-duration: 0.8s;
             }
           }
         }
+      }
+    }
+  }
+}
+
+// File listing styles - terminal ls -la output
+.file-listing {
+  margin: 1.5rem 0;
+  
+  .listing-header {
+    display: grid;
+    grid-template-columns: 120px 200px 1fr;
+    gap: 1rem;
+    font-size: 0.75rem;
+    color: #FEA55F;
+    font-weight: 600;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(77, 91, 206, 0.2);
+    margin-bottom: 0.5rem;
+  }
+  
+  .file-item {
+    display: grid;
+    grid-template-columns: 120px 200px 1fr;
+    gap: 1rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(77, 91, 206, 0.1);
+    background: none;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    animation: slideInLeft 0.4s ease;
+    animation-delay: calc(var(--index) * 0.1s);
+    animation-fill-mode: both;
+    
+    &:hover {
+      background-color: rgba(14, 32, 48, 0.8);
+      transform: translateX(5px);
+    }
+    
+    &.active {
+      background-color: rgba(67, 217, 173, 0.1);
+      border-left: 2px solid #43D9AD;
+      padding-left: calc(0.8rem - 2px);
+    }
+    
+    .file-permissions {
+      color: #43D9AD;
+      font-size: 0.85rem;
+    }
+    
+    .file-name-display {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #C0A93E;
+      font-weight: 600;
+      
+      svg {
+        color: #FEA55F;
+        font-size: 0.9rem;
+      }
+    }
+    
+    .file-description {
+      color: #a9b2c3;
+      font-size: 0.85rem;
+    }
+  }
+}
+
+// File content display styles
+.file-content {
+  margin-top: 1.5rem;
+  animation: slideInLeft 0.3s ease;
+  
+  .file-output {
+    margin: 1rem 0 1rem 1rem;
+    
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background-color: rgba(6, 14, 22, 0.6);
+      border-radius: 8px;
+      border: 1px solid rgba(77, 91, 206, 0.2);
+      
+      .contact-icon {
+        width: 48px;
+        height: 48px;
+        background-color: rgba(77, 91, 206, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #4D5BCE;
+        font-size: 1.2rem;
+      }
+      
+      .contact-info {
+        flex: 1;
+        
+        h3 {
+          margin: 0 0 0.5rem 0;
+          color: #43D9AD;
+          font-size: 1.1rem;
+        }
+        
+        .contact-link {
+          color: #C0A93E;
+          text-decoration: none;
+          font-weight: 600;
+          transition: all 0.2s ease;
+          
+          &:hover {
+            color: #fff;
+            text-shadow: 0 0 8px rgba(192, 169, 62, 0.6);
+          }
+        }
+        
+        .contact-text {
+          color: #a9b2c3;
+          margin: 0;
+        }
+      }
+    }
+    
+    .social-links-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      
+      .social-link-item {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 1rem;
+        background-color: rgba(6, 14, 22, 0.6);
+        border-radius: 8px;
+        border: 1px solid rgba(77, 91, 206, 0.2);
+        text-decoration: none;
+        color: #C0A93E;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background-color: rgba(14, 32, 48, 0.8);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+          
+          .social-icon {
+            color: #fff;
+            transform: scale(1.1);
+          }
+        }
+        
+        .social-icon {
+          font-size: 1.2rem;
+          color: #4D5BCE;
+          transition: all 0.2s ease;
+        }
+      }
+    }
+  }
+  
+  .back-navigation {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    
+    .user-prompt {
+      color: #43D9AD;
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    
+    .path {
+      color: #4D5BCE;
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    
+    .back-command {
+      background: none;
+      border: none;
+      color: #43D9AD;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        color: #fff;
+        text-shadow: 0 0 8px rgba(67, 217, 173, 0.6);
+      }
+    }
+    
+    .back-hint {
+      color: #a9b2c3;
+      margin-left: 0.5rem;
+    }
+  }
+}
+
+// Welcome message styles
+.welcome-message {
+  margin-top: 1.5rem;
+  
+  .help-text {
+    margin: 1rem 0 1rem 1rem;
+    
+    .help-line {
+      color: #a9b2c3;
+      margin: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      
+      .help-prefix {
+        color: #FEA55F;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// Terminal typing component styles
+.terminal-typing {
+  .terminal-cursor {
+    background-color: #C0A93E;
+    animation: blink 1s infinite;
+    margin-left: 1px;
+  }
+}
+
+// Responsive design
+@include responsive(tablet) {
+  .contact-container {
+    padding: 1.5rem;
+    
+    .contact-content {
+      .terminal-window {
+        .terminal-header {
+          padding: 0.8rem 1rem;
+          
+          .terminal-title {
+            font-size: 0.8rem;
+          }
+        }
+        
+        .terminal-body {
+          padding: 1rem;
+          font-size: 0.85rem;
+        }
+      }
+    }
+  }
+  
+  .file-listing {
+    .listing-header {
+      grid-template-columns: 100px 150px 1fr;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+    }
+    
+    .file-item {
+      grid-template-columns: 100px 150px 1fr;
+      gap: 0.5rem;
+    }
+  }
+  
+  .file-content {
+    .file-output {
+      .social-links-grid {
+        grid-template-columns: 1fr;
       }
     }
   }
@@ -310,287 +476,90 @@
     padding: 1rem;
     
     .contact-content {
-      h1 {
-        font-size: 1.8rem;
-        margin-bottom: 1.2rem;
-        line-height: 1.2;
-      }
-    }
-    
-    .terminal-container {
-      .terminal-header {
-        padding: 0.8rem 1rem;
-        
-        .terminal-title {
-          font-size: 0.9rem;
-        }
-        
-        .terminal-buttons {
-          span {
-            width: 10px;
-            height: 10px;
-          }
-        }
-      }
-      
-      .terminal-body {
-        padding: 1rem;
-        
-        .terminal-line {
-          font-size: 0.85rem;
-          margin-bottom: 0.6rem;
-          line-height: 1.4;
+      .terminal-window {
+        .terminal-header {
+          padding: 0.6rem 0.8rem;
           
-          .prompt {
-            color: #43D9AD;
-            margin-right: 0.5rem;
-          }
-          
-          .command {
-            color: #607B96;
-          }
-        }
-        
-        // Enhanced mobile file navigation
-        .file-list {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 0.8rem;
-          margin: 1.5rem 0;
-          
-          button {
-            padding: 1rem 0.8rem;
-            font-size: 0.8rem;
-            text-align: center;
-            
-            // Enhanced touch-friendly size
-            min-height: 48px;
-            min-width: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            
-            // Remove tap highlight on iOS
-            -webkit-tap-highlight-color: transparent;
-            
-            // Improve touch response
-            touch-action: manipulation;
-            
-            // Better visual feedback for mobile
-            &:active {
-              transform: scale(0.96);
-              transition: transform 0.1s ease;
-            }
-            
-            &.active {
-              transform: scale(1);
-              box-shadow: 0 4px 12px rgba(67, 217, 173, 0.3);
-            }
-            
-            // Improved focus for keyboard navigation
-            &:focus-visible {
-              outline: 2px solid $primary-blue;
-              outline-offset: 2px;
-            }
-          }
-        }
-        
-        // Mobile-optimized file content display
-        .info-line {
-          font-size: 0.85rem;
-          margin-bottom: 1rem;
-          line-height: 1.5;
-          
-          // Icon spacing optimization
-          svg {
-            font-size: 1.1rem;
-            margin-right: 0.6rem;
-            flex-shrink: 0;
-          }
-          
-          // Social links mobile optimization
-          .social-link {
-            display: flex;
-            align-items: center;
-            padding: 0.8rem;
-            gap: 0.8rem;
-            margin: 0.5rem 0;
-            border-radius: 8px;
-            
-            // Touch-friendly size
-            min-height: 48px;
-            min-width: 44px;
-            
-            // Remove tap highlight
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            
-            // Better mobile hover/active states
-            &:hover {
-              transform: none; // Remove translateX on mobile
-              background: rgba(67, 217, 173, 0.15);
-            }
-            
-            &:active {
-              transform: scale(0.98);
-              transition: transform 0.1s ease;
-            }
-            
-            // Improved typography for mobile
-            span {
-              font-size: 0.85rem;
-              line-height: 1.3;
-            }
-            
-            svg {
-              font-size: 1.2rem;
-              margin-right: 0;
-            }
-          }
-        }
-        
-        // Mobile-optimized back navigation
-        .back-option {
-          margin-top: 1.5rem;
-          
-          .back-command {
-            background: none;
-            border: none;
-            color: #43D9AD;
-            cursor: pointer;
-            padding: 0.8rem;
-            border-radius: 6px;
-            
-            // Touch-friendly size
-            min-height: 44px;
-            min-width: 44px;
-            
-            // Remove tap highlight
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            
-            &:active {
-              transform: scale(0.96);
-              background: rgba(67, 217, 173, 0.1);
-              transition: all 0.1s ease;
-            }
-            
-            &:focus-visible {
-              outline: 2px solid $primary-blue;
-              outline-offset: 2px;
+          .terminal-controls {
+            .control-dot {
+              width: 10px;
+              height: 10px;
             }
           }
           
-          .back-text {
-            font-size: 0.8rem;
-            color: #607B96;
-            margin-left: 0.5rem;
-          }
-        }
-        
-        // Mobile typing animation optimization
-        .typing-text {
-          // Reduce typing speed on mobile for better performance
-          animation-duration: 2.5s;
-        }
-      }
-    }
-  }
-}
-
-// Very small mobile screens (iPhone SE, etc.)
-@media (max-width: 360px) {
-  .contact-container {
-    padding: 0.5rem;
-    
-    .contact-content h1 {
-      font-size: 1.6rem;
-      margin-bottom: 1rem;
-    }
-    
-    .terminal-container .terminal-body {
-      padding: 0.8rem;
-      
-      .terminal-line {
-        font-size: 0.8rem;
-        margin-bottom: 0.5rem;
-      }
-      
-      .file-list {
-        gap: 0.6rem;
-        
-        button {
-          padding: 0.8rem 0.6rem;
-          font-size: 0.75rem;
-          min-height: 44px;
-        }
-      }
-      
-      .info-line {
-        font-size: 0.8rem;
-        
-        .social-link {
-          padding: 0.7rem;
-          gap: 0.6rem;
-          
-          span {
-            font-size: 0.8rem;
-          }
-          
-          svg {
-            font-size: 1.1rem;
-          }
-        }
-      }
-    }
-  }
-}
-
-// Landscape mode optimizations for mobile
-@media (max-width: $mobile) and (orientation: landscape) {
-  .contact-container {
-    padding: 0.8rem;
-    
-    .contact-content h1 {
-      font-size: 1.6rem;
-      margin-bottom: 0.8rem;
-    }
-    
-    .terminal-container {
-      .terminal-header {
-        padding: 0.6rem 0.8rem;
-      }
-      
-      .terminal-body {
-        padding: 0.8rem;
-        
-        .terminal-line {
-          font-size: 0.8rem;
-          margin-bottom: 0.4rem;
-        }
-        
-        .file-list {
-          margin: 1rem 0;
-          gap: 0.6rem;
-          
-          button {
-            padding: 0.7rem 0.6rem;
+          .terminal-title {
             font-size: 0.75rem;
-            min-height: 40px;
           }
         }
         
-        .info-line {
+        .terminal-body {
+          padding: 0.8rem;
           font-size: 0.8rem;
-          margin-bottom: 0.8rem;
+        }
+      }
+    }
+  }
+  
+  .file-listing {
+    .listing-header {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+      
+      .permissions {
+        display: none;
+      }
+    }
+    
+    .file-item {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+      padding: 1rem 0.8rem;
+      
+      .file-permissions {
+        display: none;
+      }
+      
+      .file-name-display {
+        margin-bottom: 0.3rem;
+      }
+      
+      .file-description {
+        font-size: 0.75rem;
+      }
+    }
+  }
+  
+  .file-content {
+    .file-output {
+      margin-left: 0.5rem;
+      
+      .contact-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.8rem;
+        
+        .contact-icon {
+          width: 40px;
+          height: 40px;
+          font-size: 1rem;
+        }
+        
+        .contact-info {
+          h3 {
+            font-size: 1rem;
+          }
+        }
+      }
+      
+      .social-links-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+        
+        .social-link-item {
+          padding: 0.8rem;
           
-          .social-link {
-            padding: 0.6rem 0.8rem;
-            min-height: 40px;
-            
-            span {
-              font-size: 0.8rem;
-            }
+          .social-icon {
+            font-size: 1.1rem;
           }
         }
       }
@@ -598,61 +567,11 @@
   }
 }
 
-// iOS specific optimizations
-@supports (-webkit-overflow-scrolling: touch) {
-  .contact-container {
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  .terminal-container {
-    // Improve scrolling performance on iOS
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-  }
-}
-
-// Reduced motion preferences for accessibility
+// Reduced motion preferences
 @media (prefers-reduced-motion: reduce) {
-  .typing-text {
-    animation: none !important;
-    
-    &::after {
-      display: none; // Hide cursor animation
-    }
-  }
-  
-  .file-list button,
-  .social-link,
-  .back-command {
-    transition: none !important;
-    
-    &:hover,
-    &:active {
-      transform: none !important;
-    }
-  }
-  
-  .contact-content {
-    &.visible {
-      // Show content immediately without animation
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-  }
-}
-
-// High-resolution display optimizations
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  .terminal-container {
-    // Ensure crisp text on retina displays
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  
-  .social-link svg {
-    // Crisp icons on retina displays
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 } 
