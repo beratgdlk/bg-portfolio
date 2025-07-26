@@ -672,3 +672,427 @@ h1 {
     font-size: 0.7rem;
   }
 }
+
+// Enhanced Mobile Responsive Design
+@include responsive(tablet) {
+  .page-wrapper {
+    padding-top: 70px;
+  }
+  
+  .about-container {
+    min-height: calc(100vh - 70px);
+    padding: 1.5rem;
+    
+    &:before {
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+    }
+    
+    &:after {
+      width: 8px;
+      height: 8px;
+      top: 22px;
+      left: 22px;
+    }
+  }
+  
+  .about-me-container {
+    padding: 2rem 1.5rem;
+    
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+  
+  .about-content {
+    gap: 2rem;
+    
+    .terminal-text {
+      p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+    }
+    
+    .skills-section {
+      h2 {
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
+      }
+    }
+  }
+  
+  .skills-filter {
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    
+    .filter-btn {
+      padding: 0.8rem 1.2rem;
+      font-size: 0.9rem;
+      min-width: 120px;
+      
+      // Touch-friendly minimum size
+      min-height: 44px;
+      
+      &:hover {
+        transform: translateY(-2px);
+      }
+      
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+  
+  .tech-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1.2rem;
+  }
+  
+  .tech-item {
+    padding: 1.2rem;
+    height: auto;
+    min-height: 100px;
+    
+    .tech-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.8rem;
+    }
+    
+    .tech-name {
+      font-size: 0.85rem;
+    }
+  }
+}
+
+@include responsive(mobile) {
+  .page-wrapper {
+    padding-top: 60px;
+  }
+  
+  .about-container {
+    min-height: calc(100vh - 60px);
+    padding: 1rem;
+    
+    &:before {
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+    }
+    
+    &:after {
+      width: 6px;
+      height: 6px;
+      top: 15px;
+      left: 15px;
+    }
+  }
+  
+  .about-me-container {
+    padding: 1.5rem 1rem;
+    
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+      line-height: 1.2;
+    }
+  }
+  
+  .about-content {
+    gap: 2rem;
+    
+    .terminal-text {
+      p {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        
+        // Highlight text adjustments for mobile
+        .highlight,
+        .highlight-frontend,
+        .highlight-backend {
+          display: inline-block;
+          line-height: 1.4;
+        }
+      }
+    }
+    
+    .skills-section {
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.2rem;
+        line-height: 1.3;
+      }
+    }
+  }
+  
+  .skills-filter {
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    
+    .filter-btn {
+      padding: 0.8rem 1rem;
+      font-size: 0.8rem;
+      text-align: center;
+      
+      // Enhanced touch-friendly size
+      min-height: 44px;
+      min-width: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      // Remove tap highlight on iOS
+      -webkit-tap-highlight-color: transparent;
+      
+      // Improve touch response
+      touch-action: manipulation;
+      
+      &:nth-child(5) {
+        grid-column: 1 / -1;
+        max-width: 200px;
+        margin: 0 auto;
+      }
+      
+      &:hover {
+        transform: none; // Remove hover transform on mobile
+      }
+      
+      &:active {
+        transform: scale(0.96);
+        transition: transform 0.1s ease;
+      }
+      
+      // Improved focus for keyboard navigation
+      &:focus-visible {
+        outline: 2px solid $primary-blue;
+        outline-offset: 2px;
+      }
+    }
+  }
+  
+  .tech-grid {
+    grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
+    gap: 1rem;
+    
+    // Ensure minimum 3 columns on small screens
+    @media (max-width: 360px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .tech-item {
+    padding: 1rem 0.6rem;
+    height: auto;
+    min-height: 90px;
+    
+    // Touch-friendly for potential interactions
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    
+    .tech-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.6rem;
+      
+      // Optimize icon rendering on mobile
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    .tech-name {
+      font-size: 0.75rem;
+      line-height: 1.2;
+      
+      // Prevent text wrapping for better appearance
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    // Subtle hover effect for touch devices
+    &:active {
+      transform: scale(0.95);
+      transition: transform 0.1s ease;
+    }
+  }
+  
+  // Mobile-specific typing animation optimizations
+  .typing-text {
+    // Reduce typing speed on mobile for better performance
+    animation-duration: 3s;
+  }
+  
+  .typing-text-tech {
+    animation-duration: 2.5s;
+  }
+}
+
+// Very small mobile screens (iPhone SE, etc.)
+@media (max-width: 360px) {
+  .about-container {
+    padding: 0.5rem;
+  }
+  
+  .about-me-container {
+    padding: 1rem 0.8rem;
+    
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+  }
+  
+  .about-content {
+    .terminal-text p {
+      font-size: 0.85rem;
+      margin-bottom: 0.8rem;
+    }
+    
+    .skills-section h2 {
+      font-size: 1.3rem;
+    }
+  }
+  
+  .skills-filter {
+    .filter-btn {
+      font-size: 0.75rem;
+      padding: 0.7rem 0.8rem;
+    }
+  }
+  
+  .tech-grid {
+    gap: 0.8rem;
+  }
+  
+  .tech-item {
+    padding: 0.8rem 0.4rem;
+    min-height: 80px;
+    
+    .tech-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.4rem;
+    }
+    
+    .tech-name {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+// Landscape mode optimizations for mobile
+@media (max-width: $mobile) and (orientation: landscape) {
+  .about-container {
+    padding: 0.8rem;
+  }
+  
+  .about-me-container {
+    padding: 1.2rem;
+    
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+    }
+  }
+  
+  .about-content {
+    gap: 1.5rem;
+    
+    .terminal-text p {
+      font-size: 0.8rem;
+      margin-bottom: 0.6rem;
+    }
+    
+    .skills-section h2 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+  }
+  
+  .skills-filter {
+    margin-bottom: 1.2rem;
+    
+    .filter-btn {
+      padding: 0.6rem 0.8rem;
+      font-size: 0.75rem;
+    }
+  }
+  
+  .tech-grid {
+    gap: 0.8rem;
+  }
+  
+  .tech-item {
+    min-height: 75px;
+    padding: 0.8rem 0.5rem;
+    
+    .tech-icon {
+      font-size: 2rem;
+      margin-bottom: 0.4rem;
+    }
+    
+    .tech-name {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+// iOS specific optimizations
+@supports (-webkit-overflow-scrolling: touch) {
+  .about-container {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .tech-grid {
+    // Improve scrolling performance on iOS
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+}
+
+// Reduced motion preferences for accessibility
+@media (prefers-reduced-motion: reduce) {
+  .typing-text,
+  .typing-text-tech {
+    animation: none !important;
+    
+    &::after {
+      display: none; // Hide cursor animation
+    }
+  }
+  
+  .tech-item,
+  .filter-btn {
+    transition: none !important;
+    
+    &:hover,
+    &:active {
+      transform: none !important;
+    }
+  }
+  
+  .about-me-container {
+    &.visible {
+      // Show content immediately without animation
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+}
+
+// High-resolution display optimizations
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .tech-icon {
+    // Ensure crisp icons on retina displays
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
