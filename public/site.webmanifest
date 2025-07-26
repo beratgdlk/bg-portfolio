@@ -1,0 +1,27 @@
+{
+  "name": "Berat Gudelek - Frontend & Fullstack Developer",
+  "short_name": "Berat Gudelek",
+  "description": "Portfolio website of Berat Gudelek - Frontend & Fullstack Developer specializing in React, TypeScript, Node.js",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#011627",
+  "theme_color": "#011627",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-US",
+  "categories": ["developer", "portfolio", "technology"],
+  "icons": [
+    {
+      "src": "/assets/images/bg-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/images/bg-logo.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+} 

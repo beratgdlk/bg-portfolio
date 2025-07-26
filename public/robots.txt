@@ -1,0 +1,33 @@
+User-agent: *
+Allow: /
+
+# Specific page permissions
+Allow: /_about-me
+Allow: /_projects
+Allow: /_contact-me
+
+# Static assets
+Allow: /assets/
+Allow: /public/
+
+# Disallow common files
+Disallow: /src/
+Disallow: /_next/
+Disallow: /node_modules/
+Disallow: /.env
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /bun.lock
+Disallow: /tsconfig.json
+Disallow: /vite.config.ts
+
+# Block development and build files
+Disallow: /.git/
+Disallow: /dist/
+Disallow: /build/
+
+# Sitemap location
+Sitemap: https://beratgudelek.dev/sitemap.xml
+
+# Crawl delay (optional - 1 second delay between requests)
+Crawl-delay: 1 
