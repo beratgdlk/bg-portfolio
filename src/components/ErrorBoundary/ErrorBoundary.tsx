@@ -70,13 +70,16 @@ class ErrorBoundary extends Component<Props, State> {
         <div className="error-boundary">
           <div className="error-container">
             <div className="error-icon">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-              </svg>
+              <div style={{
+                fontSize: '4rem',
+                marginBottom: '1rem'
+              }}>
+                ⚠️
+              </div>
             </div>
             
-            <h1>Oops! Bir şeyler ters gitti</h1>
-            <p>Üzgünüz, beklenmeyen bir hata oluştu. Sayfayı yenilemeyi deneyin.</p>
+            <h1>Oops! Something went wrong</h1>
+            <p>Sorry, an unexpected error occurred. Please try refreshing the page.</p>
             
             <div className="error-actions">
               <button 
@@ -84,20 +87,20 @@ class ErrorBoundary extends Component<Props, State> {
                 className="btn-primary"
                 type="button"
               >
-                Sayfayı Yenile
+                🔄 Refresh Page
               </button>
               <button 
                 onClick={this.handleGoHome}
                 className="btn-secondary"
                 type="button"
               >
-                Ana Sayfaya Git
+                🏠 Go to Home
               </button>
             </div>
 
             {process.env.NODE_ENV === 'development' && this.state.error && (
               <details className="error-details">
-                <summary>Hata Detayları (Geliştirici Modu)</summary>
+                <summary>🔧 Error Details (Development Mode)</summary>
                 <pre className="error-stack">
                   <strong>Error:</strong> {this.state.error.toString()}
                   <br />

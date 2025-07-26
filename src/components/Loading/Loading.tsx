@@ -14,7 +14,7 @@ interface LoadingProps {
 const Loading: React.FC<LoadingProps> = ({ 
   type = 'terminal', 
   size = 'medium',
-  message = 'Yükleniyor...',
+  message = 'Loading...',
   fullscreen = false,
   className = ''
 }) => {
@@ -84,7 +84,7 @@ const Loading: React.FC<LoadingProps> = ({
       {getLoadingContent()}
       {message && (
         <div className="loading-message">
-          <span className="sr-only">Yükleniyor:</span>
+          <span className="sr-only">Loading:</span>
           {message}
         </div>
       )}
@@ -93,7 +93,7 @@ const Loading: React.FC<LoadingProps> = ({
 };
 
 export const FullscreenLoading: React.FC<{ message?: string }> = ({ 
-  message = 'Sayfa yükleniyor...' 
+  message = 'Loading page...' 
 }) => (
   <Loading 
     type="terminal" 

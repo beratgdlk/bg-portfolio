@@ -222,7 +222,6 @@ const AboutMe: React.FC = () => {
         <div className="about-container">
           <div className={`about-me-container ${isVisible ? 'visible' : ''}`}>
             <h1>_about-me</h1>
-            
             <div className="about-content" ref={contentRef}>
               <section className="terminal-text" aria-label="Kişisel tanıtım">
                 <p>I'm a <span className="highlight typing-text" aria-live="polite">{displayTitle}</span></p>

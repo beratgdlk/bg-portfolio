@@ -18,12 +18,12 @@ const App: React.FC = () => {
     <ErrorBoundary>
       <ProfileProvider>
         <Router>
-          <Suspense fallback={<FullscreenLoading message="Sayfa yükleniyor..." />}>
+          <Suspense fallback={<FullscreenLoading message="Loading page..." />}>
             <Routes>
               <Route 
                 path="/_about-me" 
                 element={
-                  <ErrorBoundary fallback={<div>About Me sayfası yüklenirken hata oluştu.</div>}>
+                  <ErrorBoundary>
                     <AboutMe />
                   </ErrorBoundary>
                 } 
@@ -31,7 +31,7 @@ const App: React.FC = () => {
               <Route 
                 path="/_projects" 
                 element={
-                  <ErrorBoundary fallback={<div>Projects sayfası yüklenirken hata oluştu.</div>}>
+                  <ErrorBoundary>
                     <Projects />
                   </ErrorBoundary>
                 } 
@@ -39,13 +39,13 @@ const App: React.FC = () => {
               <Route 
                 path="/_contact-me" 
                 element={
-                  <ErrorBoundary fallback={<div>Contact Me sayfası yüklenirken hata oluştu.</div>}>
+                  <ErrorBoundary>
                     <ContactMe />
                   </ErrorBoundary>
                 } 
               />
               <Route path="/" element={
-                <ErrorBoundary fallback={<div>Ana sayfa yüklenirken hata oluştu.</div>}>
+                <ErrorBoundary>
                   <Navbar />
                   <Terminal />
                   <Footer />
