@@ -3,6 +3,11 @@ import { FaFolder, FaGithub } from 'react-icons/fa';
 import Navbar from '../components/Navbar/Navbar';
 import './Projects.scss';
 
+// CSS Custom Properties için type definition
+interface CSSPropertiesWithCustom extends React.CSSProperties {
+  '--index'?: number;
+}
+
 // Proje verileri
 interface Project {
   title: string;
@@ -333,8 +338,8 @@ const GitHubActivity = () => {
               key={weekIndex} 
               className="contribution-week"
               style={{
-                ["--index" as any]: weekIndex
-              }}
+                '--index': weekIndex
+              } as CSSPropertiesWithCustom}
             >
               {week.map((level, dayIndex) => (
                 <div 
@@ -346,8 +351,8 @@ const GitHubActivity = () => {
                                     level === 2 ? '#006d32' : 
                                     level === 3 ? '#26a641' : 
                                     level === 4 ? '#39d353' : '#161b22',
-                    ["--index" as any]: weekIndex * 7 + dayIndex
-                  }}
+                    '--index': weekIndex * 7 + dayIndex
+                  } as CSSPropertiesWithCustom}
                 />
               ))}
             </div>
@@ -372,49 +377,65 @@ const Projects: React.FC = () => {
   return (
     <div className="page-wrapper">
       <Navbar />
-      <div className="projects-container">
-        <div className="projects-content">
-          <h1>_projects</h1>
-          
-          <div className="project-grid">
-            {projectsData.map((project, index) => (
-              <a 
-                href={project.githubLink} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="card-link"
-                key={index}
-              >
-                <div className="project-card" style={{ '--index': index } as React.CSSProperties}>
-                  <div className="project-header">
-                    <div className="project-icon">
-                      <FaFolder />
+      <main id="main-content" role="main">
+        <div className="projects-container">
+          <div className="projects-content">
+            <h1>_projects</h1>
+            
+            <section className="project-grid" aria-labelledby="projects-heading">
+              <h2 id="projects-heading" className="sr-only">Proje Listesi</h2>
+              {projectsData.map((project, index) => (
+                <article 
+                  className="project-card" 
+                  style={{ '--index': index } as CSSPropertiesWithCustom}
+                  key={index}
+                >
+                  <a 
+                    href={project.githubLink} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="card-link"
+                    aria-label={`${project.title} projesini GitHub'da görüntüle`}
+                  >
+                    <div className="project-header">
+                      <div className="project-icon" aria-hidden="true">
+                        <FaFolder />
+                      </div>
+                      <div className="project-title">
+                        <h3 style={{ color: '#C0A93E' }}>{project.title}</h3>
+                        <span className="project-visibility" aria-label="Açık kaynak proje">Public</span>
+                      </div>
                     </div>
-                    <div className="project-title">
-                      <h2 style={{ color: '#C0A93E' }}>{project.title}</h2>
-                      <span className="project-visibility">Public</span>
+                    
+                    <p className="project-description">
+                      {project.description}
+                    </p>
+                    
+                    <div className="project-footer">
+                      <div className="project-language">
+                        <span 
+                          className="language-dot" 
+                          style={{ backgroundColor: project.languageColor }}
+                          aria-hidden="true"
+                        ></span>
+                        <span aria-label={`Programlama dili: ${project.language}`}>
+                          {project.language}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <p className="project-description">
-                    {project.description}
-                  </p>
-                  
-                  <div className="project-footer">
-                    <div className="project-language">
-                      <span className="language-dot" style={{ backgroundColor: project.languageColor }}></span>
-                      <span>{project.language}</span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            ))}
+                  </a>
+                </article>
+              ))}
+            </section>
+            
+            {/* GitHub Contribution Graph */}
+            <section aria-labelledby="github-activity-heading">
+              <h2 id="github-activity-heading" className="sr-only">GitHub Aktivite Grafiği</h2>
+              <GitHubActivity />
+            </section>
           </div>
-          
-          {/* GitHub Contribution Graph */}
-          <GitHubActivity />
         </div>
-      </div>
+      </main>
     </div>
   );
 };
