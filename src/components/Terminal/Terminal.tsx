@@ -11,10 +11,10 @@ import './Terminal.scss';
 // GSAP plugin'ini kaydet
 gsap.registerPlugin(ScrollTrigger);
 
-// Replacement fonksiyonu için tip tanımı
+// Type definition for replacement function
 type ReplacementFunction = (match: string, ...args: string[]) => React.ReactNode;
 
-// Sözdizimi renklendirme işlevi - CodeAnimation için gerekli
+// Syntax highlighting function - required for CodeAnimation
 const syntaxHighlight = (line: string): React.ReactNode => {
   const patterns: Array<{
     pattern: RegExp;

@@ -3,108 +3,81 @@ import { FaFolder, FaGithub } from 'react-icons/fa';
 import Navbar from '../components/Navbar/Navbar';
 import './Projects.scss';
 
-// CSS Custom Properties için type definition
+// CSS Custom Properties type definition
 interface CSSPropertiesWithCustom extends React.CSSProperties {
   '--index'?: number;
 }
 
-// Proje verileri
-interface Project {
-  title: string;
-  description: string;
-  techStack: string[];
-  githubLink: string;
-  language?: string;
-  languageColor?: string;
-}
-
-const projectsData: Project[] = [
+// Sample project data - replace with real data when available
+const projectsData = [
   {
-    title: "blog-api",
-    description: "RESTful API for managing blog content, built with Node.js, Express.js, and MongoDB. Features include creating, reading, updating, and deleting blog posts and users.",
-    techStack: ["TypeScript", "Node.js", "Express", "MongoDB"],
-    githubLink: "https://github.com/beratgdlk/blog-api",
+    title: "E-commerce Platform",
+    description: "Full-stack e-commerce solution with React, Node.js, and PostgreSQL. Features include user authentication, payment processing, and admin dashboard.",
     language: "TypeScript",
-    languageColor: "#3178C6"
+    languageColor: "#3178C6",
+    githubLink: "https://github.com/beratgdlk/ecommerce-platform"
   },
   {
-    title: "restaurant.knex.js",
-    description: "A restaurant management API built with Node.js, Express, PostgreSQL and Knex.js. Features include category and product management with soft-delete functionality.",
-    techStack: ["JavaScript", "Node.js", "Express", "PostgreSQL"],
-    githubLink: "https://github.com/beratgdlk/restaurant.knex.js",
+    title: "Task Management App",
+    description: "Collaborative task management application built with Next.js and Prisma. Real-time updates using Socket.io.",
     language: "JavaScript",
-    languageColor: "#F7DF1E"
+    languageColor: "#F7DF1E",
+    githubLink: "https://github.com/beratgdlk/task-manager"
   },
   {
-    title: "hospital-appointment-api",
-    description: "RESTful API for managing hospital appointments, built with TypeScript, Express.js, Prisma, and Zod.",
-    techStack: ["TypeScript", "Express", "Prisma", "Zod"],
-    githubLink: "https://github.com/beratgdlk/hospital-appointment-api",
+    title: "Weather Dashboard",
+    description: "React-based weather dashboard with charts and forecasts. Uses OpenWeatherMap API for real-time data.",
+    language: "React",
+    languageColor: "#61DAFB",
+    githubLink: "https://github.com/beratgdlk/weather-dashboard"
+  },
+  {
+    title: "Blog CMS",
+    description: "Content management system for blogs built with Express.js and MongoDB. Features markdown support and user roles.",
+    language: "Node.js",
+    languageColor: "#339933",
+    githubLink: "https://github.com/beratgdlk/blog-cms"
+  },
+  {
+    title: "Chat Application",
+    description: "Real-time chat application using Socket.io, React, and Node.js. Supports multiple rooms and file sharing.",
     language: "TypeScript",
-    languageColor: "#3178C6"
+    languageColor: "#3178C6",
+    githubLink: "https://github.com/beratgdlk/chat-app"
   },
   {
-    title: "countdowntimer-todolist.js",
-    description: "A simple, responsive web application built with HTML, CSS, and JavaScript. It features a customizable countdown timer and an interactive to-do list for better productivity.",
-    techStack: ["JavaScript", "HTML", "CSS"],
-    githubLink: "https://github.com/beratgdlk/countdowntimer-todolist-js",
-    language: "JavaScript",
-    languageColor: "#F7DF1E"
-  },
-  {
-    title: "bg-portfolio",
-    description: "My personal portfolio website built with React.js, TypeScript, SASS, and Vite. Showcasing my web development skills, projects, and professional experience.",
-    techStack: ["React", "TypeScript", "SASS", "Vite"],
-    githubLink: "https://github.com/beratgdlk/bg-portfolio",
-    language: "SCSS",
-    languageColor: "#CC6699"
-  },
-  {
-    title: "star-wars",
-    description: "Star Wars Characters is a JavaScript project showcasing real-time filtering. Built with HTML, CSS, and JavaScript, it lets users search and filter characters dynamically.",
-    techStack: ["JavaScript", "HTML", "CSS"],
-    githubLink: "https://github.com/beratgdlk/star-wars",
-    language: "JavaScript",
-    languageColor: "#F7DF1E"
+    title: "Portfolio Website",
+    description: "Personal portfolio website built with React and GSAP animations. Responsive design with modern UI/UX.",
+    language: "React",
+    languageColor: "#61DAFB",
+    githubLink: "https://github.com/beratgdlk/portfolio"
   }
 ];
 
-// Katkı grafiği için renkler - GitHub'ın gerçek katkı takvimi renkleri
-// const contributionLevels = [
-//   { color: "#161b22" },     // level 0 - boş
-//   { color: "#0e4429" },     // level 1 - en açık yeşil
-//   { color: "#006d32" },     // level 2 - açık yeşil
-//   { color: "#26a641" },     // level 3 - orta yeşil
-//   { color: "#39d353" }      // level 4 - en koyu yeşil
-// ];
-
-// GitHub aktivite grafiği için
+// GitHub activity component with animated contribution graph
 const GitHubActivity = () => {
-  // Bu örnek, 12 ay 7 gün içeren rastgele GitHub aktivitesi oluşturur
-  // 1: açık yeşil, 2: orta yeşil, 3: koyu yeşil, 4: en koyu yeşil, 0: boş
-  
   const [contributions, setContributions] = React.useState<number[][]>([]);
   const [totalContributions, setTotalContributions] = React.useState<number>(0);
   const [displayedCount, setDisplayedCount] = React.useState<string>("");
   const [isTyping, setIsTyping] = React.useState<boolean>(true);
-  
-  // Timeout referansları için useRef
+
+  // Timeout references using useRef
   const typingTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
   const intervalRef = React.useRef<NodeJS.Timeout | null>(null);
   const animationFrameRef = React.useRef<number | null>(null);
-  
-  // Typing animasyon mantığını optimize edilmiş halde
+
+  // Optimized typing and erasing animation logic
   const animateTypingAndErasing = React.useCallback(() => {
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
     }
 
     const newRandomCount = 1385 + Math.floor(Math.random() * (4743 - 1385));
-    
+
     if (isTyping) {
       const currentText = displayedCount;
       const targetText = totalContributions.toString();
-      
+
       if (currentText.length < targetText.length) {
         setDisplayedCount(targetText.substring(0, currentText.length + 1));
         typingTimeoutRef.current = setTimeout(animateTypingAndErasing, 6000 / targetText.length);
@@ -125,26 +98,26 @@ const GitHubActivity = () => {
     }
   }, [displayedCount, isTyping, totalContributions]);
 
-  // İlk contribution count'u ayarla - sadece component mount olduğunda
+  // Set initial contribution count - only when component mounts
   React.useEffect(() => {
     let savedContributionCount = localStorage.getItem('contributionCount');
     let savedTimestamp = localStorage.getItem('contributionTimestamp');
     let currentCount;
-    
+
     const currentTime = new Date().getTime();
     const isPageRefresh = savedTimestamp && (currentTime - parseInt(savedTimestamp)) < 3000;
-    
+
     if (savedContributionCount && isPageRefresh) {
       currentCount = parseInt(savedContributionCount) + 1;
     } else {
       currentCount = 1385 + Math.floor(Math.random() * (4743 - 1385));
     }
-    
+
     localStorage.setItem('contributionCount', currentCount.toString());
     localStorage.setItem('contributionTimestamp', currentTime.toString());
     setTotalContributions(currentCount);
 
-    // İlk animasyonu başlat
+    // Start initial animation
     typingTimeoutRef.current = setTimeout(animateTypingAndErasing, 500);
 
     // Cleanup
@@ -153,128 +126,105 @@ const GitHubActivity = () => {
         clearTimeout(typingTimeoutRef.current);
       }
     };
-  }, []); // Empty dependency array - sadece mount'ta çalışsın
+  }, []); // Empty dependency array - only run on mount
 
-  // Typing animasyonu için ayrı effect
+  // Separate effect for typing animation
   React.useEffect(() => {
-    // Bu effect sadece totalContributions değiştiğinde çalışsın
+    // This effect only runs when totalContributions changes
     if (totalContributions > 0) {
       setDisplayedCount("");
       setIsTyping(true);
     }
   }, [totalContributions]);
 
-  // Katkı grafiğini oluştur ve rastgele yanıp sönme efekti ekle
+  // Generate contribution graph and add random flashing effect
   React.useEffect(() => {
-    // İlk katkı grafiğini oluştur
     const generateInitialContributions = () => {
       const weeks = 52;
       const days = 7;
       const contribs = [];
       let total = 0;
-      
-      // Görsel referansındaki gibi belirli bir dağılımla doldur
+
       for (let w = 0; w < weeks; w++) {
         const week = [];
         for (let d = 0; d < days; d++) {
-          // Ay ve gün kombinasyonlarına göre farklı olasılıklar ata
-          let probability = 0.8; // Varsayılan yüksek olasılık (daha az siyah kutu)
+          // Set different probabilities based on month and day combinations
+          let probability = 0.8; // Default high probability (fewer empty cells)
           
-          // Apr, May - başlangıç ayları
-          if (w >= 0 && w < 8) {
-            probability = 0.85;
-          }
-          // Jun, Jul - orta seviye
-          else if (w >= 8 && w < 18) {
-            probability = 0.82; 
-          }
-          // Aug, Sep - düşük seviye
-          else if (w >= 18 && w < 26) {
-            probability = 0.75;
-          }
-          // Oct, Nov - orta seviye
-          else if (w >= 26 && w < 36) {
-            probability = 0.85;
-          }
-          // Dec, Jan - yüksek seviye
-          else if (w >= 36 && w < 44) {
-            probability = 0.95;
-          }
-          // Feb, Mar - en yüksek seviye
-          else {
-            probability = 0.98;
-          }
-          
-          // Haftanın günlerine göre ayarlama
-          if (d === 0) { // Pazartesi
-            probability += 0.05;
-          } else if (d === 3) { // Perşembe
-            probability += 0.05;
-          } else if (d === 6) { // Pazar
-            probability -= 0.05;
-          }
-          
-          // Olasılık kontrolü
+          // Apr, May - starting months
+          if (w >= 0 && w < 8) { probability = 0.85; }
+          // Jun, Jul - high activity
+          else if (w >= 8 && w < 18) { probability = 0.82; }
+          // Aug, Sep - low level
+          else if (w >= 18 && w < 26) { probability = 0.75; }
+          // Oct, Nov - medium activity
+          else if (w >= 26 && w < 36) { probability = 0.85; }
+          // Dec, Jan - high level
+          else if (w >= 36 && w < 44) { probability = 0.95; }
+          // Feb, Mar - highest level
+          else { probability = 0.98; }
+
+          // Adjust based on day of week
+          if (d === 0) { probability += 0.05; } // Monday
+          else if (d === 3) { probability += 0.05; } // Thursday
+          else if (d === 6) { probability -= 0.05; } // Sunday
+
+          // Probability control
           probability = Math.max(0.7, Math.min(probability, 0.98));
-          
-          // Katkı seviyesini belirle
+
+          // Determine contribution level
           let level = 0;
           if (Math.random() < probability) {
             level = Math.floor(Math.random() * 4) + 1;
             total++;
           }
-          
           week.push(level);
         }
         contribs.push(week);
       }
-      
       return { contribs, total };
     };
-    
-    // İlk katkıları oluştur
+
+    // Generate initial contributions
     const { contribs } = generateInitialContributions();
     setContributions(contribs);
-    
-    // Yanıp sönme efekti için aralıklı güncelleme - OPTIMIZE EDİLDİ
+
+    // Interval update for flashing effect - OPTIMIZED
     intervalRef.current = setInterval(() => {
-      // RequestAnimationFrame kullanarak performans iyileştirmesi
+      // Use requestAnimationFrame for performance improvement
       animationFrameRef.current = requestAnimationFrame(() => {
         setContributions(prevContribs => {
           const newContribs = [...prevContribs.map(week => [...week])]; // Deep copy
-          
-          // Rastgele 1-2 hücre seç (daha az işlem)
-          const updates = Math.floor(Math.random() * 2) + 1;
-          
+          const updates = Math.floor(Math.random() * 2) + 1; // Random 1-2 cells (fewer operations)
+
           for (let i = 0; i < updates; i++) {
             const randomWeek = Math.floor(Math.random() * 52);
             const randomDay = Math.floor(Math.random() * 7);
             
-            // Önceki değeri al
+            // Get previous value
             const prevValue = newContribs[randomWeek][randomDay];
-            
-            // Yeni bir değer ata
+
+            // Assign new value
             if (prevValue === 0) {
-              // Boş hücreyi doldur (yüksek olasılıkla)
-              if (Math.random() < 0.8) { // 0.9'den 0.8'e düşürdük
+              // Fill empty cell (high probability)
+              if (Math.random() < 0.8) { // Reduced from 0.9 to 0.8
                 newContribs[randomWeek][randomDay] = Math.floor(Math.random() * 4) + 1;
               }
             } else {
-              // Dolu hücreyi boşalt veya seviyesini değiştir (düşük olasılıkla boşalt)
-              if (Math.random() < 0.1) { // 0.15'ten 0.1'e düşürdük
+              // Empty filled cell or change level (low probability to empty)
+              if (Math.random() < 0.1) { // Reduced from 0.15 to 0.1
                 newContribs[randomWeek][randomDay] = 0;
-              } else if (Math.random() < 0.3) { // Bazen sadece renk değiştir
+              } else if (Math.random() < 0.3) { // Sometimes just change color
                 const newLevel = Math.floor(Math.random() * 4) + 1;
                 newContribs[randomWeek][randomDay] = newLevel;
               }
             }
           }
-          
           return newContribs;
         });
       });
-    }, 1200); // 800ms'den 1200ms'ye çıkardık - daha az sıklıkta güncelleme
-    
+    }, 1200); // Increased from 800ms to 1200ms - less frequent updates
+
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
@@ -285,7 +235,7 @@ const GitHubActivity = () => {
     };
   }, []); // Empty dependency array
 
-  // Component unmount'ta tüm timeout'ları temizle
+  // Clean up all timeouts on component unmount
   React.useEffect(() => {
     return () => {
       if (typingTimeoutRef.current) {
@@ -299,11 +249,9 @@ const GitHubActivity = () => {
       }
     };
   }, []);
-  
-  // Ayları oluşturalım
+
+  // Create months and days
   const months = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'];
-  
-  // Haftanın günleri
   const days = ['Mon', 'Wed', 'Fri'];
   
   return (

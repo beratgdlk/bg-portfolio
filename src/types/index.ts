@@ -1,4 +1,4 @@
-// Örnek tip tanımlamaları
+// Sample type definitions
 export interface User {
   id: number;
   name: string;

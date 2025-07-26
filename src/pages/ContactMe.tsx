@@ -10,57 +10,51 @@ const ContactMe: React.FC = () => {
   const [typingText, setTypingText] = useState('');
   const [isComplete, setIsComplete] = useState(false);
   const [activeFile, setActiveFile] = useState<string | null>(null);
-  
+
   const contactRef = useRef<HTMLDivElement>(null);
-  
-  // Terminal yazı efekti
+
+  // Terminal typing effect
   useEffect(() => {
-    const text = '> Contact me for work opportunities or any questions';
-    let index = 0;
-    
-    const typingInterval = setInterval(() => {
-      setTypingText(text.substring(0, index));
-      index++;
-      
-      if (index > text.length) {
-        clearInterval(typingInterval);
-        setIsComplete(true);
-      }
-    }, 60);
-    
-    return () => clearInterval(typingInterval);
-  }, []);
-  
-  // Görünürlük animasyonu
+    const text = "echo 'Welcome! Choose a file to view contact information.'";
+    let currentIndex = 0;
+
+    if (!activeFile) {
+      const typingInterval = setInterval(() => {
+        if (currentIndex <= text.length) {
+          setTypingText(text.substring(0, currentIndex));
+          currentIndex++;
+        } else {
+          setIsComplete(true);
+          clearInterval(typingInterval);
+        }
+      }, 50);
+
+      return () => clearInterval(typingInterval);
+    }
+  }, [activeFile]);
+
+  // Visibility animation
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, 100);
-    
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    
-    if (contactRef.current) {
-      observer.observe(contactRef.current);
-    }
-    
-    return () => {
-      clearTimeout(timer);
-      if (contactRef.current) {
-        observer.unobserve(contactRef.current);
-      }
-    };
+
+    return () => clearTimeout(timer);
   }, []);
 
-  // Dosya içeriğini göster
+  useEffect(() => {
+    if (contactRef.current) {
+      contactRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, []);
+
+  const handleCategoryChange = (category: string) => {
+    setActiveFile(category);
+    setTypingText('');
+    setIsComplete(false);
+  };
+
+  // Display file content
   const renderFileContent = () => {
     switch (activeFile) {
       case 'email':
@@ -128,10 +122,10 @@ const ContactMe: React.FC = () => {
             </div>
             <div className="file-data">
               <div className="social-grid terminal-social">
-                <a 
-                  href={profileData.contact.githubLink} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href={profileData.contact.githubLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="social-link"
                   title="GitHub"
                   style={{ '--index': 1 } as React.CSSProperties}
@@ -140,10 +134,10 @@ const ContactMe: React.FC = () => {
                   <span>GitHub</span>
                 </a>
 
-                <a 
-                  href={profileData.contact.linkedinPage} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href={profileData.contact.linkedinPage}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="social-link"
                   title="LinkedIn"
                   style={{ '--index': 2 } as React.CSSProperties}
@@ -152,10 +146,10 @@ const ContactMe: React.FC = () => {
                   <span>LinkedIn</span>
                 </a>
 
-                <a 
-                  href={profileData.contact.mediumLink} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href={profileData.contact.mediumLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="social-link"
                   title="Medium"
                   style={{ '--index': 3 } as React.CSSProperties}
@@ -164,10 +158,10 @@ const ContactMe: React.FC = () => {
                   <span>Medium</span>
                 </a>
 
-                <a 
-                  href="/assets/pdf/resume.pdf" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href="/assets/pdf/resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="social-link"
                   title="CV"
                   style={{ '--index': 4 } as React.CSSProperties}
@@ -193,8 +187,8 @@ const ContactMe: React.FC = () => {
         <div className="contact-container">
           <div className={`contact-content ${isVisible ? 'visible' : ''}`} ref={contactRef}>
             <h1>_contact-me</h1>
-            
-            <div 
+
+            <div
               className="terminal-container expanded"
               role="application"
               aria-label="İletişim bilgileri terminali"
@@ -209,7 +203,7 @@ const ContactMe: React.FC = () => {
                   contact@berat-gudelek
                 </div>
               </div>
-              
+
               <div className="terminal-body" role="main">
                 <div className="terminal-line" aria-hidden="true">
                   <span className="prompt">$</span> <span className="command">cd ~/_contact-me</span>
@@ -217,7 +211,7 @@ const ContactMe: React.FC = () => {
                 <div className="terminal-line" aria-hidden="true">
                   <span className="prompt">$</span> <span className="command">ls -la</span>
                 </div>
-                
+
                 {/* File List - Accessible Navigation */}
                 <div className="terminal-line file-list" role="navigation" aria-label="İletişim bilgileri menüsü">
                   <button
@@ -281,31 +275,31 @@ const ContactMe: React.FC = () => {
                     social-links.md
                   </button>
                 </div>
-                
+
                 {!activeFile && (
                   <div role="region" aria-label="Hoşgeldin mesajları">
                     <div className="terminal-line" aria-hidden="true">
                       <span className="prompt">$</span> <span className="command">echo "For the fastest and most efficient communication, email is highly recommended! :)"</span>
                     </div>
                     <div className="terminal-line">
-                      <span className="prompt" aria-hidden="true">$</span> 
+                      <span className="prompt" aria-hidden="true">$</span>
                       <span className="command typing-text" aria-live="polite">{typingText}</span>
                       {!isComplete && <span className="cursor" aria-hidden="true">|</span>}
                     </div>
                   </div>
                 )}
-                
+
                 {activeFile && (
                   <div role="region" aria-label={`${activeFile} dosya içeriği`} aria-live="polite">
                     {renderFileContent()}
                   </div>
                 )}
-                
+
                 {activeFile && (
                   <div className="terminal-line back-option">
                     <span className="prompt" aria-hidden="true">$</span>
-                    <button 
-                      className="command back-command" 
+                    <button
+                      className="command back-command"
                       onClick={() => setActiveFile(null)}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') {

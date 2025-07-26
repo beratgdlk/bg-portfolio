@@ -1,4 +1,4 @@
-// Contact bilgileri için ayrı interface
+// Separate interface for contact information 
 export interface ContactInfo {
   telephoneNum: string;
   email: string;
@@ -7,14 +7,14 @@ export interface ContactInfo {
   mediumLink: string;
 }
 
-// Ana profil data interface'i
+// Main profile data interface
 export interface ProfileData {
   name: string;
   title: string;
   contact: ContactInfo;
 }
 
-// Technology kategorileri için enum
+// Enum for technology categories
 export enum TechnologyCategory {
   FRONTEND = 'frontend',
   BACKEND = 'backend',
@@ -22,7 +22,7 @@ export enum TechnologyCategory {
   TOOLS = 'tools'
 }
 
-// Teknoloji interface'i
+// Technology interface
 export interface Technology {
   name: string;
   icon: React.ReactNode;
@@ -30,7 +30,7 @@ export interface Technology {
   level?: number;
 }
 
-// Proje interface'i
+// Project interface
 export interface Project {
   id: string;
   title: string;
@@ -43,7 +43,7 @@ export interface Project {
   image?: string;
 }
 
-// Experience interface'i
+// Experience interface
 export interface Experience {
   id: string;
   year: string;
@@ -55,14 +55,14 @@ export interface Experience {
   duration?: string;
 }
 
-// Skills interface'i
+// Skills interface
 export interface Skill {
   name: string;
   level: number;
   category: string;
 }
 
-// GitHub contribution interface'i
+// GitHub contribution interface
 export interface GitHubContribution {
   date: string;
   count: number;

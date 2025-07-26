@@ -6,136 +6,125 @@ import Navbar from '../components/Navbar/Navbar';
 import { Technology, TechnologyCategory } from '../types/Profile';
 import './AboutMe.scss';
 
-// Elysia.js için yeni bileşen - boş daire içinde tilki gözleri
+// Elysia.js icon component - empty circle with fox eyes
 const ElysiaIcon: React.FC = () => (
-  <svg 
-    viewBox="0 0 24 24" 
-    xmlns="http://www.w3.org/2000/svg"
-    style={{ height: "3rem", width: "3rem" }}
-  >
-    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" fill="none" />
-    <polygon points="3,5 5,10 11,12 3,5" fill="currentColor" />
-    <polygon points="21,5 19,10 13,12 21,5" fill="currentColor" />
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none"/>
+    <circle cx="9" cy="10" r="1.5" fill="currentColor"/>
+    <circle cx="15" cy="10" r="1.5" fill="currentColor"/>
+    <path d="M8 14.5C8.8 16 10.2 17 12 17C13.8 17 15.2 16 16 14.5" 
+          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
   </svg>
 );
 
 const AboutMe: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [activeCategory, setActiveCategory] = useState<string>('all');
-  const [displayTitle, setDisplayTitle] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [typingSpeed, setTypingSpeed] = useState(150);
-  
-  // Teknoloji yazıları için state'ler
-  const [displayFrontendTech, setDisplayFrontendTech] = useState('');
-  const [displayBackendTech, setDisplayBackendTech] = useState('');
-  const [frontendTechIndex, setFrontendTechIndex] = useState(0);
-  const [backendTechIndex, setBackendTechIndex] = useState(0);
-  const [isFrontendDeleting, setIsFrontendDeleting] = useState(false);
-  const [isBackendDeleting, setIsBackendDeleting] = useState(false);
-  
   const contentRef = useRef<HTMLDivElement>(null);
-  
-  // Rotating developer titles - Only 2 titles
-  const titles = ['Frontend Developer', 'Fullstack Developer', 'Software Developer'];
-  
-  // Rotating technology names
-  const frontendTechs = ['React', 'TypeScript', 'Next.js', 'HTML5'];
-  const backendTechs = ['Node.js', 'Express.js', 'Nest.js'];
-  
-  // Animate title typing effect
+
+  // States for technology text animations
+  const [displayTitle, setDisplayTitle] = useState('');
+  const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
+  const [isTitleDeleting, setIsTitleDeleting] = useState(false);
+
+  const [displayFrontendTech, setDisplayFrontendTech] = useState('');
+  const [currentFrontendIndex, setCurrentFrontendIndex] = useState(0);
+  const [isFrontendDeleting, setIsFrontendDeleting] = useState(false);
+
+  const [displayBackendTech, setDisplayBackendTech] = useState('');
+  const [currentBackendIndex, setCurrentBackendIndex] = useState(0);
+  const [isBackendDeleting, setIsBackendDeleting] = useState(false);
+
+  const [activeCategory, setActiveCategory] = useState<string>('all');
+
+  const titles = ['Fullstack Developer', 'Frontend Developer', 'Software Engineer'];
+  const frontendTechs = ['React', 'TypeScript', 'Next.js', 'SASS'];
+  const backendTechs = ['Node.js', 'Express.js', 'PostgreSQL', 'Nest.js'];
+
+  // Main title typing effect
   useEffect(() => {
-    const currentTitle = titles[currentIndex % titles.length];
-    
-    // Typing or deleting effect
-    const timeout = setTimeout(() => {
-      if (!isDeleting) {
-        // Typing mode
+    const typingTimer = setTimeout(() => {
+      const currentTitle = titles[currentTitleIndex];
+      
+      if (!isTitleDeleting) {
         setDisplayTitle(currentTitle.substring(0, displayTitle.length + 1));
         
-        // If typing is complete, wait 2 seconds and switch to deleting
-        if (displayTitle.length === currentTitle.length) {
+        if (displayTitle === currentTitle) {
           setTimeout(() => {
-            setIsDeleting(true);
-            setTypingSpeed(80); // Faster when deleting
-          }, 2000); // Wait 2 seconds instead of 3
+            setIsTitleDeleting(true);
+          }, 1500);
         }
       } else {
-        // Deleting mode
         setDisplayTitle(currentTitle.substring(0, displayTitle.length - 1));
         
-        // If deletion is complete, move to next title
-        if (displayTitle.length === 0) {
-          setIsDeleting(false);
-          setCurrentIndex(currentIndex + 1);
-          setTypingSpeed(150); // Reset typing speed
+        if (displayTitle === '') {
+          setIsTitleDeleting(false);
+          setCurrentTitleIndex((prev) => (prev + 1) % titles.length);
         }
       }
-    }, typingSpeed);
-    
-    return () => clearTimeout(timeout);
-  }, [displayTitle, isDeleting, currentIndex]);
-  
-  // Frontend teknoloji yazısı efekti
+    }, isTitleDeleting ? 100 : 150);
+
+    return () => clearTimeout(typingTimer);
+  }, [displayTitle, isTitleDeleting, currentTitleIndex]);
+
+  // Frontend technology text effect
   useEffect(() => {
-    const currentTech = frontendTechs[frontendTechIndex % frontendTechs.length];
-    
-    const timeout = setTimeout(() => {
+    const typingTimer = setTimeout(() => {
+      const currentTech = frontendTechs[currentFrontendIndex];
+      
       if (!isFrontendDeleting) {
-        // Yazma modu
+        // Writing mode
         setDisplayFrontendTech(currentTech.substring(0, displayFrontendTech.length + 1));
         
-        // Yazma tamamlanınca silme moduna geç
+        // Switch to delete mode when writing is complete
         if (displayFrontendTech.length === currentTech.length) {
           setTimeout(() => {
             setIsFrontendDeleting(true);
           }, 1500);
         }
       } else {
-        // Silme modu
-        setDisplayFrontendTech(currentTech.substring(0, displayFrontendTech.length - 1));
+        // Deleting mode
+        setDisplayFrontendTech(displayFrontendTech.substring(0, displayFrontendTech.length - 1));
         
-        // Silme tamamlanınca sonraki teknolojiye geç
+        // Switch to next technology when deletion is complete
         if (displayFrontendTech.length === 0) {
           setIsFrontendDeleting(false);
-          setFrontendTechIndex(frontendTechIndex + 1);
+          setCurrentFrontendIndex((prev) => (prev + 1) % frontendTechs.length);
         }
       }
-    }, 120);
-    
-    return () => clearTimeout(timeout);
-  }, [displayFrontendTech, isFrontendDeleting, frontendTechIndex]);
-  
-  // Backend teknoloji yazısı efekti
+    }, isFrontendDeleting ? 80 : 120);
+
+    return () => clearTimeout(typingTimer);
+  }, [displayFrontendTech, isFrontendDeleting, currentFrontendIndex]);
+
+  // Backend technology text effect
   useEffect(() => {
-    const currentTech = backendTechs[backendTechIndex % backendTechs.length];
-    
-    const timeout = setTimeout(() => {
+    const typingTimer = setTimeout(() => {
+      const currentTech = backendTechs[currentBackendIndex];
+      
       if (!isBackendDeleting) {
-        // Yazma modu
+        // Writing mode
         setDisplayBackendTech(currentTech.substring(0, displayBackendTech.length + 1));
         
-        // Yazma tamamlanınca silme moduna geç
+        // Switch to delete mode when writing is complete
         if (displayBackendTech.length === currentTech.length) {
           setTimeout(() => {
             setIsBackendDeleting(true);
           }, 1500);
         }
       } else {
-        // Silme modu
-        setDisplayBackendTech(currentTech.substring(0, displayBackendTech.length - 1));
+        // Deleting mode
+        setDisplayBackendTech(displayBackendTech.substring(0, displayBackendTech.length - 1));
         
-        // Silme tamamlanınca sonraki teknolojiye geç
+        // Switch to next technology when deletion is complete
         if (displayBackendTech.length === 0) {
           setIsBackendDeleting(false);
-          setBackendTechIndex(backendTechIndex + 1);
+          setCurrentBackendIndex((prev) => (prev + 1) % backendTechs.length);
         }
       }
-    }, 120);
-    
-    return () => clearTimeout(timeout);
-  }, [displayBackendTech, isBackendDeleting, backendTechIndex]);
+    }, isBackendDeleting ? 80 : 120);
+
+    return () => clearTimeout(typingTimer);
+  }, [displayBackendTech, isBackendDeleting, currentBackendIndex]);
   
   // Technologies data with icons - Updated with TechnologyCategory enum
   const technologies: Technology[] = [

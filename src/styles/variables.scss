@@ -3,49 +3,49 @@
   --footer-height: 80px;
 }
 
-// Renk değişkenleri
+// Color variables
 $primary-green: #43D9AD;
 $primary-blue: #4D5BCE;
 $background-dark: #001328;
 $text-color: #607B96;
 $white: #fff;
 
-// Yazı tipi değişkenleri
+// Font variables
 $font-family-base: 'Fira Code', monospace;
 $font-size-base: 16px;
 
-// Medya sorguları için breakpoint'ler
+// Breakpoints for media queries
 $mobile: 576px;
 $tablet: 768px;
 $desktop: 1024px;
 
-// Font boyutları
+// Font sizes
 $font-size-small: 0.9rem;
 $font-size-medium: 1rem;
 $font-size-large: 1.1rem;
 $font-size-xlarge: 2rem;
 
-// Spacing (boşluk) değişkenleri
+// Spacing variables
 $spacing-xs: 0.3rem;
 $spacing-sm: 0.5rem;
 $spacing-md: 1rem;
 $spacing-lg: 1.5rem;
 $spacing-xl: 2rem;
 
-// Component boyutları
+// Component dimensions
 $icon-size-mobile: 18px;
 $icon-size-desktop: 20px;
 $link-width-mobile: 150px;
 $link-width-tablet: 120px;
 $link-min-width: 100px;
 
-// Padding ve margin değerleri
+// Padding and margin values
 $padding-small: 0.5rem;
 $padding-medium: 1rem;
 $padding-large: 1.5rem;
 $padding-xlarge: 2rem;
 
-// Gap değerleri
+// Gap values
 $gap-small: 1rem;
 $gap-medium: 1.5rem;
 $gap-large: 2rem;

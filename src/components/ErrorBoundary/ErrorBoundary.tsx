@@ -20,7 +20,7 @@ class ErrorBoundary extends Component<Props, State> {
   };
 
   public static getDerivedStateFromError(error: Error): State {
-    // State'i güncelle böylece fallback UI gösterilsin
+    // Update state to show fallback UI
     return {
       hasError: true,
       error,
@@ -31,13 +31,12 @@ class ErrorBoundary extends Component<Props, State> {
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
     
+    // Here you could use an error reporting service
+    // e.g: Sentry, LogRocket, etc.
     this.setState({
       error,
       errorInfo
     });
-
-    // Burada error reporting servisi kullanılabilir
-    // örn: Sentry, LogRocket, etc.
   }
 
   private handleRefresh = () => {
